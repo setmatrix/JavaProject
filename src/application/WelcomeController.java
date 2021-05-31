@@ -3,9 +3,17 @@ package application;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javax.swing.JOptionPane;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class WelcomeController {
 	
@@ -26,6 +34,22 @@ public class WelcomeController {
 		}
 		Image image = new Image(inputstream);
 		image1.setImage(image);
-		System.out.println(zrodlo);
 	}
+    @FXML
+    void login(ActionEvent event) {
+    	try
+    	{
+    		FXMLLoader logon = new FXMLLoader(getClass().getResource("Sample.fxml"));
+    		Parent root = (Parent) logon.load();
+    		Stage stage = new Stage();
+    		stage.setTitle("Log in");
+    		stage.setScene(new Scene(root));
+    		((Node)event.getSource()).getScene().getWindow().hide();
+    		stage.show();
+    	}
+    	catch (Exception e)
+    	{
+    		JOptionPane.showMessageDialog(null, e.getMessage(), "Login Window Exception", 0);
+    	}
+    }
 }
