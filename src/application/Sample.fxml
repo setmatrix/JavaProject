@@ -12,7 +12,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="145.0" layoutY="246.0" mnemonicParsing="false" onAction="#logclick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: #4A412A;" text="Log in" textFill="WHITE">
+            <Button layoutX="145.0" layoutY="246.0" mnemonicParsing="false" onAction="#logclick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: #4A412A;" text="Log in">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -28,7 +28,7 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <PasswordField layoutX="100.0" layoutY="157.0" onAction="#passwordBox" />
+            <PasswordField fx:id="passwordBox" layoutX="100.0" layoutY="157.0" />
          </children>
       </AnchorPane>
    </center>
