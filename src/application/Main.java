@@ -15,7 +15,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Michal Ciesla && Daniel Kasprow");
+			primaryStage.setTitle("log-in site");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
