@@ -34,7 +34,6 @@ public class WelcomeController {
 		}
 		Image image = new Image(inputstream);
 		image1.setImage(image);
-		System.out.println(zrodlo);
 	}
     @FXML
     void login(ActionEvent event) {
@@ -46,7 +45,7 @@ public class WelcomeController {
     		stage.setTitle("Log in");
     		stage.setScene(new Scene(root));
     		((Node)event.getSource()).getScene().getWindow().hide();
-    		stage.show();
+    		stage.show();/gggg
     	}
     	catch (Exception e)
     	{
