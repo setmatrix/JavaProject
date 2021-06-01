@@ -45,7 +45,7 @@ public class WelcomeController {
     		stage.setTitle("Log in");
     		stage.setScene(new Scene(root));
     		((Node)event.getSource()).getScene().getWindow().hide();
-    		stage.show();
+    		stage.show();/gggg
     	}
     	catch (Exception e)
     	{
