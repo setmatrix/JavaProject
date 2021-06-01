@@ -17,7 +17,7 @@
                   <Font name="Felix Titling" size="13.0" />
                </font>
             </Label>
-            <Button layoutX="73.0" layoutY="410.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Zaloguj" />
+            <Button layoutX="73.0" layoutY="410.0" mnemonicParsing="false" onAction="#login" prefHeight="50.0" prefWidth="120.0" text="Zaloguj" />
             <Button layoutX="311.0" layoutY="410.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="Rejestracja" />
          </children>
       </AnchorPane>
