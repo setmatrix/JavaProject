@@ -23,7 +23,6 @@ public class WelcomeController {
 	@FXML
 	public void initialize()
 	{
-		
 		String zrodlo = System.getProperty("user.dir")+"\\bin\\obrazek.png";
 		FileInputStream inputstream = null;
 		try {
@@ -45,7 +44,7 @@ public class WelcomeController {
     		stage.setTitle("Log in");
     		stage.setScene(new Scene(root));
     		((Node)event.getSource()).getScene().getWindow().hide();
-    		stage.show();/gggg
+    		stage.show();
     	}
     	catch (Exception e)
     	{
