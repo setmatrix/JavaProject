@@ -18,7 +18,8 @@ public class SampleController {
     
     @FXML
     void logclick(ActionEvent event) throws Exception {
-    	
+
+    	//Daniel ###
     	boolean email_check = true;
     	boolean pass_check = true;
     	if(txtmail.getText().isEmpty())
