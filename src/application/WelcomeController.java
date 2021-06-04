@@ -45,6 +45,7 @@ public class WelcomeController {
 		}
 		Image image = new Image(inputstream);
 		image1.setImage(image);
+		//Daniel bóg
 	}
     @FXML
     void login(ActionEvent event) throws IOException {
