@@ -8,27 +8,27 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="350.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="444.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="145.0" layoutY="246.0" mnemonicParsing="false" onAction="#logclick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: #4A412A;" text="Log in">
+            <Button layoutX="219.0" layoutY="262.0" mnemonicParsing="false" onAction="#logclick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: #4A412A;" text="Log in">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <TextField fx:id="txtmail" layoutX="101.0" layoutY="77.0" />
-            <Label layoutX="158.0" layoutY="53.0" text="E-mail" textAlignment="CENTER">
+            <TextField fx:id="txtmail" layoutX="176.0" layoutY="126.0" />
+            <Label layoutX="233.0" layoutY="80.0" text="E-mail" textAlignment="CENTER">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="150.0" layoutY="129.0" text="Password">
+            <Label layoutX="226.0" layoutY="168.0" text="Password">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordBox" layoutX="100.0" layoutY="157.0" />
+            <PasswordField fx:id="passwordBox" layoutX="175.0" layoutY="202.0" />
          </children>
       </AnchorPane>
    </center>
