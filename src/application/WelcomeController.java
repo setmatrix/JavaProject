@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -23,7 +24,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static javafx.fxml.FXMLLoader.*;
 
 public class WelcomeController {
 
@@ -33,6 +33,9 @@ public class WelcomeController {
 	@FXML
 	private ImageView image1;
 	@FXML
+
+	public ArrayList<Student> ListaUczniow = new ArrayList<Student>();
+
 	public void initialize()
 	{
 		String zrodlo = System.getProperty("user.dir")+"\\bin\\obrazek.png";
@@ -45,7 +48,7 @@ public class WelcomeController {
 		}
 		Image image = new Image(inputstream);
 		image1.setImage(image);
-		//Daniel bóg
+		rootPane.setStyle("-fx-background-color:  #30C4CE;");
 	}
     @FXML
     void login(ActionEvent event) throws IOException {
@@ -68,6 +71,28 @@ public class WelcomeController {
     	catch (Exception e)
     	{
     		JOptionPane.showMessageDialog(null, e.getMessage(), "Login Window Exception", 0);
+
     	}
     }
+    @FXML
+    void rejestracjaAction(ActionEvent event) {
+    	try
+    	{
+    	BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Rejestracja.fxml"));
+		rootPane.setStyle("-fx-background-color:  #30C4CE;");
+
+		rootPane.getChildren().setAll(root);
+    	}
+    	catch (Exception e)
+    	{
+    		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
+
+    	}
+    }
+
+    public static void rejestracjaUczia(String login, String haslo)
+    {
+    	//ListaUczniow.add(new Student(login,haslo));
+    }
+
 }
