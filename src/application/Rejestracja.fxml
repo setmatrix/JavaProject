@@ -16,7 +16,7 @@
             <Label layoutX="117.0" layoutY="140.0" text="Login" />
             <Label layoutX="117.0" layoutY="177.0" text="Haslo" />
             <Button layoutX="328.0" layoutY="383.0" mnemonicParsing="false" onAction="#zatwierdzAction" prefHeight="42.0" prefWidth="95.0" text="Zatwierdź" />
-            <Button layoutX="91.0" layoutY="384.0" mnemonicParsing="false" onAction="#powrotAction" prefHeight="40.0" prefWidth="83.0" text="Powrót" />
+            <Button fx:id="powrotB" layoutX="91.0" layoutY="384.0" mnemonicParsing="false" onAction="#powrotAction" prefHeight="40.0" prefWidth="83.0" text="Powrót" />
          </children>
       </AnchorPane>
    </center>

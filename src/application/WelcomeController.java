@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -25,19 +26,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
-public class WelcomeController {
+public class WelcomeController implements Initializable {
 
 	@FXML
 	private BorderPane rootPane;
 
 	@FXML
 	private ImageView image1;
-	@FXML
 
 	public ArrayList<Student> ListaUczniow = new ArrayList<Student>();
 
-	public void initialize()
-	{
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
 		String zrodlo = System.getProperty("user.dir")+"\\bin\\obrazek.png";
 		FileInputStream inputstream = null;
 		try {
@@ -94,5 +94,4 @@ public class WelcomeController {
     {
     	//ListaUczniow.add(new Student(login,haslo));
     }
-
 }

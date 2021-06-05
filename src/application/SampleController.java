@@ -1,6 +1,7 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -15,6 +16,12 @@ public class SampleController {
 
     @FXML
     private PasswordField passwordBox;
+
+	@FXML
+	private Label warnmail;
+
+	@FXML
+	private Label warnpass;
     
     @FXML
     void logclick(ActionEvent event) throws Exception {
