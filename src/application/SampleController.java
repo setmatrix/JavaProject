@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
@@ -57,6 +58,7 @@ public class SampleController implements Initializable {
     		try
     		{
     			check_email(mail);
+    			check_password(pass);
         		Account acc = new Account(mail, pass);
     		}
     		catch (Exception e)
@@ -69,6 +71,7 @@ public class SampleController implements Initializable {
     private void check_email(String mail) throws Exception
     {
     	int monkey = 0;
+		int moncount = 0;
     	int domainlength = 0;
     	boolean domain = false;
     	if(mail.contains(".com"))
@@ -80,22 +83,31 @@ public class SampleController implements Initializable {
     	{
     		domain = true;
     		domainlength = 3;
-    	}
+    	} else throw new Exception(".pl or .com only");
     	for(int i=0;i<mail.length(); i++)
     	{
     		if(mail.charAt(i) == '@')
     		{
     			monkey = i;
+    			moncount+=1;
     		}
     	}
-    	if(monkey == 0)
+    	if(moncount == 0)
+    	{
+    		throw new Exception("Missing @");
+    	}
+    	if(moncount > 1)
+		{
+			throw new Exception("Too much @");
+		}
+    	if((mail.substring(monkey, mail.length()).length() < domainlength +3))
     	{
     		throw new Exception("Domain is not correct");
     	}
-    	if((mail.substring(monkey, mail.length() - (mail.length() - monkey)).length() < 3))
-    	{
-    		throw new Exception("Domain is not correct");
-    	}
+    	if(mail.substring(0,monkey).length() < 4)
+		{
+			throw new Exception("Length before @ is short");
+		}
     }
 
     private void check_password(String pass) throws Exception {
@@ -152,6 +164,22 @@ public class SampleController implements Initializable {
 				}
 			}
 		});
+		Tooltip tool = new Tooltip();
+		tool.setText(
+				"Your email must have:\n" +
+				"at least 8 characters in length\n" +
+						" .pl or com\n"+
+				" one @"
+		);
+		txtmail.setTooltip(tool);
+		tool = new Tooltip();
+		tool.setText(
+				"Your password must have:\n"+
+				"at least 6 characters,\n"+
+				"at least one Big and small letter,\n"+
+				"at least one number"
+		);
+		passwordBox.setTooltip(tool);
 	}
 	@FXML
 	void goBack(ActionEvent event) {
