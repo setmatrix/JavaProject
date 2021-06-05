@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: LightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="444.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="444.0" style="-fx-background-color: LightBlue;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="219.0" layoutY="262.0" mnemonicParsing="false" onAction="#logclick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: #4A412A;" text="Log in">
+            <Button layoutX="219.0" layoutY="262.0" mnemonicParsing="false" onAction="#logclick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: Green;" text="Log in">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <TextField fx:id="txtmail" alignment="TOP_LEFT" layoutX="175.0" layoutY="126.0" prefHeight="45.0" prefWidth="149.0" promptText="e-mail" />
+            <TextField fx:id="txtmail" alignment="TOP_LEFT" layoutX="175.0" layoutY="126.0" prefHeight="45.0" prefWidth="149.0" promptText="e-mail" style="-fx-background-color: lightyellow;" />
             <Label layoutX="176.0" layoutY="109.0" text="E-mail:" textAlignment="CENTER">
                <font>
                   <Font name="System Italic" size="12.0" />
@@ -28,9 +28,14 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordBox" alignment="TOP_LEFT" layoutX="175.0" layoutY="202.0" prefHeight="45.0" prefWidth="149.0" promptText="pass" />
-            <Label fx:id="warnmail" alignment="BOTTOM_LEFT" focusTraversable="false" layoutX="182.0" layoutY="151.0" opacity="0.51" prefHeight="19.0" prefWidth="136.0" />
-            <Label fx:id="warnpass" alignment="BOTTOM_LEFT" focusTraversable="false" layoutX="181.0" layoutY="228.0" opacity="0.51" prefHeight="14.0" prefWidth="136.0" />
+            <PasswordField fx:id="passwordBox" alignment="TOP_LEFT" layoutX="175.0" layoutY="202.0" prefHeight="45.0" prefWidth="149.0" promptText="pass" style="-fx-background-color: lightyellow;" />
+            <Label fx:id="warnmail" alignment="BOTTOM_LEFT" focusTraversable="false" layoutX="182.0" layoutY="151.0" prefHeight="19.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
+            <Label fx:id="warnpass" alignment="BOTTOM_LEFT" focusTraversable="false" layoutX="181.0" layoutY="228.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
+            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" prefHeight="37.0" prefWidth="52.0" style="-fx-background-color: #2e2e2e;" text="&lt;-" textFill="#c3c3c3">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </center>

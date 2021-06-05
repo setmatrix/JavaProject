@@ -48,7 +48,7 @@ public class WelcomeController implements Initializable {
 		}
 		Image image = new Image(inputstream);
 		image1.setImage(image);
-		rootPane.setStyle("-fx-background-color:  #30C4CE;");
+		rootPane.setStyle("-fx-background-color:  lightBlue;");
 	}
     @FXML
     void login(ActionEvent event) throws IOException {
@@ -62,7 +62,7 @@ public class WelcomeController implements Initializable {
     		//((Node)event.getSource()).getScene().getWindow().hide();
     		//stage.show();
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
-			rootPane.setStyle("-fx-background-color:  #30C4CE;");
+			rootPane.setStyle("-fx-background-color:  lightBlue;");
 
 			rootPane.getChildren().setAll(root);
 
@@ -79,7 +79,7 @@ public class WelcomeController implements Initializable {
     	try
     	{
     	BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Rejestracja.fxml"));
-		rootPane.setStyle("-fx-background-color:  #30C4CE;");
+		rootPane.setStyle("-fx-background-color: lightBlue;");
 
 		rootPane.getChildren().setAll(root);
     	}
