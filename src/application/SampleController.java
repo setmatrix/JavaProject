@@ -61,8 +61,6 @@ public class SampleController implements Initializable {
     		
     		try
     		{
-    			//check_email(mail);
-    			//check_password(pass);
 				Connect();
 
         		//Account acc = new Account(mail, pass);
@@ -73,54 +71,6 @@ public class SampleController implements Initializable {
     		}
     	}
     }
-	
-    private void check_email(String mail) throws Exception
-    {
-    	int monkey = 0;
-		int moncount = 0;
-    	int domainlength = 0;
-    	boolean domain = false;
-    	if(mail.contains(".com"))
-    	{
-    		domain = true;
-    		domainlength = 4;
-    	}
-    	else if(mail.contains(".pl"))
-    	{
-    		domain = true;
-    		domainlength = 3;
-    	} else throw new Exception(".pl or .com only");
-    	for(int i=0;i<mail.length(); i++)
-    	{
-    		if(mail.charAt(i) == '@')
-    		{
-    			monkey = i;
-    			moncount+=1;
-    		}
-    	}
-    	if(moncount == 0)
-    	{
-    		throw new Exception("Missing @");
-    	}
-    	if(moncount > 1)
-		{
-			throw new Exception("Too much @");
-		}
-    	if((mail.substring(monkey, mail.length()).length() < domainlength +3))
-    	{
-    		throw new Exception("Domain is not correct");
-    	}
-    	if(mail.substring(0,monkey).length() < 4)
-		{
-			throw new Exception("Length before @ is short");
-		}
-    }
-
-    private void check_password(String pass) throws Exception {
-		if(pass.length() < 3) {
-			throw new Exception("Password is too short");
-		}
-	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -138,11 +88,11 @@ public class SampleController implements Initializable {
 				{
 					if(txtmail.getText().isEmpty())
 					{
-						warnmail.setText("TextField is empty");
+						warnmail.setText("E-mail Field is empty");
 					}
 					else if(txtmail.getText().length() < 3)
 					{
-						warnmail.setText("TextField is too short");
+						warnmail.setText("E-mail is too short");
 					}
 				}
 			}
@@ -165,7 +115,7 @@ public class SampleController implements Initializable {
 					}
 					else if(passwordBox.getText().length() < 3)
 					{
-						warnpass.setText("Password Field is too short");
+						warnpass.setText("Password is too short");
 					}
 				}
 			}
@@ -203,7 +153,7 @@ public class SampleController implements Initializable {
 		}
 	}
 	private static void Connect() {
-		String url = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress";
+		String url = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
 		String user="sa";
 		String password="AlgorytmDjikstry";
 
