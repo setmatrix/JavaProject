@@ -12,10 +12,15 @@ import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ResourceBundle;
+
+import java.sql.SQLException;
 
 public class SampleController implements Initializable {
 
@@ -56,8 +61,9 @@ public class SampleController implements Initializable {
     		
     		try
     		{
-    			check_email(mail);
-        		Account acc = new Account(mail, pass);
+				Connect();
+
+        		//Account acc = new Account(mail, pass);
     		}
     		catch (Exception e)
     		{
@@ -65,44 +71,6 @@ public class SampleController implements Initializable {
     		}
     	}
     }
-	
-    private void check_email(String mail) throws Exception
-    {
-    	int monkey = 0;
-    	int domainlength = 0;
-    	boolean domain = false;
-    	if(mail.contains(".com"))
-    	{
-    		domain = true;
-    		domainlength = 4;
-    	}
-    	else if(mail.contains(".pl"))
-    	{
-    		domain = true;
-    		domainlength = 3;
-    	}
-    	for(int i=0;i<mail.length(); i++)
-    	{
-    		if(mail.charAt(i) == '@')
-    		{
-    			monkey = i;
-    		}
-    	}
-    	if(monkey == 0)
-    	{
-    		throw new Exception("Domain is not correct");
-    	}
-    	if((mail.substring(monkey, mail.length() - (mail.length() - monkey)).length() < 3))
-    	{
-    		throw new Exception("Domain is not correct");
-    	}
-    }
-
-    private void check_password(String pass) throws Exception {
-		if(pass.length() < 3) {
-			throw new Exception("Password is too short");
-		}
-	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -120,11 +88,11 @@ public class SampleController implements Initializable {
 				{
 					if(txtmail.getText().isEmpty())
 					{
-						warnmail.setText("TextField is empty");
+						warnmail.setText("E-mail Field is empty");
 					}
 					else if(txtmail.getText().length() < 3)
 					{
-						warnmail.setText("TextField is too short");
+						warnmail.setText("E-mail is too short");
 					}
 				}
 			}
@@ -147,11 +115,27 @@ public class SampleController implements Initializable {
 					}
 					else if(passwordBox.getText().length() < 3)
 					{
-						warnpass.setText("Password Field is too short");
+						warnpass.setText("Password is too short");
 					}
 				}
 			}
 		});
+		Tooltip tool = new Tooltip();
+		tool.setText(
+				"Your email must have:\n" +
+				"at least 8 characters in length\n" +
+						" .pl or com\n"+
+				" one @"
+		);
+		txtmail.setTooltip(tool);
+		tool = new Tooltip();
+		tool.setText(
+				"Your password must have:\n"+
+				"at least 6 characters,\n"+
+				"at least one Big and small letter,\n"+
+				"at least one number"
+		);
+		passwordBox.setTooltip(tool);
 	}
 	@FXML
 	void goBack(ActionEvent event) {
@@ -168,4 +152,18 @@ public class SampleController implements Initializable {
 
 		}
 	}
+	private static void Connect() {
+		String url = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
+		String user="sa";
+		String password="AlgorytmDjikstry";
+
+		try {
+			Connection connection = DriverManager.getConnection(url, user, password);
+		}
+		catch (SQLException sql)
+		{
+			sql.printStackTrace();
+		}
+	}
+
 }
