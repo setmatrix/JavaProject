@@ -126,6 +126,7 @@ public class RejestracjaController implements Initializable {
 			}
 			catch (SQLException sq)
 			{
+				//a
 				JOptionPane.showMessageDialog(null, "Problem with SQL", "Register Exception", 0);
 			}
 			catch (Exception e)
