@@ -18,5 +18,6 @@
     <orderEntry type="library" name="JavaFx" level="project" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="mssql-jdbc-9.2.1.jre15" level="project" />
   </component>
 </module>

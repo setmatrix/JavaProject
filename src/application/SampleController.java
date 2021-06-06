@@ -16,7 +16,11 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ResourceBundle;
+
+import java.sql.SQLException;
 
 public class SampleController implements Initializable {
 
@@ -57,9 +61,11 @@ public class SampleController implements Initializable {
     		
     		try
     		{
-    			check_email(mail);
-    			check_password(pass);
-        		Account acc = new Account(mail, pass);
+    			//check_email(mail);
+    			//check_password(pass);
+				Connect();
+
+        		//Account acc = new Account(mail, pass);
     		}
     		catch (Exception e)
     		{
@@ -196,4 +202,18 @@ public class SampleController implements Initializable {
 
 		}
 	}
+	private static void Connect() {
+		String url = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress";
+		String user="sa";
+		String password="AlgorytmDjikstry";
+
+		try {
+			Connection connection = DriverManager.getConnection(url, user, password);
+		}
+		catch (SQLException sql)
+		{
+			sql.printStackTrace();
+		}
+	}
+
 }
