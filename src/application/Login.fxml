@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: LightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: LightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="444.0" style="-fx-background-color: LightBlue;" BorderPane.alignment="CENTER">
          <children>

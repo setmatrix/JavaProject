@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class SampleController implements Initializable {
+public class LoginController implements Initializable {
 
 	@FXML
 	private BorderPane rootPane;
@@ -81,7 +81,11 @@ public class SampleController implements Initializable {
 
 				ResultSet resultSet = prestatement.executeQuery();
 				if (resultSet.next()) {
-					JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
+					BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Aplikacja.fxml"));
+					rootPane.setStyle("-fx-background-color:  lightBlue;");
+
+					rootPane.getChildren().setAll(root);
+					//JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
 				}
 				else
 				{

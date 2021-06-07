@@ -48,7 +48,7 @@ public class Student /*implements Comparable<Student>*/{
 
 	@Override
 	public String toString() {
-		return "Student: login=" + login + ", haslo=" + haslo + "\n";
+		return "login=" + login + ", haslo=" + haslo + "\n";
 	}
 	
 }
