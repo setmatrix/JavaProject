@@ -15,7 +15,7 @@
             <TextField fx:id="loginText" alignment="TOP_LEFT" layoutX="210.0" layoutY="155.0" prefHeight="45.0" prefWidth="149.0" promptText="login" style="-fx-background-color: lightyellow;" />
             <PasswordField fx:id="hasloText" alignment="TOP_LEFT" layoutX="210.0" layoutY="219.0" prefHeight="45.0" prefWidth="149.0" promptText="password" style="-fx-background-color: lightyellow;" />
             <Button layoutX="203.0" layoutY="326.0" mnemonicParsing="false" onAction="#zatwierdzAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zatwierdź" />
-            <Button fx:id="powrotB" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#powrotAction" prefHeight="37.0" prefWidth="52.0" style="-fx-background-color: #2e2e2e;" text="&lt;-" textFill="#c3c3c3">
+            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#powrotAction" prefHeight="37.0" prefWidth="52.0" style="-fx-background-color: #2e2e2e;" text="&lt;-" textFill="#c3c3c3">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font></Button>

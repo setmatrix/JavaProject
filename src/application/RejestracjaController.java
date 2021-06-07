@@ -34,9 +34,6 @@ public class RejestracjaController implements Initializable {
     private PasswordField hasloText;
 
 	@FXML
-	private Button back;
-
-	@FXML
 	private TextField txtmail;
 
 	@FXML
@@ -49,7 +46,7 @@ public class RejestracjaController implements Initializable {
 	private Label warnpass;
     
     @FXML
-    void powrotAction(ActionEvent event) throws IOException {
+    void powrotAction(ActionEvent event){
     	try
     	{
     	BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Welcome.fxml"));
@@ -59,7 +56,7 @@ public class RejestracjaController implements Initializable {
     	}
     	catch (Exception e)
     	{
-    		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
+    		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
     		
     	}
 
@@ -71,17 +68,17 @@ public class RejestracjaController implements Initializable {
 		boolean pass_check = true;
 		if(txtmail.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "email Field is empty", "Register Exception", 0);
+			JOptionPane.showMessageDialog(null, "email Field is empty", "Register Exception", JOptionPane.WARNING_MESSAGE);
 			email_check = false;
 		}
 		if(loginText.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "nick Field is empty", "Register Exception", 0);
+			JOptionPane.showMessageDialog(null, "nick Field is empty", "Register Exception", JOptionPane.WARNING_MESSAGE);
 			nick_check = false;
 		}
 		if(hasloText.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "password Field is empty", "Register Exception", 0);
+			JOptionPane.showMessageDialog(null, "password Field is empty", "Register Exception", JOptionPane.WARNING_MESSAGE);
 			pass_check = false;
 		}
 		if(email_check & pass_check & nick_check)
@@ -128,99 +125,94 @@ public class RejestracjaController implements Initializable {
 
 				if(rows > 0)
 				{
-					JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", 1);
+					JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
+					txtmail.setText("");
+					hasloText.setText("");
+					loginText.setText("");
 				}
 
 				connection.close();
 			}
 			catch (SQLException sq)
 			{
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Register Exception", 0);
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Register Exception", JOptionPane.WARNING_MESSAGE);
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(null, e.getMessage(), "Register Exception", 0);
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Register Exception", JOptionPane.WARNING_MESSAGE);
 			}
 		}
     }
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		txtmail.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnmail.getText().isEmpty())
 				{
-					if(!warnmail.getText().isEmpty())
-					{
-						warnmail.setText("");
-					}
+					warnmail.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(txtmail.getText().isEmpty())
 				{
-					if(txtmail.getText().isEmpty())
-					{
-						warnmail.setText("E-mail Field is empty");
-					}
-					else if(txtmail.getText().length() < 3)
-					{
-						warnmail.setText("E-mail is too short");
-					}
+					warnmail.setText("E-mail Field is empty");
+				}
+				else if(txtmail.getText().length() < 3)
+				{
+					warnmail.setText("E-mail is too short");
 				}
 			}
 		});
-		loginText.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		loginText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnnick.getText().isEmpty())
 				{
-					if(!warnnick.getText().isEmpty())
-					{
-						warnnick.setText("");
-					}
+					warnnick.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(loginText.getText().isEmpty())
 				{
-					if(loginText.getText().isEmpty())
-					{
-						warnnick.setText("Login Field is empty");
-					}
-					else if(loginText.getText().length() < 3)
-					{
-						warnnick.setText("Login is too short");
-					}
+					warnnick.setText("Login Field is empty");
+				}
+				else if(loginText.getText().length() < 3)
+				{
+					warnnick.setText("Login is too short");
 				}
 			}
 		});
-		hasloText.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		hasloText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnpass.getText().isEmpty())
 				{
-					if(!warnpass.getText().isEmpty())
-					{
-						warnpass.setText("");
-					}
+					warnpass.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(hasloText.getText().isEmpty())
 				{
-					if(hasloText.getText().isEmpty())
-					{
-						warnpass.setText("Password Field is empty");
-					}
-					else if(hasloText.getText().length() < 3)
-					{
-						warnpass.setText("Password Field is too short");
-					}
+					warnpass.setText("Password Field is empty");
+				}
+				else if(hasloText.getText().length() < 3)
+				{
+					warnpass.setText("Password Field is too short");
 				}
 			}
 		});
 		Tooltip tool = new Tooltip();
 		tool.setText(
-				"Your email must have:\n" +
-						"at least 8 characters in length\n" +
-						" .pl or com\n"+
-						" one @"
+				"""
+						Your email must have:
+						at least 8 characters in length
+						 .pl or com
+						 one @"""
 		);
 		txtmail.setTooltip(tool);
 		tool = new Tooltip();
@@ -228,10 +220,11 @@ public class RejestracjaController implements Initializable {
 		loginText.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText(
-				"Your password must have:\n"+
-						"at least 6 characters,\n"+
-						"at least one Big and small letter,\n"+
-						"at least one number"
+				"""
+						Your password must have:
+						at least 6 characters,
+						at least one Big and small letter,
+						at least one number"""
 		);
 		hasloText.setTooltip(tool);
 	}
@@ -240,16 +233,13 @@ public class RejestracjaController implements Initializable {
 	{
 		int monkey = 0;
 		int moncount = 0;
-		int domainlength = 0;
-		boolean domain = false;
+		int domainlength;
 		if(mail.contains(".com"))
 		{
-			domain = true;
 			domainlength = 4;
 		}
 		else if(mail.contains(".pl"))
 		{
-			domain = true;
 			domainlength = 3;
 		} else throw new Exception(".pl or .com only");
 		for(int i=0;i<mail.length(); i++)
@@ -268,7 +258,7 @@ public class RejestracjaController implements Initializable {
 		{
 			throw new Exception("Too much @");
 		}
-		if((mail.substring(monkey, mail.length()).length() < domainlength +3))
+		if((mail.substring(monkey).length() < domainlength +3))
 		{
 			throw new Exception("Domain is not correct");
 		}
