@@ -1,6 +1,5 @@
 package application;
 
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,9 +31,6 @@ public class RejestracjaController implements Initializable {
 
     @FXML
     private PasswordField hasloText;
-
-	@FXML
-	private Button back;
 
 	@FXML
 	private TextField txtmail;
@@ -149,81 +145,73 @@ public class RejestracjaController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		txtmail.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnmail.getText().isEmpty())
 				{
-					if(!warnmail.getText().isEmpty())
-					{
-						warnmail.setText("");
-					}
+					warnmail.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(txtmail.getText().isEmpty())
 				{
-					if(txtmail.getText().isEmpty())
-					{
-						warnmail.setText("E-mail Field is empty");
-					}
-					else if(txtmail.getText().length() < 3)
-					{
-						warnmail.setText("E-mail is too short");
-					}
+					warnmail.setText("E-mail Field is empty");
+				}
+				else if(txtmail.getText().length() < 3)
+				{
+					warnmail.setText("E-mail is too short");
 				}
 			}
 		});
-		loginText.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		loginText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnnick.getText().isEmpty())
 				{
-					if(!warnnick.getText().isEmpty())
-					{
-						warnnick.setText("");
-					}
+					warnnick.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(loginText.getText().isEmpty())
 				{
-					if(loginText.getText().isEmpty())
-					{
-						warnnick.setText("Login Field is empty");
-					}
-					else if(loginText.getText().length() < 3)
-					{
-						warnnick.setText("Login is too short");
-					}
+					warnnick.setText("Login Field is empty");
+				}
+				else if(loginText.getText().length() < 3)
+				{
+					warnnick.setText("Login is too short");
 				}
 			}
 		});
-		hasloText.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		hasloText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnpass.getText().isEmpty())
 				{
-					if(!warnpass.getText().isEmpty())
-					{
-						warnpass.setText("");
-					}
+					warnpass.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(hasloText.getText().isEmpty())
 				{
-					if(hasloText.getText().isEmpty())
-					{
-						warnpass.setText("Password Field is empty");
-					}
-					else if(hasloText.getText().length() < 3)
-					{
-						warnpass.setText("Password Field is too short");
-					}
+					warnpass.setText("Password Field is empty");
+				}
+				else if(hasloText.getText().length() < 3)
+				{
+					warnpass.setText("Password Field is too short");
 				}
 			}
 		});
 		Tooltip tool = new Tooltip();
 		tool.setText(
-				"Your email must have:\n" +
-						"at least 8 characters in length\n" +
-						" .pl or com\n"+
-						" one @"
+				"""
+						Your email must have:
+						at least 8 characters in length
+						 .pl or com
+						 one @"""
 		);
 		txtmail.setTooltip(tool);
 		tool = new Tooltip();
@@ -231,10 +219,11 @@ public class RejestracjaController implements Initializable {
 		loginText.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText(
-				"Your password must have:\n"+
-						"at least 6 characters,\n"+
-						"at least one Big and small letter,\n"+
-						"at least one number"
+				"""
+						Your password must have:
+						at least 6 characters,
+						at least one Big and small letter,
+						at least one number"""
 		);
 		hasloText.setTooltip(tool);
 	}
@@ -243,16 +232,13 @@ public class RejestracjaController implements Initializable {
 	{
 		int monkey = 0;
 		int moncount = 0;
-		int domainlength = 0;
-		boolean domain = false;
+		int domainlength;
 		if(mail.contains(".com"))
 		{
-			domain = true;
 			domainlength = 4;
 		}
 		else if(mail.contains(".pl"))
 		{
-			domain = true;
 			domainlength = 3;
 		} else throw new Exception(".pl or .com only");
 		for(int i=0;i<mail.length(); i++)
@@ -271,7 +257,7 @@ public class RejestracjaController implements Initializable {
 		{
 			throw new Exception("Too much @");
 		}
-		if((mail.substring(monkey, mail.length()).length() < domainlength +3))
+		if((mail.substring(monkey).length() < domainlength +3))
 		{
 			throw new Exception("Domain is not correct");
 		}
