@@ -61,7 +61,7 @@ public class WelcomeController implements Initializable {
     		//stage.setScene(new Scene(root));
     		//((Node)event.getSource()).getScene().getWindow().hide();
     		//stage.show();
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
+			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Login.fxml"));
 			rootPane.setStyle("-fx-background-color:  lightBlue;");
 
 			rootPane.getChildren().setAll(root);

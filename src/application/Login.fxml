@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: LightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: LightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="444.0" style="-fx-background-color: LightBlue;" BorderPane.alignment="CENTER">
          <children>
@@ -21,8 +21,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="txtmail" alignment="TOP_LEFT" layoutX="175.0" layoutY="126.0" prefHeight="45.0" prefWidth="149.0" promptText="e-mail" style="-fx-background-color: lightyellow;" />
-            <Label layoutX="176.0" layoutY="109.0" text="E-mail:" textAlignment="CENTER">
+            <TextField fx:id="txtlogin" alignment="TOP_LEFT" layoutX="175.0" layoutY="126.0" prefHeight="45.0" prefWidth="149.0" promptText="Login" style="-fx-background-color: lightyellow;" />
+            <Label layoutX="176.0" layoutY="109.0" text="Login:" textAlignment="CENTER">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
