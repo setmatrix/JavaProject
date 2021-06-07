@@ -15,20 +15,18 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 
+import java.net.InetAddress;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 import java.util.ResourceBundle;
-
-import java.sql.SQLException;
 
 public class SampleController implements Initializable {
 
 	@FXML
 	private BorderPane rootPane;
 
-    @FXML
-    private TextField txtmail;
+	@FXML
+	private TextField txtlogin;
 
     @FXML
     private PasswordField passwordBox;
@@ -44,7 +42,7 @@ public class SampleController implements Initializable {
 
     	boolean email_check = true;
     	boolean pass_check = true;
-    	if(txtmail.getText().isEmpty())
+    	if(txtlogin.getText().isEmpty())
     	{
     		JOptionPane.showMessageDialog(null, "email is empty", "Login Exception", 0);
     		email_check = false;
@@ -56,15 +54,44 @@ public class SampleController implements Initializable {
     	}
     	if(email_check & pass_check)
     	{
-    		String mail = txtmail.getText();
+    		String login = txtlogin.getText();
     		String pass = passwordBox.getText();
     		
     		try
     		{
-				Connect();
+				Connection connection;
 
-        		//Account acc = new Account(mail, pass);
+				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+					connection = DriverManager.getConnection(
+							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa",
+							"AlgorytmDjikstry");
+				} else {
+					connection = DriverManager.getConnection(
+							"jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+				}
+
+				String sql = " SELECT * from Users "
+							+" WHERE nick = ? AND password = HASHBYTES(?,?)";
+
+				PreparedStatement prestatement = connection.prepareStatement(sql);
+
+				prestatement.setString(1,login);
+				prestatement.setString(2,"SHA1");
+				prestatement.setString(3,pass);
+
+				ResultSet resultSet = prestatement.executeQuery();
+				if (resultSet.next()) {
+					JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login Exception", 0);
+				}
     		}
+    		catch (SQLException sq)
+			{
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", 0);
+			}
     		catch (Exception e)
     		{
     			JOptionPane.showMessageDialog(null, e.getMessage(), "Login Exception", 0);
@@ -74,7 +101,7 @@ public class SampleController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtmail.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		txtlogin.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
 				if(t1)
@@ -86,11 +113,11 @@ public class SampleController implements Initializable {
 				}
 				else
 				{
-					if(txtmail.getText().isEmpty())
+					if(txtlogin.getText().isEmpty())
 					{
 						warnmail.setText("E-mail Field is empty");
 					}
-					else if(txtmail.getText().length() < 3)
+					else if(txtlogin.getText().length() < 3)
 					{
 						warnmail.setText("E-mail is too short");
 					}
@@ -127,7 +154,7 @@ public class SampleController implements Initializable {
 						" .pl or com\n"+
 				" one @"
 		);
-		txtmail.setTooltip(tool);
+		txtlogin.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText(
 				"Your password must have:\n"+
@@ -150,19 +177,6 @@ public class SampleController implements Initializable {
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
 
-		}
-	}
-	private static void Connect() {
-		String url = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-		String user="sa";
-		String password="AlgorytmDjikstry";
-
-		try {
-			Connection connection = DriverManager.getConnection(url, user, password);
-		}
-		catch (SQLException sql)
-		{
-			sql.printStackTrace();
 		}
 	}
 

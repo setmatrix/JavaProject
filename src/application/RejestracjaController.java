@@ -4,6 +4,7 @@ package application;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -20,7 +21,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
-
 
 public class RejestracjaController implements Initializable {
 
@@ -96,8 +96,16 @@ public class RejestracjaController implements Initializable {
 				check_password(pass);
 				login_check(nick);
 
-				Connection connection = DriverManager.getConnection("jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+				Connection connection;
 
+				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+					connection = DriverManager.getConnection(
+							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa",
+							"AlgorytmDjikstry");
+				} else {
+					connection = DriverManager.getConnection(
+							"jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+				}
 				Statement statement = connection.createStatement();
 
 				ResultSet r = statement.executeQuery("SELECT COUNT(*) AS Count From Users");
@@ -106,28 +114,28 @@ public class RejestracjaController implements Initializable {
 				int id = r.getInt("Count");
 
 				String sql = "INSERT INTO Users"
-						+ " VALUES (?,?,?,?,'User');";
+						+ " VALUES (?,?,?,HASHBYTES(?,?),2);";
 
 				PreparedStatement prestatement = connection.prepareStatement(sql);
 
 				prestatement.setInt(1,id+1);
 				prestatement.setString(2,mail);
 				prestatement.setString(3,nick);
-				prestatement.setString(4,pass);
+				prestatement.setString(4,"SHA1");
+				prestatement.setString(5,pass);
 
 				int rows = prestatement.executeUpdate();
 
 				if(rows > 0)
 				{
-					JOptionPane.showMessageDialog(null, "Task failed successfully", "Register Information", 1);
+					JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", 1);
 				}
 
 				connection.close();
 			}
 			catch (SQLException sq)
 			{
-				//a
-				JOptionPane.showMessageDialog(null, "Problem with SQL", "Register Exception", 0);
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Register Exception", 0);
 			}
 			catch (Exception e)
 			{
