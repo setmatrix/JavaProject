@@ -35,6 +35,44 @@ public class AplikacjaController {
 	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
 
 	@FXML
+	void actionModyfikacja(ActionEvent event) {
+		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+		System.out.println(selectedIdx);
+	}
+
+	@FXML
+	void actionUsun(ActionEvent event) throws SQLException, UnknownHostException {
+		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+		  if (selectedIdx != -1) {
+		  listView1.getItems().remove(selectedIdx);
+		  }
+		  Connection connection;
+			String login=null, pass = null;
+			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+				connection = DriverManager.getConnection(
+						"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+			} else {
+				connection = DriverManager
+						.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+			}
+
+			String sql = " SELECT * from Users "
+					+" WHERE nick = ? AND password = HASHBYTES(?,?)";
+
+		PreparedStatement prestatement = connection.prepareStatement(sql);
+
+		prestatement.setString(1,login);
+		prestatement.setString(2,"SHA1");
+		prestatement.setString(3,pass);
+
+		ResultSet resultSet = prestatement.executeQuery();
+		if (resultSet.next()) {
+			sql = "Delete from [javaProject].[dbo].[Users] "
+					+ "where ID = " + (selectedIdx + 1);
+		}
+	}
+
+	@FXML
 	void powrotAction(ActionEvent event) {
 		try {
 			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("Welcome.fxml"));
