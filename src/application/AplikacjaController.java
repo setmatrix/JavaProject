@@ -59,17 +59,28 @@ public class AplikacjaController {
 			String sql = " SELECT * from Users "
 					+" WHERE nick = ? AND password = HASHBYTES(?,?)";
 
-		PreparedStatement prestatement = connection.prepareStatement(sql);
+		//Statement prestatement = connection.prepareStatement(sql);
 
-		prestatement.setString(1,login);
-		prestatement.setString(2,"SHA1");
-		prestatement.setString(3,pass);
+		//prestatement.setString(1,login);
+		//prestatement.setString(2,"SHA1");
+		//prestatement.setString(3,pass);
 
-		ResultSet resultSet = prestatement.executeQuery();
-		if (resultSet.next()) {
-			sql = "Delete from [javaProject].[dbo].[Users] "
-					+ "where ID = " + (selectedIdx + 1);
-		}
+		//ResultSet resultSet = prestatement.executeQuery();
+		//if (resultSet.next()) {
+			
+			//Statement statement = connection.createStatement();
+			//Statement statement = connection.prepareStatement(sql);
+			sql = "Delete from Users where ID="+1;
+			//int deleteCount = statement.executeUpdate(sql);
+			//sql = "Delete from Users where ID=?";
+			PreparedStatement prestatement = connection.prepareStatement(sql);
+			//prestatement.setString(1, "id");
+			//System.out.println(sql);
+			    prestatement.executeUpdate();
+			    
+			
+			//prestatement.execute(sql);
+		//}
 	}
 
 	@FXML
