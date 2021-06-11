@@ -5,6 +5,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -14,6 +17,7 @@ import javax.swing.JOptionPane;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.net.InetAddress;
 import java.net.URL;
@@ -81,11 +85,15 @@ public class LoginController implements Initializable {
 
 				ResultSet resultSet = prestatement.executeQuery();
 				if (resultSet.next()) {
-					BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Aplikacja.fxml"));
-					rootPane.setStyle("-fx-background-color:  lightBlue;");
-
-					rootPane.getChildren().setAll(root);
-					//JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
+					JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
+					FXMLLoader logon = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
+					Parent root = (Parent) logon.load();
+					Stage stage = new Stage();
+					User.login = txtlogin.getText();
+					stage.setTitle("Log in");
+					stage.setScene(new Scene(root));
+					((Node)event.getSource()).getScene().getWindow().hide();
+					stage.show();
 				}
 				else
 				{
