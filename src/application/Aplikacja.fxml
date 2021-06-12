@@ -10,10 +10,12 @@
    <center>
       <AnchorPane prefHeight="620.0" prefWidth="617.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="listView1" layoutX="91.0" layoutY="317.0" prefHeight="219.0" prefWidth="300.0" />
-            <Button layoutX="505.0" layoutY="491.0" mnemonicParsing="false" onAction="#actionUsun" prefHeight="45.0" prefWidth="90.0" text="Usuń" />
-            <Button layoutX="505.0" layoutY="407.0" mnemonicParsing="false" onAction="#actionModyfikacja" prefHeight="45.0" prefWidth="90.0" text="Modyfikuj" />
-            <Label fx:id="welcome" layoutX="91.0" layoutY="31.0" prefWidth="89.0" text="Welcome User!" />
+            <ListView fx:id="listView1" disable="true" layoutX="91.0" layoutY="243.0" prefHeight="293.0" prefWidth="300.0" />
+            <Button fx:id="del" disable="true" layoutX="505.0" layoutY="491.0" mnemonicParsing="false" onAction="#actionUsun" prefHeight="45.0" prefWidth="90.0" text="Usuń" />
+            <Button fx:id="mody" disable="true" layoutX="505.0" layoutY="407.0" mnemonicParsing="false" onAction="#actionModyfikacja" prefHeight="45.0" prefWidth="90.0" text="Modyfikuj" />
+            <Label layoutX="106.0" layoutY="31.0" prefHeight="17.0" prefWidth="51.0" text="Welcome" />
+            <Label fx:id="welcome" layoutX="157.0" layoutY="31.0" />
+            <Button fx:id="loadbutton" disable="true" layoutX="183.0" layoutY="546.0" mnemonicParsing="false" onAction="#Load" prefHeight="33.0" prefWidth="117.0" text="Load" />
                        
          </children>
       </AnchorPane>

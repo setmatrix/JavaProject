@@ -21,13 +21,46 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 
-public class AplikacjaController {
+public class AplikacjaController implements Initializable {
 
 	@FXML
 	private BorderPane rootPane;
+
+	private String loggedlogin;
+	private String loggedE_mail;
+	private int loggedId;
+
+
+	@FXML
+	private Label welcome;
+
+	@FXML
+	private Button del;
+
+	@FXML
+	private Button mody;
+
+	@FXML
+	private Button loadbutton;
+
+	private static Student student;
+
+	public void initData(Student s) {
+		this.student = s;
+		this.loggedE_mail = s.getE_mail();
+		this.loggedlogin = s.getLogin();
+		this.loggedId = s.getId();
+		welcome.setText(loggedlogin);
+	}
 
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
@@ -41,46 +74,38 @@ public class AplikacjaController {
 	}
 
 	@FXML
-	void actionUsun(ActionEvent event) throws SQLException, UnknownHostException {
-		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
-		  if (selectedIdx != -1) {
-		  listView1.getItems().remove(selectedIdx);
-		  }
-		  Connection connection;
-			String login=null, pass = null;
-			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-				connection = DriverManager.getConnection(
-						"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
-			} else {
-				connection = DriverManager
-						.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+	void actionUsun(ActionEvent event){
+		try {
+			final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+			if (selectedIdx != -1) {
+				Connection connection;
+				String login = null, e_mail = null;
+				int id = 0;
+				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+					connection = DriverManager.getConnection(
+							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+				} else {
+					connection = DriverManager
+							.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+				}
+				String sql = "Delete from Users where NICK= ?";
+
+				PreparedStatement prestatement = connection.prepareStatement(sql);
+				prestatement.setString(1,listView1.getSelectionModel().getSelectedItem().getLogin());
+				prestatement.execute();
+
+				prestatement.close();
+
+				connection.close();
+
+				listView1.getItems().remove(selectedIdx);
+
 			}
-
-			String sql = " SELECT * from Users "
-					+" WHERE nick = ? AND password = HASHBYTES(?,?)";
-
-		//Statement prestatement = connection.prepareStatement(sql);
-
-		//prestatement.setString(1,login);
-		//prestatement.setString(2,"SHA1");
-		//prestatement.setString(3,pass);
-
-		//ResultSet resultSet = prestatement.executeQuery();
-		//if (resultSet.next()) {
-			
-			//Statement statement = connection.createStatement();
-			//Statement statement = connection.prepareStatement(sql);
-			sql = "Delete from Users where ID="+1;
-			//int deleteCount = statement.executeUpdate(sql);
-			//sql = "Delete from Users where ID=?";
-			PreparedStatement prestatement = connection.prepareStatement(sql);
-			//prestatement.setString(1, "id");
-			//System.out.println(sql);
-			    prestatement.executeUpdate();
-			    
-			
-			//prestatement.execute(sql);
-		//}
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -95,30 +120,45 @@ public class AplikacjaController {
 		}
 	}
 
-	public void initialize() throws SQLException, UnknownHostException {
-		listView1.setItems(listaUczniow);
-		Connection connection;
-		String login, haslo;
-		if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-			connection = DriverManager.getConnection(
-					"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
-		} else {
-			connection = DriverManager
-					.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
-		}
-
-		String sql = " SELECT nick,password from Users ";
-		try (Statement stmt = connection.createStatement()) {
-			ResultSet resultSet = stmt.executeQuery(sql);
-			// Statement statement = connection.prepareStatement(sql);
-
-			// ResultSet resultSet = statement.executeQuery(sql);
-			while (resultSet.next()) {
-				login = resultSet.getString("nick");
-				haslo = resultSet.getString("password");
-				listaUczniow.add(new Student(login, haslo));
+	@FXML
+	void Load(ActionEvent event) { ;
+		try {
+			listView1.setItems(listaUczniow);
+			Connection connection;
+			int id = 0;
+			String login = null, e_mail = null;
+			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+				connection = DriverManager.getConnection(
+						"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+			} else {
+				connection = DriverManager
+						.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
 			}
+			String sql = " SELECT ID_USER, NICK, E_MAIL from Users WHERE NICK != ?";
+			PreparedStatement prestatement = connection.prepareStatement(sql);
+			prestatement.setString(1, loggedlogin);
+			ResultSet resultSet = prestatement.executeQuery();
+			while (resultSet.next()) {
+				id = resultSet.getInt("ID_USER");
+				login = resultSet.getString("NICK");
+				e_mail = resultSet.getString("E_MAIL");
+				listaUczniow.add(new Student(id, login, e_mail));
+			}
+			listView1.setDisable(false);
+			del.setDisable(false);
+			mody.setDisable(false);
+			loadbutton.setDisable(true);
+			loadbutton.setBackground(Background.EMPTY);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
 		}
+
 	}
 
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		loadbutton.setDisable(false);
+	}
 }

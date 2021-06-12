@@ -105,23 +105,16 @@ public class RejestracjaController implements Initializable {
 					connection = DriverManager.getConnection(
 							"jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
 				}
-				Statement statement = connection.createStatement();
 
-				ResultSet r = statement.executeQuery("SELECT COUNT(*) AS Count From Users");
-				r.next();
-
-				int id = r.getInt("Count");
-
-				String sql = "INSERT INTO Users"
-						+ " VALUES (?,?,?,HASHBYTES(?,?),2);";
+				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE)"
+						+ " VALUES (?,?,HASHBYTES(?,?),2);";
 
 				PreparedStatement prestatement = connection.prepareStatement(sql);
 
-				prestatement.setInt(1,id+1);
-				prestatement.setString(2,mail);
-				prestatement.setString(3,nick);
-				prestatement.setString(4,"SHA1");
-				prestatement.setString(5,pass);
+				prestatement.setString(1,mail);
+				prestatement.setString(2,nick);
+				prestatement.setString(3,"SHA1");
+				prestatement.setString(4,pass);
 
 				int rows = prestatement.executeUpdate();
 

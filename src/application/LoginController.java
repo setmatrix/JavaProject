@@ -1,5 +1,6 @@
 package application;
 
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -63,6 +64,8 @@ public class LoginController implements Initializable {
     		
     		try
     		{
+    			String sqllogin = null, sqlmail = null;
+    			int sqlid;
 				Connection connection;
 
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
@@ -86,13 +89,17 @@ public class LoginController implements Initializable {
 				ResultSet resultSet = prestatement.executeQuery();
 				if (resultSet.next()) {
 					JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
-					FXMLLoader logon = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
-					Parent root = (Parent) logon.load();
+					sqlid = resultSet.getInt("ID_USER");
+					sqllogin = resultSet.getString("NICK");
+					sqlmail = resultSet.getString("E_MAIL");
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
+					Parent root = (Parent) loader.load();
+
+					AplikacjaController controller = loader.getController();
+					controller.initData(new Student(sqlid, sqllogin, sqlmail));
 					Stage stage = new Stage();
-					User.login = txtlogin.getText();
-					stage.setTitle("Log in");
 					stage.setScene(new Scene(root));
-					((Node)event.getSource()).getScene().getWindow().hide();
+					((Node)(event.getSource())).getScene().getWindow().hide();
 					stage.show();
 				}
 				else
