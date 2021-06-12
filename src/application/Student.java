@@ -2,14 +2,24 @@ package application;
 
 public class Student /*implements Comparable<Student>*/{
 
-	String login,haslo;
+	int id;
+	String login,e_mail;
 
-	public Student(String login, String haslo)
+	public Student(int Id,String login, String e_mail)
 	{
+		this.id = id;
 		this.login=login;
-		this.haslo=haslo;
+		this.e_mail=e_mail;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(String login) {
+		this.id = id;
+	}
 	
 	public String getLogin() {
 		return login;
@@ -21,13 +31,13 @@ public class Student /*implements Comparable<Student>*/{
 	}
 
 
-	public String getHaslo() {
-		return haslo;
+	public String getE_mail() {
+		return e_mail;
 	}
 
 
-	public void setHaslo(String haslo) {
-		this.haslo = haslo;
+	public void setE_mail(String haslo) {
+		this.e_mail = e_mail;
 	}
 
 
@@ -48,7 +58,7 @@ public class Student /*implements Comparable<Student>*/{
 
 	@Override
 	public String toString() {
-		return "login=" + login + ", haslo=" + haslo + "\n";
+		return "Id: " + id + ",Login: " + login + ",E_mail=" + e_mail + "\n";
 	}
 	
 }
