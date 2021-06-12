@@ -21,21 +21,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 public class AplikacjaController {
 
 	@FXML
 	private BorderPane rootPane;
-
-	@FXML
-	private Label welcome;
 
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
@@ -51,52 +43,11 @@ public class AplikacjaController {
 	@FXML
 	void actionUsun(ActionEvent event) throws SQLException, UnknownHostException {
 		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
-		if (selectedIdx != -1) {
-			Connection connection;
-			int id = 0;
-			String login = null, e_mail = null;
-			try {
-				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
-				} else {
-					connection = DriverManager
-							.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
-				}
-
-				String sql = " SELECT * from Users "
-						+ " WHERE NICK = ? AND E_MAIL = ?";
-
-				PreparedStatement prestatement = connection.prepareStatement(sql);
-
-				prestatement.setString(1, login);
-				prestatement.setString(2, e_mail);
-
-				ResultSet resultSet = prestatement.executeQuery();
-				if (resultSet.next()) {
-					sql = "Delete from [javaProject].[dbo].[Users] "
-							+ "where ID_USER = " + (selectedIdx + 1);
-					Statement stmt = connection.createStatement();
-					ResultSet resultSet2 = stmt.executeQuery(sql);
-					listView1.getItems().remove(selectedIdx);
-					JOptionPane.showMessageDialog(null, "Success", "Application problem", JOptionPane.INFORMATION_MESSAGE);
-					}
-			} catch (SQLException sq) {
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Application problem", JOptionPane.WARNING_MESSAGE);
-			}
-			catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.getMessage(), "Application problem", JOptionPane.WARNING_MESSAGE);
-			}
-		}
-	}
-
-	public void initialize() throws SQLException, UnknownHostException {
-		listView1.setItems(listaUczniow);
-		Connection connection;
-		int id;
-		String login, e_mail;
-		welcome.setText("Welcome: " + User.login);
-		try {
+		  if (selectedIdx != -1) {
+		  listView1.getItems().remove(selectedIdx);
+		  }
+		  Connection connection;
+			String login=null, pass = null;
 			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
 				connection = DriverManager.getConnection(
 						"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
@@ -105,30 +56,68 @@ public class AplikacjaController {
 						.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
 			}
 
-		String sql = " SELECT ID_USER,NICk,E_MAIL from Users Where NICK != ? ";
+			String sql = " SELECT * from Users "
+					+" WHERE nick = ? AND password = HASHBYTES(?,?)";
 
+		//Statement prestatement = connection.prepareStatement(sql);
+
+		//prestatement.setString(1,login);
+		//prestatement.setString(2,"SHA1");
+		//prestatement.setString(3,pass);
+
+		//ResultSet resultSet = prestatement.executeQuery();
+		//if (resultSet.next()) {
+			
+			//Statement statement = connection.createStatement();
+			//Statement statement = connection.prepareStatement(sql);
+			sql = "Delete from Users where ID="+1;
+			//int deleteCount = statement.executeUpdate(sql);
+			//sql = "Delete from Users where ID=?";
 			PreparedStatement prestatement = connection.prepareStatement(sql);
+			//prestatement.setString(1, "id");
+			//System.out.println(sql);
+			    prestatement.executeUpdate();
+			    
+			
+			//prestatement.execute(sql);
+		//}
+	}
 
-			prestatement.setString(1,User.login);
+	@FXML
+	void powrotAction(ActionEvent event) {
+		try {
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("Welcome.fxml"));
 
-			ResultSet resultSet = prestatement.executeQuery();
+			rootPane.getChildren().setAll(root);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
 
+		}
+	}
+
+	public void initialize() throws SQLException, UnknownHostException {
+		listView1.setItems(listaUczniow);
+		Connection connection;
+		String login, haslo;
+		if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+			connection = DriverManager.getConnection(
+					"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+		} else {
+			connection = DriverManager
+					.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+		}
+
+		String sql = " SELECT nick,password from Users ";
+		try (Statement stmt = connection.createStatement()) {
+			ResultSet resultSet = stmt.executeQuery(sql);
+			// Statement statement = connection.prepareStatement(sql);
+
+			// ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				id = resultSet.getInt("ID_USER");
-				login = resultSet.getString("NICK");
-				e_mail = resultSet.getString("E_MAIL");
-				listaUczniow.add(new Student(id, login, e_mail));
+				login = resultSet.getString("nick");
+				haslo = resultSet.getString("password");
+				listaUczniow.add(new Student(login, haslo));
 			}
-		}
-		catch (SQLException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Application problem", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		catch (Exception se)
-		{
-			JOptionPane.showMessageDialog(null, se.getMessage(), "Application problem", JOptionPane.WARNING_MESSAGE);
-			return;
 		}
 	}
 
