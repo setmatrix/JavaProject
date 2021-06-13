@@ -61,50 +61,47 @@ public class LoginController implements Initializable {
     	{
     		String login = txtlogin.getText();
     		String pass = passwordBox.getText();
-    		
+			Connection connection = null;
     		try
     		{
-    			String sqllogin = null, sqlmail = null;
+    			String sqllogin = null, sqlmail = null, pc=null;
     			int sqlid;
-				Connection connection;
 
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa",
-							"AlgorytmDjikstry");
+					pc="jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject, sa, AlgorytmDjikstry";
 				} else {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject, sa, asdf";
 				}
+
+				connection = DriverManager.getConnection(pc);
 
 				String sql = " SELECT * from Users "
 							+" WHERE nick = ? AND password = HASHBYTES(?,?)";
 
-				PreparedStatement prestatement = connection.prepareStatement(sql);
+				try(PreparedStatement prestatement = connection.prepareStatement(sql)) {
 
-				prestatement.setString(1,login);
-				prestatement.setString(2,"SHA1");
-				prestatement.setString(3,pass);
+					prestatement.setString(1, login);
+					prestatement.setString(2, "SHA1");
+					prestatement.setString(3, pass);
 
-				ResultSet resultSet = prestatement.executeQuery();
-				if (resultSet.next()) {
-					JOptionPane.showMessageDialog(null, "Login successful\nWelcome "+login+" ", "Login Information", 3);
-					sqlid = resultSet.getInt("ID_USER");
-					sqllogin = resultSet.getString("NICK");
-					sqlmail = resultSet.getString("E_MAIL");
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
-					Parent root = (Parent) loader.load();
+					ResultSet resultSet = prestatement.executeQuery();
+					if (resultSet.next()) {
+						JOptionPane.showMessageDialog(null, "Login successful\nWelcome " + login + " ", "Login Information", JOptionPane.NO_OPTION);
+						sqlid = resultSet.getInt("ID_USER");
+						sqllogin = resultSet.getString("NICK");
+						sqlmail = resultSet.getString("E_MAIL");
+						FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
+						Parent root = (Parent) loader.load();
 
-					AplikacjaController controller = loader.getController();
-					controller.initData(new Student(sqlid, sqllogin, sqlmail));
-					Stage stage = new Stage();
-					stage.setScene(new Scene(root));
-					((Node)(event.getSource())).getScene().getWindow().hide();
-					stage.show();
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login Exception", 0);
+						AplikacjaController controller = loader.getController();
+						controller.initData(new Student(sqlid, sqllogin, sqlmail));
+						Stage stage = new Stage();
+						stage.setScene(new Scene(root));
+						((Node) (event.getSource())).getScene().getWindow().hide();
+						stage.show();
+					} else {
+						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login Exception", 0);
+					}
 				}
     		}
     		catch (SQLException sq)
@@ -115,6 +112,12 @@ public class LoginController implements Initializable {
     		{
     			JOptionPane.showMessageDialog(null, e.getMessage(), "Login Exception", 0);
     		}
+    		finally {
+    			if(connection != null)
+				{
+					connection.close();
+				}
+			}
     	}
     }
 

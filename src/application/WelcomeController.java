@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -44,7 +45,7 @@ public class WelcomeController implements Initializable {
 			inputstream = new FileInputStream(zrodlo);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.WARNING_MESSAGE);
 		}
 		Image image = new Image(inputstream);
 		image1.setImage(image);
@@ -63,35 +64,24 @@ public class WelcomeController implements Initializable {
     		//stage.show();
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Login.fxml"));
 			rootPane.setStyle("-fx-background-color:  lightBlue;");
-
 			rootPane.getChildren().setAll(root);
-
-
     	}
     	catch (Exception e)
     	{
     		JOptionPane.showMessageDialog(null, e.getMessage(), "Login Window Exception", 0);
-
     	}
     }
     @FXML
     void rejestracjaAction(ActionEvent event) {
     	try
     	{
-    	BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Rejestracja.fxml"));
+    	BorderPane root = (BorderPane)FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Rejestracja.fxml")));
 		rootPane.setStyle("-fx-background-color: lightBlue;");
-
 		rootPane.getChildren().setAll(root);
     	}
     	catch (Exception e)
     	{
     		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
-
     	}
-    }
-
-    public static void rejestracjaUczia(String login, String haslo)
-    {
-    	//ListaUczniow.add(new Student(login,haslo));
     }
 }

@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
+import javax.swing.*;
+
 
 public class Main extends Application {
 	@Override
@@ -18,7 +20,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Piszemy sobie program");
 			primaryStage.show();
 		} catch(Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	

@@ -1,8 +1,5 @@
 package application;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.sql.*;
@@ -10,8 +7,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 
 public class RejestracjaController implements Initializable {
@@ -64,7 +57,7 @@ public class RejestracjaController implements Initializable {
 
     }
 	@FXML
-	void zatwierdzAction(ActionEvent event) {
+	void zatwierdzAction(ActionEvent event) throws SQLException {
 		boolean email_check = true;
 		boolean nick_check = true;
 		boolean pass_check = true;
@@ -88,45 +81,38 @@ public class RejestracjaController implements Initializable {
 			String mail = txtmail.getText();
 			String pass = hasloText.getText();
 			String nick = loginText.getText();
-
+			Connection connection = null;
 			try
 			{
 				check_email(mail);
 				check_password(pass);
 				login_check(nick);
-
-				Connection connection;
-
+				String pc;
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa",
-							"AlgorytmDjikstry");
+					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject, sa, AlgorytmDjikstry";
 				} else {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject, sa, asdf";
 				}
-
+				connection = DriverManager.getConnection(pc);
 				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE)"
 						+ " VALUES (?,?,HASHBYTES(?,?),2);";
 
-				PreparedStatement prestatement = connection.prepareStatement(sql);
+				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 
-				prestatement.setString(1,mail);
-				prestatement.setString(2,nick);
-				prestatement.setString(3,"SHA1");
-				prestatement.setString(4,pass);
+					prestatement.setString(1, mail);
+					prestatement.setString(2, nick);
+					prestatement.setString(3, "SHA1");
+					prestatement.setString(4, pass);
 
-				int rows = prestatement.executeUpdate();
+					int rows = prestatement.executeUpdate();
 
-				if(rows > 0)
-				{
-					JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
-					txtmail.setText("");
-					hasloText.setText("");
-					loginText.setText("");
+					if (rows > 0) {
+						JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
+						txtmail.setText("");
+						hasloText.setText("");
+						loginText.setText("");
+					}
 				}
-
-				connection.close();
 			}
 			catch (SQLException sq)
 			{
@@ -135,6 +121,11 @@ public class RejestracjaController implements Initializable {
 			catch (Exception e)
 			{
 				JOptionPane.showMessageDialog(null, e.getMessage(), "Register Exception", JOptionPane.WARNING_MESSAGE);
+			}
+			finally {
+				if (connection!= null) {
+					connection.close();
+				}
 			}
 		}
 	}

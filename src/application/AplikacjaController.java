@@ -8,15 +8,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
+
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,9 +25,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
+
 
 public class AplikacjaController implements Initializable {
 
@@ -36,9 +35,6 @@ public class AplikacjaController implements Initializable {
 	private BorderPane rootPane;
 
 	private String loggedlogin;
-	private String loggedE_mail;
-	private int loggedId;
-
 
 	@FXML
 	private Label welcome;
@@ -52,13 +48,8 @@ public class AplikacjaController implements Initializable {
 	@FXML
 	private Button loadbutton;
 
-	private static Student student;
-
 	public void initData(Student s) {
-		this.student = s;
-		this.loggedE_mail = s.getE_mail();
 		this.loggedlogin = s.getLogin();
-		this.loggedId = s.getId();
 		welcome.setText(loggedlogin);
 	}
 
@@ -70,44 +61,42 @@ public class AplikacjaController implements Initializable {
 	@FXML
 	void actionModyfikacja(ActionEvent event) {
 		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
-		System.out.println(selectedIdx);
 	}
 
 	@FXML
-	void actionUsun(ActionEvent event){
-		try {
+	void actionUsun(ActionEvent event) throws UnknownHostException, SQLException {
 			final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+			Connection connection = null;
 			if (selectedIdx != -1) {
-				Connection connection;
-				String login = null, e_mail = null;
+				String pc;
 				int id = 0;
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject, sa, AlgorytmDjikstry";
 				} else {
-					connection = DriverManager
-							.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject, sa, asdf";
 				}
-				String sql = "Delete from Users where NICK= ?";
-
-				PreparedStatement prestatement = connection.prepareStatement(sql);
-				prestatement.setString(1,listView1.getSelectionModel().getSelectedItem().getLogin());
-				prestatement.execute();
-
-				prestatement.close();
-
-				connection.close();
-
-				listView1.getItems().remove(selectedIdx);
-
+				try {
+					connection = DriverManager.getConnection(pc);
+					String sql = "Delete from Users where NICK= ?";
+					try (PreparedStatement prestatement = connection.prepareStatement(sql)){
+						prestatement.setString(1, listView1.getSelectionModel().getSelectedItem().getLogin());
+						prestatement.execute();
+						listView1.getItems().remove(selectedIdx);
+					}
+				} catch (SQLException sq) {
+					JOptionPane.showMessageDialog(null,sq.getMessage(),"Warning",JOptionPane.WARNING_MESSAGE);
+				}
+					catch (NullPointerException nu)
+					{
+						JOptionPane.showMessageDialog(null,nu.getMessage(),"Warning",JOptionPane.WARNING_MESSAGE);
+					}
+				finally {
+					if (connection != null) {
+						connection.close();
+					}
+				}
 			}
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		}
 	}
-
 	@FXML
 	void powrotAction(ActionEvent event) {
 		try {
@@ -116,43 +105,48 @@ public class AplikacjaController implements Initializable {
 			rootPane.getChildren().setAll(root);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
-
 		}
 	}
 
 	@FXML
-	void Load(ActionEvent event) { ;
+	void Load(ActionEvent event) throws SQLException {
+		Connection connection = null;
 		try {
 			listView1.setItems(listaUczniow);
-			Connection connection;
-			int id = 0;
-			String login = null, e_mail = null;
+			int id;
+			String login, email;
+			String pc;
 			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-				connection = DriverManager.getConnection(
-						"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa", "AlgorytmDjikstry");
+				pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject, sa, AlgorytmDjikstry";
 			} else {
-				connection = DriverManager
-						.getConnection("jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+				pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject, sa, asdf";
 			}
+			connection = DriverManager.getConnection(pc);
 			String sql = " SELECT ID_USER, NICK, E_MAIL from Users WHERE NICK != ?";
-			PreparedStatement prestatement = connection.prepareStatement(sql);
-			prestatement.setString(1, loggedlogin);
-			ResultSet resultSet = prestatement.executeQuery();
-			while (resultSet.next()) {
-				id = resultSet.getInt("ID_USER");
-				login = resultSet.getString("NICK");
-				e_mail = resultSet.getString("E_MAIL");
-				listaUczniow.add(new Student(id, login, e_mail));
+			try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
+				prestatement.setString(1, loggedlogin);
+				ResultSet resultSet = prestatement.executeQuery();
+				while (resultSet.next()) {
+					id = resultSet.getInt("ID_USER");
+					login = resultSet.getString("NICK");
+					email = resultSet.getString("E_MAIL");
+					listaUczniow.add(new Student(id, login, email));
+				}
+				listView1.setDisable(false);
+				del.setDisable(false);
+				mody.setDisable(false);
+				loadbutton.setDisable(true);
+				loadbutton.setBackground(Background.EMPTY);
 			}
-			listView1.setDisable(false);
-			del.setDisable(false);
-			mody.setDisable(false);
-			loadbutton.setDisable(true);
-			loadbutton.setBackground(Background.EMPTY);
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+		} catch (SQLException | UnknownHostException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Welcome Window Exception", 0);
+		}
+		finally
+		{
+			if (connection != null)
+			{
+				connection.close();
+			}
 		}
 
 	}
