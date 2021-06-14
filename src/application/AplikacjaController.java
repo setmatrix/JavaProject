@@ -61,6 +61,7 @@ public class AplikacjaController implements Initializable {
 	@FXML
 	void actionUsun() throws UnknownHostException, SQLException {
 		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+		//
 		Connection connection = null;
 		if (selectedIdx != -1) {
 			String dataLogin;
