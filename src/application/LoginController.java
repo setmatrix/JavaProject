@@ -1,117 +1,101 @@
 package application;
-
-import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
 import javax.swing.JOptionPane;
-
 import javafx.event.ActionEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
-
 public class LoginController implements Initializable {
-
 	@FXML
 	private BorderPane rootPane;
-
 	@FXML
-	private TextField txtlogin;
-
+	private TextField txtLogin;
     @FXML
     private PasswordField passwordBox;
-
 	@FXML
-	private Label warnmail;
-
+	private Label warnMail;
 	@FXML
-	private Label warnpass;
-    
+	private Label warnPass;
     @FXML
-    void logclick(ActionEvent event) throws Exception {
-
-    	boolean email_check = true;
-    	boolean pass_check = true;
-    	if(txtlogin.getText().isEmpty())
+    void logClick(ActionEvent event) throws IOException, SQLException {
+    	boolean emailCheck = true;
+    	boolean passCheck = true;
+    	if(txtLogin.getText().isEmpty())
     	{
-    		JOptionPane.showMessageDialog(null, "email is empty", "Login Exception", 0);
-    		email_check = false;
+    		JOptionPane.showMessageDialog(null, "email is empty", "Login Error", JOptionPane.WARNING_MESSAGE);
+    		emailCheck = false;
     	}
     	if(passwordBox.getText().isEmpty())
     	{
-    		JOptionPane.showMessageDialog(null, "password is empty", "Login Exception", 0);
-    		pass_check = false;
+    		JOptionPane.showMessageDialog(null, "password is empty", "Password Error", JOptionPane.WARNING_MESSAGE);
+    		passCheck = false;
     	}
-    	if(email_check & pass_check)
+    	if(emailCheck && passCheck)
     	{
-    		String login = txtlogin.getText();
+    		String login = txtLogin.getText();
     		String pass = passwordBox.getText();
 			Connection connection = null;
     		try
     		{
-    			String sqllogin = null, sqlmail = null, pc=null;
-    			int sqlid;
-
+    			String sqlLogin;
+				String sqlMail;
+    			int sqlId;
+				String dataLogin;
+				String dataPass;
+				String pc;
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					pc="jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject, sa, AlgorytmDjikstry";
+					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
+					dataLogin = "sa";
+					dataPass= "AlgorytmDjikstry";
 				} else {
-					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject, sa, asdf";
+					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
+					dataLogin = "sa";
+					dataPass = "asdf";
 				}
-
-				connection = DriverManager.getConnection(pc);
+				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
 
 				String sql = " SELECT * from Users "
 							+" WHERE nick = ? AND password = HASHBYTES(?,?)";
-
 				try(PreparedStatement prestatement = connection.prepareStatement(sql)) {
-
 					prestatement.setString(1, login);
 					prestatement.setString(2, "SHA1");
 					prestatement.setString(3, pass);
-
 					ResultSet resultSet = prestatement.executeQuery();
 					if (resultSet.next()) {
-						JOptionPane.showMessageDialog(null, "Login successful\nWelcome " + login + " ", "Login Information", JOptionPane.NO_OPTION);
-						sqlid = resultSet.getInt("ID_USER");
-						sqllogin = resultSet.getString("NICK");
-						sqlmail = resultSet.getString("E_MAIL");
+						JOptionPane.showMessageDialog(null, "Login successful\nWelcome " + login + " ", "Success", JOptionPane.INFORMATION_MESSAGE);
+						sqlId = resultSet.getInt("ID_USER");
+						sqlLogin = resultSet.getString("NICK");
+						sqlMail = resultSet.getString("E_MAIL");
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
-						Parent root = (Parent) loader.load();
-
+						Parent root = loader.load();
 						AplikacjaController controller = loader.getController();
-						controller.initData(new Student(sqlid, sqllogin, sqlmail));
+						controller.initData(new Student(sqlId, sqlLogin, sqlMail));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
 						((Node) (event.getSource())).getScene().getWindow().hide();
 						stage.show();
 					} else {
-						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login Exception", 0);
+						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login", JOptionPane.WARNING_MESSAGE);
 					}
 				}
     		}
-    		catch (SQLException sq)
+    		catch (SQLException | UnknownHostException sq)
 			{
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", 0);
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
 			}
-    		catch (Exception e)
-    		{
-    			JOptionPane.showMessageDialog(null, e.getMessage(), "Login Exception", 0);
-    		}
     		finally {
     			if(connection != null)
 				{
@@ -120,86 +104,71 @@ public class LoginController implements Initializable {
 			}
     	}
     }
-
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtlogin.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
-				{
-					if(!warnmail.getText().isEmpty())
-					{
-						warnmail.setText("");
-					}
+		txtLogin.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if (t1) {
+				if (!warnMail.getText().isEmpty()) {
+					warnMail.setText("");
 				}
-				else
-				{
-					if(txtlogin.getText().isEmpty())
-					{
-						warnmail.setText("E-mail Field is empty");
-					}
-					else if(txtlogin.getText().length() < 3)
-					{
-						warnmail.setText("E-mail is too short");
-					}
+			} else {
+				if (txtLogin.getText().isEmpty()) {
+					warnMail.setText("Login Field is empty");
+				} else if (txtLogin.getText().length() < 3) {
+					warnMail.setText("Login is too short");
 				}
 			}
 		});
-		passwordBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-				if(t1)
+		passwordBox.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnPass.getText().isEmpty())
 				{
-					if(!warnpass.getText().isEmpty())
-					{
-						warnpass.setText("");
-					}
+					warnPass.setText("");
 				}
-				else
+			}
+			else
+			{
+				if(passwordBox.getText().isEmpty())
 				{
-					if(passwordBox.getText().isEmpty())
-					{
-						warnpass.setText("Password Field is empty");
-					}
-					else if(passwordBox.getText().length() < 3)
-					{
-						warnpass.setText("Password is too short");
-					}
+					warnPass.setText("Password Field is empty");
+				}
+				else if(passwordBox.getText().length() < 3)
+				{
+					warnPass.setText("Password is too short");
 				}
 			}
 		});
 		Tooltip tool = new Tooltip();
 		tool.setText(
-				"Your email must have:\n" +
-				"at least 8 characters in length\n" +
-						" .pl or com\n"+
-				" one @"
+				"""
+						Your email must have:
+						at least 8 characters in length
+						 .pl or com
+						 one @"""
 		);
-		txtlogin.setTooltip(tool);
+		txtLogin.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText(
-				"Your password must have:\n"+
-				"at least 6 characters,\n"+
-				"at least one Big and small letter,\n"+
-				"at least one number"
+				"""
+						Your password must have:
+						at least 6 characters,
+						at least one Big and small letter,
+						at least one number"""
 		);
 		passwordBox.setTooltip(tool);
 	}
 	@FXML
-	void goBack(ActionEvent event) {
+	void goBack() {
 		try
 		{
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("Welcome.fxml"));
-			//rootPane.setStyle("-fx-background-color:  #30C4CE;");
-
+			BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Welcome.fxml")));
 			rootPane.getChildren().setAll(root);
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", 0);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
 
 		}
 	}
-
 }
