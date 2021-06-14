@@ -52,7 +52,6 @@ public class AplikacjaController implements Initializable {
 		txtId.setText("Id: "+loggedId);
 		txtType.setText("Type: " + loggedType);
 	}
-//
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
 	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
