@@ -1,54 +1,38 @@
 package application;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
+import java.util.Objects;
 import java.sql.*;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BackgroundImage;
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-
 public class RejestracjaController implements Initializable {
-
     @FXML
     private BorderPane rootPane;
-
 	@FXML
 	private TextField loginText;
-
     @FXML
     private PasswordField hasloText;
-
 	@FXML
 	private TextField txtmail;
-
 	@FXML
 	private Label warnmail;
-
 	@FXML
 	private Label warnnick;
-
 	@FXML
 	private Label warnpass;
-
     @FXML
-    void powrotAction(ActionEvent event){
+    void powrotAction(){
     	try
     	{
-    	BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Welcome.fxml"));
+    	BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Welcome.fxml")));
 		rootPane.setStyle("-fx-background-color:  #30C4CE;");
 
 		rootPane.getChildren().setAll(root);
@@ -56,93 +40,80 @@ public class RejestracjaController implements Initializable {
     	catch (Exception e)
     	{
     		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
-    		
     	}
-
     }
 	@FXML
-	void zatwierdzAction(ActionEvent event) {
-		boolean email_check = true;
-		boolean nick_check = true;
-		boolean pass_check = true;
+	 void zatwierdzAction() throws SQLException {
+		boolean emailCheck = true;
+		boolean nickCheck = true;
+		boolean passCheck = true;
 		if(txtmail.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "email Field is empty", "Register Exception", JOptionPane.WARNING_MESSAGE);
-			email_check = false;
+			JOptionPane.showMessageDialog(null, "email Field is empty", "Register email Field", JOptionPane.WARNING_MESSAGE);
+			emailCheck = false;
 		}
 		if(loginText.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "nick Field is empty", "Register Exception", JOptionPane.WARNING_MESSAGE);
-			nick_check = false;
+			JOptionPane.showMessageDialog(null, "nick Field is empty", "Register Login Field", JOptionPane.WARNING_MESSAGE);
+			nickCheck = false;
 		}
 		if(hasloText.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "password Field is empty", "Register Exception", JOptionPane.WARNING_MESSAGE);
-			pass_check = false;
+			JOptionPane.showMessageDialog(null, "password Field is empty", "Register password Field", JOptionPane.WARNING_MESSAGE);
+			passCheck = false;
 		}
-		if(email_check & pass_check & nick_check)
+		if(emailCheck && passCheck && nickCheck)
 		{
 			String mail = txtmail.getText();
 			String pass = hasloText.getText();
 			String nick = loginText.getText();
-
+			Connection connection = null;
 			try
 			{
 				check_email(mail);
 				check_password(pass);
 				login_check(nick);
-
-				Connection connection;
-
+				String sqlLogin;
+				String sqlPass;
+				String pc;
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject", "sa",
-							"AlgorytmDjikstry");
+					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
+					sqlLogin = "sa";
+					sqlPass= "AlgorytmDjikstry";
 				} else {
-					connection = DriverManager.getConnection(
-							"jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject", "sa", "asdf");
+					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
+					sqlLogin = "sa";
+					sqlPass = "asdf";
 				}
-				Statement statement = connection.createStatement();
-
-				ResultSet r = statement.executeQuery("SELECT COUNT(*) AS Count From Users");
-				r.next();
-
-				int id = r.getInt("Count");
-
-				String sql = "INSERT INTO Users"
-						+ " VALUES (?,?,?,HASHBYTES(?,?),2);";
-
-				PreparedStatement prestatement = connection.prepareStatement(sql);
-
-				prestatement.setInt(1,id+1);
-				prestatement.setString(2,mail);
-				prestatement.setString(3,nick);
-				prestatement.setString(4,"SHA1");
-				prestatement.setString(5,pass);
-
-				int rows = prestatement.executeUpdate();
-
-				if(rows > 0)
-				{
-					JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
-					txtmail.setText("");
-					hasloText.setText("");
-					loginText.setText("");
+				connection = DriverManager.getConnection(pc, sqlLogin, sqlPass);
+				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE)"
+						+ " VALUES (?,?,HASHBYTES(?,?),2);";
+				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
+					prestatement.setString(1, mail);
+					prestatement.setString(2, nick);
+					prestatement.setString(3, "SHA1");
+					prestatement.setString(4, pass);
+					int rows = prestatement.executeUpdate();
+					if (rows > 0) {
+						JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
+						txtmail.setText("");
+						hasloText.setText("");
+						loginText.setText("");
+					}
 				}
-
-				connection.close();
 			}
 			catch (SQLException sq)
 			{
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Register Exception", JOptionPane.WARNING_MESSAGE);
-			}
-			catch (Exception e)
-			{
-				JOptionPane.showMessageDialog(null, e.getMessage(), "Register Exception", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Register SQL Error", JOptionPane.ERROR_MESSAGE);
+			} catch (Throwable throwable) {
+				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Register Error", JOptionPane.WARNING_MESSAGE);
+			} finally {
+				if (connection!= null) {
+					connection.close();
+				}
 			}
 		}
 	}
-
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		txtmail.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
@@ -227,20 +198,19 @@ public class RejestracjaController implements Initializable {
 		);
 		hasloText.setTooltip(tool);
 	}
-
-	private void check_email(String mail) throws Exception
+	private void check_email(String mail) throws Throwable
 	{
 		int monkey = 0;
 		int moncount = 0;
-		int domainlength;
+		int domainLength;
 		if(mail.contains(".com"))
 		{
-			domainlength = 4;
+			domainLength = 4;
 		}
 		else if(mail.contains(".pl"))
 		{
-			domainlength = 3;
-		} else throw new Exception(".pl or .com only");
+			domainLength = 3;
+		} else throw new Throwable(".pl or .com only");
 		for(int i=0;i<mail.length(); i++)
 		{
 			if(mail.charAt(i) == '@')
@@ -251,33 +221,31 @@ public class RejestracjaController implements Initializable {
 		}
 		if(moncount == 0)
 		{
-			throw new Exception("Missing @");
+			throw new Throwable("Missing @");
 		}
 		if(moncount > 1)
 		{
-			throw new Exception("Too much @");
+			throw new Throwable("Too much @");
 		}
-		if((mail.substring(monkey).length() < domainlength +3))
+		if((mail.substring(monkey).length() < domainLength +3))
 		{
-			throw new Exception("Domain is not correct");
+			throw new Throwable("Domain is not correct");
 		}
 		if(mail.substring(0,monkey).length() < 4)
 		{
-			throw new Exception("Length before @ is short");
+			throw new Throwable("Length before @ is short");
 		}
 	}
-
-	private void check_password(String pass) throws Exception {
+	private void check_password(String pass) throws Throwable {
 		if(pass.length() < 4) {
-			throw new Exception("Password is too short");
+			throw new Throwable("Password is too short");
 		}
 	}
-
-	private void login_check(String login) throws Exception
+	private void login_check(String login) throws Throwable
 	{
 		if(login.length() < 3)
 		{
-			throw new Exception("Login is too short");
+			throw new Throwable("Login is too short");
 		}
 	}
 }

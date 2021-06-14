@@ -1,36 +1,41 @@
 package application;
 
 public class Student /*implements Comparable<Student>*/{
-
-	String login,haslo;
-
-	public Student(String login, String haslo)
+	int id;
+	String login;
+	String email;
+	String type;
+	public Student(int id,String login, String email, String type)
 	{
+		this.id = id;
 		this.login=login;
-		this.haslo=haslo;
+		this.email=email;
+		this.type = type;
 	}
-
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id= id;
+	}
 	public String getLogin() {
 		return login;
 	}
-
-
 	public void setLogin(String login) {
 		this.login = login;
 	}
-
-
-	public String getHaslo() {
-		return haslo;
+	public String getEmail() {
+		return email;
 	}
-
-
-	public void setHaslo(String haslo) {
-		this.haslo = haslo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	/*@Override
 	public int compareTo(Student o) {
 		int result = this.rocznik - o.rocznik;
@@ -45,10 +50,8 @@ public class Student /*implements Comparable<Student>*/{
 		}
 		return result;
 	}*/
-
 	@Override
 	public String toString() {
-		return "login=" + login + ", haslo=" + haslo + "\n";
+		return "Id: " + id + ",Login: " + login + ",Email=" + email + ", Type: " + type +"\n";
 	}
-	
 }
