@@ -36,7 +36,7 @@ public class Student /*implements Comparable<Student>*/{
 	public void setType(String type) {
 		this.type = type;
 	}
-	//hhhhh
+
 	/*@Override
 	public int compareTo(Student o) {
 		int result = this.rocznik - o.rocznik;
