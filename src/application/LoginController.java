@@ -16,6 +16,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.*;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 public class LoginController implements Initializable {
@@ -53,9 +54,12 @@ public class LoginController implements Initializable {
     			String sqlLogin;
 				String sqlMail;
     			int sqlId;
+				String sqlNameType;
+
 				String dataLogin;
 				String dataPass;
 				String pc;
+
 				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
 					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
 					dataLogin = "sa";
@@ -67,7 +71,9 @@ public class LoginController implements Initializable {
 				}
 				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
 
-				String sql = " SELECT * from Users "
+				String sql = " SELECT ID_USER, E_MAIL, NICK, PASSWORD, NAME_TYPE "
+							 +"FROM Users "
+							 + "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE "
 							+" WHERE nick = ? AND password = HASHBYTES(?,?)";
 				try(PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, login);
@@ -79,12 +85,14 @@ public class LoginController implements Initializable {
 						sqlId = resultSet.getInt("ID_USER");
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
+						sqlNameType = resultSet.getString("NAME_TYPE");
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
 						Parent root = loader.load();
 						AplikacjaController controller = loader.getController();
-						controller.initData(new Student(sqlId, sqlLogin, sqlMail));
+						controller.initData(new Student(sqlId, sqlLogin, sqlMail, sqlNameType));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
+						stage.setTitle("Welcome " + sqlLogin.toUpperCase(Locale.ROOT));
 						((Node) (event.getSource())).getScene().getWindow().hide();
 						stage.show();
 					} else {

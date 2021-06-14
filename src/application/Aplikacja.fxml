@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
 <BorderPane prefHeight="593.0" prefWidth="642.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AplikacjaController">
    <center>
       <AnchorPane prefHeight="620.0" prefWidth="617.0" BorderPane.alignment="CENTER">
-            <ListView fx:id="listView1" disable="true" layoutX="91.0" layoutY="243.0" prefHeight="293.0" prefWidth="300.0" />
-            <Button fx:id="del" disable="true" layoutX="505.0" layoutY="491.0" mnemonicParsing="false" onAction="#actionUsun" prefHeight="45.0" prefWidth="90.0" text="Usuń" />
-            <Button fx:id="mody" disable="true" layoutX="505.0" layoutY="407.0" mnemonicParsing="false" onAction="#actionModyfikacja" prefHeight="45.0" prefWidth="90.0" text="Modyfikuj" />
-            <Label layoutX="91.0" layoutY="31.0" prefHeight="17.0" prefWidth="51.0" text="Welcome" />
-            <Label fx:id="welcome" layoutX="157.0" layoutY="31.0" />
-            <Button fx:id="loadbutton" disable="true" layoutX="183.0" layoutY="546.0" mnemonicParsing="false" onAction="#loadAction" prefHeight="33.0" prefWidth="117.0" text="Load" />
+            <ListView fx:id="listView1" layoutX="14.0" layoutY="216.0" prefHeight="298.0" prefWidth="445.0" />
+            <Button fx:id="del" layoutX="505.0" layoutY="491.0" mnemonicParsing="false" onAction="#actionUsun" prefHeight="45.0" prefWidth="90.0" text="Usuń" />
+            <Button fx:id="mody" layoutX="505.0" layoutY="407.0" mnemonicParsing="false" onAction="#actionModyfikacja" prefHeight="45.0" prefWidth="90.0" text="Modyfikuj" />
+            <Button fx:id="loadbutton" layoutX="183.0" layoutY="546.0" mnemonicParsing="false" onAction="#loadAction" prefHeight="33.0" prefWidth="117.0" text="Load" />
+         <VBox alignment="CENTER_LEFT" layoutX="90.0" layoutY="14.0" prefHeight="85.0" prefWidth="328.0">
+            <children>
+                  <Label prefHeight="17.0" prefWidth="60.0" text="Your data" textAlignment="CENTER" />
+               <Label fx:id="txtId" text="Id:" />
+               <Label fx:id="txtLogin" text="Login" />
+               <Label fx:id="txtEmail" text="Email:" />
+               <Label fx:id="txtType" text="Type:" />
+            </children>
+         </VBox>
       </AnchorPane>
    </center>
 </BorderPane>

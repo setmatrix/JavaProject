@@ -4,11 +4,13 @@ public class Student /*implements Comparable<Student>*/{
 	int id;
 	String login;
 	String email;
-	public Student(int id,String login, String email)
+	String type;
+	public Student(int id,String login, String email, String type)
 	{
 		this.id = id;
 		this.login=login;
 		this.email=email;
+		this.type = type;
 	}
 	public int getId() {
 		return id;
@@ -28,6 +30,12 @@ public class Student /*implements Comparable<Student>*/{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	/*@Override
 	public int compareTo(Student o) {
 		int result = this.rocznik - o.rocznik;
@@ -44,6 +52,6 @@ public class Student /*implements Comparable<Student>*/{
 	}*/
 	@Override
 	public String toString() {
-		return "Id: " + id + ",Login: " + login + ",Email=" + email + "\n";
+		return "Id: " + id + ",Login: " + login + ",Email=" + email + ", Type: " + type +"\n";
 	}
 }

@@ -14,7 +14,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Piszemy sobie program");
+			primaryStage.setTitle("Own Application");
 			primaryStage.show();
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.WARNING_MESSAGE);
