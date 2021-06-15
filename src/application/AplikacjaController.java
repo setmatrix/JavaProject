@@ -1,4 +1,5 @@
 package application;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -7,21 +8,34 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
 public class AplikacjaController implements Initializable {
 
 	private String loggedLogin;
 	private int loggedId;
 	private String loggedEmail;
 	private String loggedType;
+
+	private ImageIcon icon = new ImageIcon("src/info.png");
 
 	@FXML
 	private Label txtId;
@@ -161,5 +175,27 @@ public class AplikacjaController implements Initializable {
 				loadbutton.setDisable(true);
 			}
 		}
+	}
+
+	@FXML
+	void logOut(Event event) throws IOException {
+
+		int input = JOptionPane.showConfirmDialog(null,"Are you sure?","Log out",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+
+		if (input == JOptionPane.YES_NO_OPTION) {
+			loggedId = 0;
+			loggedLogin = null;
+			loggedEmail = null;
+			loggedType = null;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Welcome.fxml"));
+			Parent root = loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Welcome " + "Welcome".toUpperCase(Locale.ROOT));
+			JOptionPane.showConfirmDialog(null,"Log out - success","Log out",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+			((Node) (event.getSource())).getScene().getWindow().hide();
+			stage.show();
+		}
+
 	}
 }

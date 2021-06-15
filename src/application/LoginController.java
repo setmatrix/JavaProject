@@ -176,7 +176,6 @@ public class LoginController implements Initializable {
 		catch (Exception e)
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
-
 		}
 	}
 }
