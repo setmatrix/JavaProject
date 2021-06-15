@@ -74,7 +74,7 @@ public class LoginController implements Initializable {
 				String sql = " SELECT ID_USER, E_MAIL, NICK, PASSWORD, NAME_TYPE "
 							 +"FROM Users "
 							 + "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE "
-							+" WHERE nick = ? AND password = HASHBYTES(?,?)";
+							+" WHERE NICK = ? AND PASSWORD = HASHBYTES(?,?)";
 				try(PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, login);
 					prestatement.setString(2, "SHA1");

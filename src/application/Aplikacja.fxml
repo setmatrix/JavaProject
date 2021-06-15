@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="593.0" prefWidth="642.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AplikacjaController">
+<BorderPane fx:id="Pane" prefHeight="593.0" prefWidth="642.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AplikacjaController">
    <center>
       <AnchorPane prefHeight="620.0" prefWidth="617.0" BorderPane.alignment="CENTER">
             <ListView fx:id="listView1" layoutX="14.0" layoutY="216.0" prefHeight="298.0" prefWidth="445.0" />
