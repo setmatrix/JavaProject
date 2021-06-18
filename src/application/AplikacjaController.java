@@ -68,7 +68,7 @@ public class AplikacjaController implements Initializable {
 	}
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
-	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
+	public ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
 
 	@FXML
 	void actionModyfikacja() throws IOException {

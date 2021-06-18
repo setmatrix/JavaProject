@@ -87,7 +87,9 @@ public class RejestracjaController implements Initializable {
 			String nick = loginText.getText();
 			String firstname = firstNameText.getText();
 			String lastname = LastNameText.getText();
-
+			
+			
+			
 			Connection connection = null;
 			try
 			{
