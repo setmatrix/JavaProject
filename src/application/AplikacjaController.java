@@ -68,7 +68,7 @@ public class AplikacjaController implements Initializable {
 	}
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
-	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
+	public ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
 
 	@FXML
 	void actionModyfikacja() throws IOException {
@@ -92,20 +92,8 @@ public class AplikacjaController implements Initializable {
 		//
 		Connection connection = null;
 		if (selectedIdx != -1) {
-			String dataLogin;
-			String dataPass;
-			String pc;
-			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-				pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-				dataLogin = "sa";
-				dataPass = "AlgorytmDjikstry";
-			} else {
-				pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-				dataLogin = "sa";
-				dataPass = "asdf";
-			}
 			try {
-				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+				connection = connectionData();
 				String sql = "Delete from Users where ID_USER= ?";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setInt(1, listView1.getSelectionModel().getSelectedItem().getId());
@@ -142,22 +130,13 @@ public class AplikacjaController implements Initializable {
 				int id;
 				String login;
 				String email;
+    			String firstname;
+    			String lastname;
 				String nameType;
-				String dataLogin;
-				String dataPass;
-				String pc;
-				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "AlgorytmDjikstry";
-				} else {
-					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "asdf";
-				}
-				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+				
+				connection = connectionData();
 
-				String sql = " SELECT ID_USER, NICK, E_MAIL, NAME_TYPE " +
+				String sql = " SELECT * " +
 							 "from Users " +
 							 "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE " +
 							 "WHERE ID_USER != ?";
@@ -167,10 +146,12 @@ public class AplikacjaController implements Initializable {
 					ResultSet resultSet = prestatement.executeQuery();
 					while (resultSet.next()) {
 						id = resultSet.getInt("ID_USER");
+						firstname = resultSet.getString("FIRST_NAME");
+						lastname = resultSet.getString("LAST_NAME");
 						login = resultSet.getString("NICK");
 						email = resultSet.getString("E_MAIL");
 						nameType = resultSet.getString("NAME_TYPE");
-						listaUczniow.add(new Student(id, login, email, nameType));
+						listaUczniow.add(new Student(id, firstname, lastname, login, email, nameType));
 					}
 					del.setVisible(true);
 					mody.setVisible(true);
@@ -212,4 +193,25 @@ public class AplikacjaController implements Initializable {
 		}
 
 	}
+	
+	Connection connectionData() throws SQLException, UnknownHostException {
+		Connection connection = null;
+		String dataLogin;
+		String dataPass;
+		String pc;
+		if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+			pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
+			dataLogin = "sa";
+			dataPass = "AlgorytmDjikstry";
+		} else {
+			pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
+			dataLogin = "sa";
+			dataPass = "asdf";
+		}
+
+		connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+
+		return connection;
+	}
+
 }

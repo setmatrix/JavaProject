@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="536.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModifyController">
    <left>
       <AnchorPane prefHeight="302.0" prefWidth="130.0" BorderPane.alignment="CENTER">
@@ -47,10 +46,8 @@
          <children>
             <VBox alignment="CENTER" layoutX="7.0" prefHeight="295.0" prefWidth="151.0" style="-fx-spacing: 20;">
                <children>
-                  <Button alignment="CENTER" ellipsisString="S" mnemonicParsing="false" onAction="#ChangePassword" prefHeight="39.0" prefWidth="188.0" text="Change password" textAlignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#ChangeLogin" prefHeight="39.0" prefWidth="188.0" text="Change Login" />
-                  <Button mnemonicParsing="false" onAction="#ChangeEmail" prefHeight="39.0" prefWidth="188.0" text="Change E-mail" />
-                  <Button mnemonicParsing="false" onAction="#ChangeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" />
+                  <Button mnemonicParsing="false" onAction="#AxceptAction" prefHeight="39.0" prefWidth="188.0" text="Axcept" />
+                  <Button mnemonicParsing="false" onAction="#ExitAction" prefHeight="39.0" prefWidth="188.0" text="Exit" />
                </children>
                <opaqueInsets>
                   <Insets />

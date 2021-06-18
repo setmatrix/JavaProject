@@ -23,11 +23,19 @@ public class RejestracjaController implements Initializable {
 	@FXML
 	private TextField txtmail;
 	@FXML
+	private TextField firstNameText;
+    @FXML
+	private TextField LastNameText;
+	@FXML
 	private Label warnmail;
 	@FXML
 	private Label warnnick;
 	@FXML
 	private Label warnpass;
+    @FXML
+    private Label warnfirstname;
+    @FXML
+    private Label warnlastname;
     @FXML
     void powrotAction(){
     	try
@@ -62,17 +70,34 @@ public class RejestracjaController implements Initializable {
 			JOptionPane.showMessageDialog(null, "password Field is empty", "Register password Field", JOptionPane.WARNING_MESSAGE);
 			passCheck = false;
 		}
+		if(firstNameText.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null, "firstname Field is empty", "Register firstname Field", JOptionPane.WARNING_MESSAGE);
+			passCheck = false;
+		}
+		if(LastNameText.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null, "lastname Field is empty", "Register lastname Field", JOptionPane.WARNING_MESSAGE);
+			passCheck = false;
+		}
 		if(emailCheck && passCheck && nickCheck)
 		{
 			String mail = txtmail.getText();
 			String pass = hasloText.getText();
 			String nick = loginText.getText();
+			String firstname = firstNameText.getText();
+			String lastname = LastNameText.getText();
+			
+			
+			
 			Connection connection = null;
 			try
 			{
 				check_email(mail);
 				check_password(pass);
 				login_check(nick);
+				firstName_check(firstname);
+				lastName_check(lastname);
 				String sqlLogin;
 				String sqlPass;
 				String pc;
@@ -86,13 +111,15 @@ public class RejestracjaController implements Initializable {
 					sqlPass = "asdf";
 				}
 				connection = DriverManager.getConnection(pc, sqlLogin, sqlPass);
-				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE)"
-						+ " VALUES (?,?,HASHBYTES(?,?),2);";
+				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME)"
+						+ " VALUES (?,?,HASHBYTES(?,?),2,?,?);";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, mail);
 					prestatement.setString(2, nick);
 					prestatement.setString(3, "SHA1");
 					prestatement.setString(4, pass);
+					prestatement.setString(5, firstname);
+					prestatement.setString(6, lastname);
 					int rows = prestatement.executeUpdate();
 					if (rows > 0) {
 						JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
@@ -246,6 +273,27 @@ public class RejestracjaController implements Initializable {
 		if(login.length() < 3)
 		{
 			throw new Throwable("Login is too short");
+		}
+	}
+	private void firstName_check(String firstName) throws Throwable
+	{
+		if(firstName.charAt(0) < 64 || firstName.charAt(0) > 91)
+		{
+			throw new Throwable("FirstName must start with a capital letter ");
+		}
+		if(firstName.length()<3)
+		{
+			throw new Throwable("FirstName is too short");
+		}
+	}private void lastName_check(String lastName) throws Throwable
+	{
+		if(lastName.charAt(0) < 64 || lastName.charAt(0) > 91)
+		{
+			throw new Throwable("LastName must start with a capital letter ");
+		}
+		if(lastName.length() < 3)
+		{
+			throw new Throwable("LastName is too short");
 		}
 	}
 }
