@@ -1,5 +1,4 @@
 package application;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
@@ -11,10 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,6 +25,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
+
 
 public class AplikacjaController implements Initializable {
 
@@ -32,6 +34,8 @@ public class AplikacjaController implements Initializable {
 	private int loggedId;
 	private String loggedEmail;
 	private String loggedType;
+
+	private ImageIcon icon = new ImageIcon("src/info.png");
 
 	@FXML
 	private Label txtId;
@@ -57,45 +61,140 @@ public class AplikacjaController implements Initializable {
 		this.loggedId = s.getId();
 		this.loggedEmail = s.getEmail();
 		this.loggedType = s.getType();
-		txtEmail.setText("Email: " + loggedEmail);
-		txtLogin.setText("Login: " + loggedLogin);
-		txtId.setText("Id: " + loggedId);
+		txtEmail.setText("Email: "+loggedEmail);
+		txtLogin.setText("Login: "+loggedLogin);
+		txtId.setText("Id: "+loggedId);
 		txtType.setText("Type: " + loggedType);
 	}
-
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
 	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
 
 	@FXML
-	void actionModyfikacja(ActionEvent event) throws IOException, SQLException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Modify.fxml"));
-		Parent root = loader.load();
-		ModifyController controller = loader.getController();
-		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
-		int id = 0;
-		String login = null, email = null, type = null;
-		Connection connection = null;
-		if (selectedIdx != -1) {
-			connection = data();
-
-			id = listView1.getSelectionModel().getSelectedItem().getId();
-			listView1.getItems().remove(selectedIdx);
-
-			if (connection != null) {
-				connection.close();
-			}
-
+	void actionModyfikacja() throws IOException {
+		if (listView1.getSelectionModel().getSelectedIndex() > -1)
+		{
+			Student user = listView1.getSelectionModel().getSelectedItem();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Modify.fxml"));
+			Parent root = loader.load();
+			ModifyController controller = loader.getController();
+			controller.initData(user.id, user.login, user.email, user.type);
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Modify: " + user.getId());
+			stage.show();
 		}
-		controller.initData(id, "2", "3", "4");
-		Stage stage = new Stage();
-		stage.setScene(new Scene(root));
-		stage.setTitle("Welcome ");
-		((Node) (event.getSource())).getScene().getWindow().hide();
-		stage.show();
 	}
 
-	Connection data() throws SQLException, UnknownHostException {
+	@FXML
+	void actionUsun() throws UnknownHostException, SQLException {
+		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+		//
+		Connection connection = null;
+		if (selectedIdx != -1) {
+			try {
+				connection = connectionData();
+				String sql = "Delete from Users where ID_USER= ?";
+				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
+					prestatement.setInt(1, listView1.getSelectionModel().getSelectedItem().getId());
+					prestatement.execute();
+					listView1.getItems().remove(selectedIdx);
+				}
+			} catch (SQLException | NullPointerException sq) {
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		}
+	}
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		loadbutton.setDisable(false);
+		listView1.setVisible(false);
+		del.setVisible(false);
+		mody.setVisible(false);
+	}
+	@FXML
+	public void loadAction() throws SQLException {
+		Connection connection = null;
+		if(loggedType.equals("Admin")) {
+			listView1.setVisible(true);
+		}
+		if(listView1.isVisible())
+		{
+			try {
+				listView1.getItems().clear();
+				listView1.setItems(listaUczniow);
+				int id;
+				String login;
+				String email;
+    			String firstname;
+    			String lastname;
+				String nameType;
+				
+				connection = connectionData();
+
+				String sql = " SELECT * " +
+							 "from Users " +
+							 "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE " +
+							 "WHERE ID_USER != ?";
+
+				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
+					prestatement.setInt(1, loggedId);
+					ResultSet resultSet = prestatement.executeQuery();
+					while (resultSet.next()) {
+						id = resultSet.getInt("ID_USER");
+						firstname = resultSet.getString("FIRST_NAME");
+						lastname = resultSet.getString("LAST_NAME");
+						login = resultSet.getString("NICK");
+						email = resultSet.getString("E_MAIL");
+						nameType = resultSet.getString("NAME_TYPE");
+						listaUczniow.add(new Student(id, firstname, lastname, login, email, nameType));
+					}
+					del.setVisible(true);
+					mody.setVisible(true);
+					if (loadbutton.getText().equals("Load")) {
+						loadbutton.setText("Refresh");
+					}
+				}
+			} catch (SQLException | UnknownHostException ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+			if(!loggedType.equals("Admin")) {
+				loadbutton.setDisable(true);
+			}
+		}
+	}
+
+	@FXML
+	void logOut(Event event) throws IOException {
+
+		int input = JOptionPane.showConfirmDialog(null,"Are you sure?","Log out",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+
+		if (input == JOptionPane.YES_NO_OPTION) {
+			loggedId = 0;
+			loggedLogin = null;
+			loggedEmail = null;
+			loggedType = null;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Welcome.fxml"));
+			Parent root = loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Welcome " + "Welcome".toUpperCase(Locale.ROOT));
+			JOptionPane.showConfirmDialog(null,"Log out - success","Log out",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+			((Node) (event.getSource())).getScene().getWindow().hide();
+			stage.show();
+		}
+
+	}
+	
+	Connection connectionData() throws SQLException, UnknownHostException {
 		Connection connection = null;
 		String dataLogin;
 		String dataPass;
@@ -115,97 +214,4 @@ public class AplikacjaController implements Initializable {
 		return connection;
 	}
 
-	@FXML
-	void actionUsun() throws UnknownHostException, SQLException {
-		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
-		Connection connection = null;
-		if (selectedIdx != -1) {
-			try {
-				connection = data();
-
-				String sql = "Delete from Users where ID_USER= ?";
-				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-					prestatement.setInt(1, listView1.getSelectionModel().getSelectedItem().getId());
-					prestatement.execute();
-					listView1.getItems().remove(selectedIdx);
-				}
-			} catch (SQLException | NullPointerException sq) {
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
-
-	}
-
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) {
-		loadbutton.setDisable(false);
-		listView1.setVisible(false);
-		del.setVisible(false);
-		mody.setVisible(false);
-	}
-
-	@FXML
-	public void loadAction() throws SQLException {
-		Connection connection = null;
-		if (loggedType.equals("Admin")) {
-			listView1.setVisible(true);
-		}
-		if (listView1.isVisible()) {
-			try {
-				listView1.getItems().clear();
-				listView1.setItems(listaUczniow);
-				int id;
-				String login;
-				String email;
-				String nameType;
-				String dataLogin;
-				String dataPass;
-				String pc;
-				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "AlgorytmDjikstry";
-				} else {
-					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "asdf";
-				}
-				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
-
-				String sql = " SELECT ID_USER, NICK, E_MAIL, NAME_TYPE " + "from Users "
-						+ "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE " + "WHERE ID_USER != ?";
-
-				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-					prestatement.setInt(1, loggedId);
-					ResultSet resultSet = prestatement.executeQuery();
-					while (resultSet.next()) {
-						id = resultSet.getInt("ID_USER");
-						login = resultSet.getString("NICK");
-						email = resultSet.getString("E_MAIL");
-						nameType = resultSet.getString("NAME_TYPE");
-						listaUczniow.add(new Student(id, login, email, nameType));
-					}
-					del.setVisible(true);
-					mody.setVisible(true);
-					if (loadbutton.getText().equals("Load")) {
-						loadbutton.setText("Refresh");
-					}
-				}
-			} catch (SQLException | UnknownHostException ex) {
-				JOptionPane.showMessageDialog(null, ex.getMessage(), "Welcome Window Exception",
-						JOptionPane.ERROR_MESSAGE);
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-			if (!loggedType.equals("Admin")) {
-				loadbutton.setDisable(true);
-			}
-		}
-	}
 }

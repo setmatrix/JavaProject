@@ -54,6 +54,8 @@ public class LoginController implements Initializable {
     			String sqlLogin;
 				String sqlMail;
     			int sqlId;
+    			String sqlFirstName;
+    			String sqlLastName;
 				String sqlNameType;
 
 				String dataLogin;
@@ -71,10 +73,10 @@ public class LoginController implements Initializable {
 				}
 				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
 
-				String sql = " SELECT ID_USER, E_MAIL, NICK, PASSWORD, NAME_TYPE "
+				String sql = " SELECT * "
 							 +"FROM Users "
 							 + "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE "
-							+" WHERE nick = ? AND password = HASHBYTES(?,?)";
+							+" WHERE NICK = ? AND PASSWORD = HASHBYTES(?,?)";
 				try(PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, login);
 					prestatement.setString(2, "SHA1");
@@ -85,11 +87,13 @@ public class LoginController implements Initializable {
 						sqlId = resultSet.getInt("ID_USER");
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
-						sqlNameType = resultSet.getString("NAME_TYPE");
+						sqlFirstName = resultSet.getString("FIRST_NAME");
+						sqlLastName = resultSet.getString("LAST_NAME");
+						sqlNameType = resultSet.getString("ID_TYPE");
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
 						Parent root = loader.load();
 						AplikacjaController controller = loader.getController();
-						controller.initData(new Student(sqlId, sqlLogin, sqlMail, sqlNameType));
+						controller.initData(new Student(sqlId, sqlFirstName, sqlLastName, sqlLogin, sqlMail,  sqlNameType));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
 						stage.setTitle("Welcome " + sqlLogin.toUpperCase(Locale.ROOT));
@@ -176,7 +180,6 @@ public class LoginController implements Initializable {
 		catch (Exception e)
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
-
 		}
 	}
 }
