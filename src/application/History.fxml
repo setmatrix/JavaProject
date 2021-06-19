@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.OrderController">
+<BorderPane fx:id="rootPane" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HistoryOrdersController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button layoutX="353.0" layoutY="422.0" mnemonicParsing="false" onAction="#ZawowAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zamów" />

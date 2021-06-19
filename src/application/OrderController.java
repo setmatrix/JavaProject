@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Objects;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
@@ -13,19 +14,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Label;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class OrderController implements Initializable {
-	
+
 	int loggedId;
-	
-	public void initData(Student s) {
-		//this.loggedId = s.getId();
+
+	public void initData(int loggedId) {
+		this.loggedId = loggedId;
 	}
 
 	@FXML
@@ -48,54 +48,67 @@ public class OrderController implements Initializable {
 	}
 
 	@FXML
-	void ZawowAction() throws SQLException, UnknownHostException {
-		String Order_name = null;
-		String Order_date = null;
-		int is_delivered = 0;
-		Connection connection = null;
-		try {
-			String sqlLogin;
-			String sqlPass;
-			String pc;
-			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-				pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-				sqlLogin = "sa";
-				sqlPass = "AlgorytmDjikstry";
-			} else {
-				pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-				sqlLogin = "sa";
-				sqlPass = "asdf";
+	void LoadAction() throws SQLException, UnknownHostException {
+		String GAME_NAME = null;
+		String PRODUCER = null;
+		String PUBLISHER = null;
+		String RELEASED = null;
+
+		Connection connection = dataload();
+
+		String sql = " SELECT *" + "from Games ";
+		try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
+			ResultSet resultSet = prestatement.executeQuery();
+			while (resultSet.next()) {
+				GAME_NAME = resultSet.getString("GAME_NAME");
+				PRODUCER = resultSet.getString("PRODUCER");
+				PUBLISHER = resultSet.getString("PUBLISHER");
+				RELEASED = resultSet.getString("RELEASED");
+				listaOrders.add(new Orders(GAME_NAME, PRODUCER, PUBLISHER, RELEASED));
 			}
-			connection = DriverManager.getConnection(pc, sqlLogin, sqlPass);
-			String sql = " SELECT *" +
-					 "from Orders " +
-					 "INNER JOIN Users ON Users.ID_USER = Orders.CUSTOMER_ID " +
-					 "WHERE ID_USER = ?";
+
+		}
+
+	}
+
+	@FXML
+	void ZawowAction() throws UnknownHostException, SQLException {
+		if (listViewOrders.getSelectionModel().getSelectedIndex() > -1) {
+			Orders game = listViewOrders.getSelectionModel().getSelectedItem();
+			Connection connection = dataload();
+			String sql = "INSERT INTO Orders (ORDER_NAME, ORDER_DATE, IS_DELIVERED, CUSTOMER_ID)"
+					+ " VALUES (?,?,1,?);";
 			try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-				loggedId = 2;
-				prestatement.setInt(1, loggedId);
-				ResultSet resultSet = prestatement.executeQuery();
-				while (resultSet.next()) {
-				Order_name = resultSet.getString("ORDER_NAME");
-				Order_date = resultSet.getString("ORDER_DATE");
-				is_delivered = resultSet.getInt("IS_DELIVERED");
-				}
-				listaOrders.add(new Orders(Order_name, Order_date, is_delivered));
-			}
-		} catch (SQLException | NullPointerException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
-		} finally {
-			if (connection != null) {
-				connection.close();
+				SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = new Date(System.currentTimeMillis());
+				prestatement.setString(1, game.GAME_NAME);
+				prestatement.setString(2, formatter.format(date));
+				prestatement.setInt(3, loggedId);
+				System.out.println(loggedId);
+				prestatement.executeUpdate();
 			}
 		}
 	}
-
-
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		listViewOrders.setItems(listaOrders);
 	}
 
+	Connection dataload() throws SQLException, UnknownHostException {
+		String sqlLogin;
+		String sqlPass;
+		String pc;
+		if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
+			pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
+			sqlLogin = "sa";
+			sqlPass = "AlgorytmDjikstry";
+		} else {
+			pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
+			sqlLogin = "sa";
+			sqlPass = "asdf";
+		}
+		return DriverManager.getConnection(pc, sqlLogin, sqlPass);
+
+	}
 }
