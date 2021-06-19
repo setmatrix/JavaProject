@@ -54,8 +54,6 @@ public class LoginController implements Initializable {
     			String sqlLogin;
 				String sqlMail;
     			int sqlId;
-    			String sqlFirstName;
-    			String sqlLastName;
 				String sqlNameType;
 
 				String dataLogin;
@@ -73,7 +71,7 @@ public class LoginController implements Initializable {
 				}
 				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
 
-				String sql = " SELECT * "
+				String sql = " SELECT ID_USER, E_MAIL, NICK, PASSWORD, NAME_TYPE "
 							 +"FROM Users "
 							 + "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE "
 							+" WHERE NICK = ? AND PASSWORD = HASHBYTES(?,?)";
@@ -87,13 +85,11 @@ public class LoginController implements Initializable {
 						sqlId = resultSet.getInt("ID_USER");
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
-						sqlFirstName = resultSet.getString("FIRST_NAME");
-						sqlLastName = resultSet.getString("LAST_NAME");
-						sqlNameType = resultSet.getString("ID_TYPE");
+						sqlNameType = resultSet.getString("NAME_TYPE");
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
 						Parent root = loader.load();
 						AplikacjaController controller = loader.getController();
-						controller.initData(new Student(sqlId, sqlFirstName, sqlLastName, sqlLogin, sqlMail,  sqlNameType));
+						controller.initData(new Student(sqlId, sqlLogin, sqlMail, sqlNameType));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
 						stage.setTitle("Welcome " + sqlLogin.toUpperCase(Locale.ROOT));

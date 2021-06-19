@@ -18,7 +18,7 @@ public class WelcomeController implements Initializable {
 	private ImageView image1;
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		String pic = System.getProperty("user.dir")+"\\bin\\pupil.png";
+		String pic = System.getProperty("user.dir")+"\\src\\pupil.png";
 		FileInputStream input= null;
 		try {
 			input = new FileInputStream(pic);
