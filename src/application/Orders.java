@@ -1,43 +1,71 @@
 package application;
 
 public class Orders /*implements Comparable<Student>*/{
-	String Order_name;
-	String Order_date;
-	int is_delivered;
-
-	public Orders(String Order_name, String Order_date,	int is_delivered)
+	String GAME_NAME;
+	String PRODUCER;
+	String PUBLISHER;
+	String RELEASED;
+	
+	public Orders(String GAME_NAME, String PRODUCER, String PUBLISHER, String RELEASED)
 	{
-		this.Order_name = Order_name;
-		this.Order_date=Order_date;
-		this.is_delivered = is_delivered;
+		this.GAME_NAME = GAME_NAME;
+		this.PRODUCER = PRODUCER;
+		this.PUBLISHER = PUBLISHER;
+		this.RELEASED = RELEASED;
 	}
 	
-	public String getOrder_name() {
-		return Order_name;
+	
+
+	public String getGAME_NAME() {
+		return GAME_NAME;
 	}
 
-	public void setOrder_name(String order_name) {
-		Order_name = order_name;
+
+
+	public void setGAME_NAME(String gAME_NAME) {
+		GAME_NAME = gAME_NAME;
 	}
 
-	public String getOrder_date() {
-		return Order_date;
+
+
+	public String getPRODUCER() {
+		return PRODUCER;
 	}
 
-	public void setOrder_date(String order_date) {
-		Order_date = order_date;
+
+
+	public void setPRODUCER(String pRODUCER) {
+		PRODUCER = pRODUCER;
 	}
 
-	public int isIs_delivered() {
-		return is_delivered;
+
+
+	public String getPUBLISHER() {
+		return PUBLISHER;
 	}
 
-	public void setIs_delivered(int is_delivered) {
-		this.is_delivered = is_delivered;
+
+
+	public void setPUBLISHER(String pUBLISHER) {
+		PUBLISHER = pUBLISHER;
 	}
+
+
+
+	public String getRELEASED() {
+		return RELEASED;
+	}
+
+
+
+	public void setRELEASED(String rELEASED) {
+		RELEASED = rELEASED;
+	}
+
+
 
 	@Override
 	public String toString() {
-		return "Oder name: "+ Order_name + "Order Date: " + Order_date + "is delivered" + is_delivered + "\n";
+		return "GAME NAME: " + GAME_NAME + " Producer: "+ PRODUCER + " Publisher: " + PUBLISHER + " Game release: "+ RELEASED+ "\n";
 	}
 }

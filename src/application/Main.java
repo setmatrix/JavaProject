@@ -10,7 +10,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Order.fxml")));
+			BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("History.fxml")));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
 			primaryStage.setScene(scene);
