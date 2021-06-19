@@ -14,28 +14,62 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 public class RejestracjaController implements Initializable {
-    @FXML
-    private BorderPane rootPane;
+	@FXML
+	private BorderPane rootPane;
+
 	@FXML
 	private TextField loginText;
-    @FXML
-    private PasswordField hasloText;
+
 	@FXML
-	private TextField txtmail;
+	private PasswordField hasloText;
+
+	@FXML
+	private TextField txtMail;
+
+	@FXML
+	private Label warnMail;
+
+	@FXML
+	private Label warnNick;
+
+	@FXML
+	private Label warnPass;
+
 	@FXML
 	private TextField firstNameText;
-    @FXML
+
+	@FXML
 	private TextField LastNameText;
+
 	@FXML
-	private Label warnmail;
+	private TextField txtAddress;
+
 	@FXML
-	private Label warnnick;
+	private TextField txtCode;
+
 	@FXML
-	private Label warnpass;
-    @FXML
-    private Label warnfirstname;
-    @FXML
-    private Label warnlastname;
+	private TextField txtCity;
+
+	@FXML
+	private TextField txtNumber;
+
+	@FXML
+	private Label warnFirstName;
+
+	@FXML
+	private Label warnLastName;
+
+	@FXML
+	private Label warnCode;
+
+	@FXML
+	private Label warnAddress;
+
+	@FXML
+	private Label warnCity;
+
+	@FXML
+	private Label warnNumber;
     @FXML
     void powrotAction(){
     	try
@@ -52,41 +86,22 @@ public class RejestracjaController implements Initializable {
     }
 	@FXML
 	 void zatwierdzAction() throws SQLException {
-		boolean emailCheck = true;
-		boolean nickCheck = true;
-		boolean passCheck = true;
-		if(txtmail.getText().isEmpty())
+		if(txtMail.getText().isEmpty() || loginText.getText().isEmpty() || hasloText.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "email Field is empty", "Register email Field", JOptionPane.WARNING_MESSAGE);
-			emailCheck = false;
+			JOptionPane.showMessageDialog(null, "Fill requires Fields", "Register email Field", JOptionPane.WARNING_MESSAGE);
 		}
-		if(loginText.getText().isEmpty())
+		else
 		{
-			JOptionPane.showMessageDialog(null, "nick Field is empty", "Register Login Field", JOptionPane.WARNING_MESSAGE);
-			nickCheck = false;
-		}
-		if(hasloText.getText().isEmpty())
-		{
-			JOptionPane.showMessageDialog(null, "password Field is empty", "Register password Field", JOptionPane.WARNING_MESSAGE);
-			passCheck = false;
-		}
-		if(firstNameText.getText().isEmpty())
-		{
-			JOptionPane.showMessageDialog(null, "firstname Field is empty", "Register firstname Field", JOptionPane.WARNING_MESSAGE);
-			passCheck = false;
-		}
-		if(LastNameText.getText().isEmpty())
-		{
-			JOptionPane.showMessageDialog(null, "lastname Field is empty", "Register lastname Field", JOptionPane.WARNING_MESSAGE);
-			passCheck = false;
-		}
-		if(emailCheck && passCheck && nickCheck)
-		{
-			String mail = txtmail.getText();
+			String mail = txtMail.getText();
 			String pass = hasloText.getText();
 			String nick = loginText.getText();
 			String firstname = firstNameText.getText();
 			String lastname = LastNameText.getText();
+
+			String address = txtAddress.getText();
+			String postal_Code = txtCode.getText();
+			String city=txtCity.getText();
+			String number=txtNumber.getText();
 			
 			
 			
@@ -96,8 +111,12 @@ public class RejestracjaController implements Initializable {
 				check_email(mail);
 				check_password(pass);
 				login_check(nick);
-				firstName_check(firstname);
-				lastName_check(lastname);
+				word_check(firstname, "First Name");
+				word_check(lastname, "Last Name");
+				address_check(address);
+				postalCode_check(postal_Code);
+				word_check(city, "City");
+				number_check(number);
 				String sqlLogin;
 				String sqlPass;
 				String pc;
@@ -111,8 +130,8 @@ public class RejestracjaController implements Initializable {
 					sqlPass = "asdf";
 				}
 				connection = DriverManager.getConnection(pc, sqlLogin, sqlPass);
-				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME)"
-						+ " VALUES (?,?,HASHBYTES(?,?),2,?,?);";
+				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME, ADDRESS, POSTAL_CODE, CITY, Number)"
+						+ " VALUES (?,?,HASHBYTES(?,?),2,?,?,?,?,?,?);";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, mail);
 					prestatement.setString(2, nick);
@@ -120,12 +139,22 @@ public class RejestracjaController implements Initializable {
 					prestatement.setString(4, pass);
 					prestatement.setString(5, firstname);
 					prestatement.setString(6, lastname);
+					prestatement.setString(7,address);
+					prestatement.setString(8,postal_Code);
+					prestatement.setString(9,city);
+					prestatement.setString(10,number);
 					int rows = prestatement.executeUpdate();
 					if (rows > 0) {
 						JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
-						txtmail.setText("");
+						txtMail.setText("");
 						hasloText.setText("");
 						loginText.setText("");
+						firstNameText.setText("");
+						LastNameText.setText("");
+						txtAddress.setText("");
+						txtCode.setText("");
+						txtCity.setText("");
+						txtNumber.setText("");
 					}
 				}
 			}
@@ -143,63 +172,63 @@ public class RejestracjaController implements Initializable {
 	}
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtmail.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+		txtMail.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
 			if(t1)
 			{
-				if(!warnmail.getText().isEmpty())
+				if(!warnMail.getText().isEmpty())
 				{
-					warnmail.setText("");
+					warnMail.setText("");
 				}
 			}
 			else
 			{
-				if(txtmail.getText().isEmpty())
+				if(txtMail.getText().isEmpty())
 				{
-					warnmail.setText("E-mail Field is empty");
+					warnMail.setText("E-mail Field is empty");
 				}
-				else if(txtmail.getText().length() < 3)
+				else if(txtMail.getText().length() < 3)
 				{
-					warnmail.setText("E-mail is too short");
+					warnMail.setText("E-mail is too short");
 				}
 			}
 		});
 		loginText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
 			if(t1)
 			{
-				if(!warnnick.getText().isEmpty())
+				if(!warnNick.getText().isEmpty())
 				{
-					warnnick.setText("");
+					warnNick.setText("");
 				}
 			}
 			else
 			{
 				if(loginText.getText().isEmpty())
 				{
-					warnnick.setText("Login Field is empty");
+					warnNick.setText("Login Field is empty");
 				}
 				else if(loginText.getText().length() < 3)
 				{
-					warnnick.setText("Login is too short");
+					warnNick.setText("Login is too short");
 				}
 			}
 		});
 		hasloText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
 			if(t1)
 			{
-				if(!warnpass.getText().isEmpty())
+				if(!warnPass.getText().isEmpty())
 				{
-					warnpass.setText("");
+					warnPass.setText("");
 				}
 			}
 			else
 			{
 				if(hasloText.getText().isEmpty())
 				{
-					warnpass.setText("Password Field is empty");
+					warnPass.setText("Password Field is empty");
 				}
 				else if(hasloText.getText().length() < 3)
 				{
-					warnpass.setText("Password Field is too short");
+					warnPass.setText("Password Field is too short");
 				}
 			}
 		});
@@ -211,7 +240,7 @@ public class RejestracjaController implements Initializable {
 						 .pl or com
 						 one @"""
 		);
-		txtmail.setTooltip(tool);
+		txtMail.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText("Your nick must be at least 4 characters");
 		loginText.setTooltip(tool);
@@ -275,25 +304,63 @@ public class RejestracjaController implements Initializable {
 			throw new Throwable("Login is too short");
 		}
 	}
-	private void firstName_check(String firstName) throws Throwable
+	private void word_check(String lastName, String word) throws Throwable
 	{
-		if(firstName.charAt(0) < 64 || firstName.charAt(0) > 91)
+		if(Character.isLowerCase(lastName.charAt(0)))
 		{
-			throw new Throwable("FirstName must start with a capital letter ");
-		}
-		if(firstName.length()<3)
-		{
-			throw new Throwable("FirstName is too short");
-		}
-	}private void lastName_check(String lastName) throws Throwable
-	{
-		if(lastName.charAt(0) < 64 || lastName.charAt(0) > 91)
-		{
-			throw new Throwable("LastName must start with a capital letter ");
+			throw new Throwable(word + " must start with a capital letter ");
 		}
 		if(lastName.length() < 3)
 		{
-			throw new Throwable("LastName is too short");
+			throw new Throwable(word + " is too short");
+		}
+	}
+	private void address_check(String address) throws Throwable
+	{
+		if(address.length() < 3)
+		{
+			throw new Throwable("Address is too short");
+		}
+	}
+	private void postalCode_check(String postalCode) throws Throwable
+	{
+		int count = 0;
+		int digitcount = 0;
+		if(postalCode.length() < 5)
+		{
+			throw new Throwable("Postal Code is too short");
+		}
+		for(int i=0; i<postalCode.length(); i++) {
+			if (postalCode.charAt(i) == '-') {
+				count += 1;
+				if (count > 1) {
+					throw new Throwable("Format for PostalCode is wrong");
+				}
+			}
+			if (Character.isDigit(postalCode.charAt(i))) {
+				digitcount +=1;
+			}
+			if (Character.isLetter(postalCode.charAt(i))) {
+				throw new Throwable("postalCode must have digits or one - only");
+			}
+		}
+	}
+	private void number_check(String number) throws Throwable
+	{
+		int i=0;
+		if(number.length() < 9)
+		{
+			throw new Throwable("Number is too short");
+		}
+		if(number.charAt(0)=='+')
+		{
+			i = 1;
+		}
+		for(int j = i; j<number.length(); j++)
+		{
+			if(!Character.isDigit(number.charAt(j))) {
+				throw new Throwable("Numbers must have digits only");
+			}
 		}
 	}
 }
