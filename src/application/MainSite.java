@@ -45,11 +45,18 @@ public class MainSite implements Initializable {
 
     @FXML
     void homeAction(ActionEvent event) throws IOException {
+        //AplikacjaController controller = new AplikacjaController();
+        //controller.initData(new Student(loggedId,loggedLogin,loggedEmail,loggedType));
+        Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Aplikacja.fxml")));
+        pane.getChildren().setAll(root);
     }
 
     @FXML
-    void orderAction(ActionEvent event) {
-
+    void orderAction(ActionEvent event) throws IOException {
+        Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Order.fxml")));
+        //AplikacjaController controller = new AplikacjaController();
+        //controller.initData(new Student(loggedId,loggedLogin,loggedEmail,loggedType));
+        pane.getChildren().setAll(root);
     }
 
     @FXML

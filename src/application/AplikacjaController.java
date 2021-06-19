@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 
-public class AplikacjaController {
+public class AplikacjaController implements Initializable {
 
 	private String loggedLogin;
 	private int loggedId;
@@ -65,13 +65,20 @@ public class AplikacjaController {
 		txtLogin.setText("Login: "+loggedLogin);
 		txtId.setText("Id: "+loggedId);
 		txtType.setText("Type: " + loggedType);
+		if(!loggedType.equals("Admin"))
+		{
+			listView1.setVisible(false);
+			mody.setVisible(false);
+			del.setVisible(false);
+			loadbutton.setVisible(false);
+		}
 	}
 	@FXML
 	ListView<Student> listView1 = new ListView<>();
 	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
 
 	@FXML
-	void actionModyfikacja() throws IOException {
+	void actionModyfikacja() throws IOException, SQLException {
 		if (listView1.getSelectionModel().getSelectedIndex() > -1)
 		{
 			Student user = listView1.getSelectionModel().getSelectedItem();
@@ -89,7 +96,6 @@ public class AplikacjaController {
 	@FXML
 	void actionUsun() throws UnknownHostException, SQLException {
 		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
-		//
 		Connection connection = null;
 		if (selectedIdx != -1) {
 			String dataLogin;
@@ -204,5 +210,10 @@ public class AplikacjaController {
 			stage.show();
 		}
 
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		initData(data.st);
 	}
 }
