@@ -17,6 +17,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -32,8 +35,7 @@ public class OrderController implements Initializable {
 	private BorderPane rootPane;
 
 	@FXML
-	ListView<Orders> listViewOrders = new ListView<>();
-	ObservableList<Orders> listaOrders = FXCollections.observableArrayList();
+	private TableView<Orders> TableViewOrders;
 
 	@FXML
 	void powrotAction() {
@@ -46,9 +48,8 @@ public class OrderController implements Initializable {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
-	@FXML
-	void LoadAction() throws SQLException, UnknownHostException {
+	
+	private void load() throws SQLException, UnknownHostException {
 		String GAME_NAME = null;
 		String PRODUCER = null;
 		String PUBLISHER = null;
@@ -64,7 +65,7 @@ public class OrderController implements Initializable {
 				PRODUCER = resultSet.getString("PRODUCER");
 				PUBLISHER = resultSet.getString("PUBLISHER");
 				RELEASED = resultSet.getString("RELEASED");
-				listaOrders.add(new Orders(GAME_NAME, PRODUCER, PUBLISHER, RELEASED));
+				TableViewOrders.getItems().add(new Orders(GAME_NAME, PRODUCER, PUBLISHER, RELEASED));
 			}
 
 		}
@@ -72,9 +73,14 @@ public class OrderController implements Initializable {
 	}
 
 	@FXML
+	void LoadAction() throws SQLException, UnknownHostException {
+		load();
+	}
+
+	@FXML
 	void ZawowAction() throws UnknownHostException, SQLException {
-		if (listViewOrders.getSelectionModel().getSelectedIndex() > -1) {
-			Orders game = listViewOrders.getSelectionModel().getSelectedItem();
+		if (TableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
+			Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
 			Connection connection = dataload();
 			String sql = "INSERT INTO Orders (ORDER_NAME, ORDER_DATE, IS_DELIVERED, CUSTOMER_ID)"
 					+ " VALUES (?,?,1,?);";
@@ -84,7 +90,6 @@ public class OrderController implements Initializable {
 				prestatement.setString(1, game.GAME_NAME);
 				prestatement.setString(2, formatter.format(date));
 				prestatement.setInt(3, loggedId);
-				System.out.println(loggedId);
 				prestatement.executeUpdate();
 			}
 		}
@@ -92,9 +97,34 @@ public class OrderController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		listViewOrders.setItems(listaOrders);
+		//listViewOrders.setItems(listaOrders);
+		try {
+			setTable();
+			load();
+		} catch (UnknownHostException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	private void setTable() throws Throwable {
+		TableColumn<Orders, String> column;
+		column = new TableColumn<>("GAME_NAME");
+		column.setCellValueFactory(new PropertyValueFactory<>("GAME_NAME"));
+		TableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("PRODUCER");
+		column.setCellValueFactory(new PropertyValueFactory<>("PRODUCER"));
+		TableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("PUBLISHER");
+		column.setCellValueFactory(new PropertyValueFactory<>("PUBLISHER"));
+		TableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("RELEASED");
+		column.setCellValueFactory(new PropertyValueFactory<>("RELEASED"));
+		TableViewOrders.getColumns().add(column);
 
+	}
 	Connection dataload() throws SQLException, UnknownHostException {
 		String sqlLogin;
 		String sqlPass;
@@ -111,4 +141,5 @@ public class OrderController implements Initializable {
 		return DriverManager.getConnection(pc, sqlLogin, sqlPass);
 
 	}
+	
 }

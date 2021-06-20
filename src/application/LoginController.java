@@ -19,41 +19,41 @@ import java.sql.*;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-public class LoginController implements Initializable {
+public class LoginController extends data implements Initializable {
 	@FXML
 	private BorderPane rootPane;
 	@FXML
 	private TextField txtLogin;
-    @FXML
-    private PasswordField passwordBox;
+	@FXML
+	private PasswordField passwordBox;
 	@FXML
 	private Label warnMail;
 	@FXML
 	private Label warnPass;
-    @FXML
-    void logClick(ActionEvent event) throws IOException, SQLException {
-    	boolean emailCheck = true;
-    	boolean passCheck = true;
-    	if(txtLogin.getText().isEmpty())
-    	{
-    		JOptionPane.showMessageDialog(null, "email is empty", "Login Error", JOptionPane.WARNING_MESSAGE);
-    		emailCheck = false;
-    	}
-    	if(passwordBox.getText().isEmpty())
-    	{
-    		JOptionPane.showMessageDialog(null, "password is empty", "Password Error", JOptionPane.WARNING_MESSAGE);
-    		passCheck = false;
-    	}
-    	if(emailCheck && passCheck)
-    	{
-    		String login = txtLogin.getText();
-    		String pass = passwordBox.getText();
+	@FXML
+	void logClick(ActionEvent event) throws IOException, SQLException {
+		boolean emailCheck = true;
+		boolean passCheck = true;
+		if(txtLogin.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null, "email is empty", "Login Error", JOptionPane.WARNING_MESSAGE);
+			emailCheck = false;
+		}
+		if(passwordBox.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null, "password is empty", "Password Error", JOptionPane.WARNING_MESSAGE);
+			passCheck = false;
+		}
+		if(emailCheck && passCheck)
+		{
+			String login = txtLogin.getText();
+			String pass = passwordBox.getText();
 			Connection connection = null;
-    		try
-    		{
-    			String sqlLogin;
+			try
+			{
+				String sqlLogin;
 				String sqlMail;
-    			int sqlId;
+				int sqlId;
 				String sqlNameType;
 
 				String dataLogin;
@@ -72,9 +72,9 @@ public class LoginController implements Initializable {
 				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
 
 				String sql = " SELECT ID_USER, E_MAIL, NICK, PASSWORD, NAME_TYPE "
-							 +"FROM Users "
-							 + "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE "
-							+" WHERE NICK = ? AND PASSWORD = HASHBYTES(?,?)";
+						+"FROM Users "
+						+ "INNER JOIN Type ON Users.ID_TYPE = Type.ID_TYPE "
+						+" WHERE NICK = ? AND PASSWORD = HASHBYTES(?,?)";
 				try(PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, login);
 					prestatement.setString(2, "SHA1");
@@ -86,9 +86,10 @@ public class LoginController implements Initializable {
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
 						sqlNameType = resultSet.getString("NAME_TYPE");
-						FXMLLoader loader = new FXMLLoader(getClass().getResource("Aplikacja.fxml"));
+						st = new Student(sqlId, sqlLogin, sqlMail, sqlNameType);
+						FXMLLoader loader = new FXMLLoader(getClass().getResource("MainSite.fxml"));
 						Parent root = loader.load();
-						AplikacjaController controller = loader.getController();
+						MainSite controller = loader.getController();
 						controller.initData(new Student(sqlId, sqlLogin, sqlMail, sqlNameType));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
@@ -99,19 +100,19 @@ public class LoginController implements Initializable {
 						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-    		}
-    		catch (SQLException | UnknownHostException sq)
+			}
+			catch (SQLException | UnknownHostException sq)
 			{
 				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
 			}
-    		finally {
-    			if(connection != null)
+			finally {
+				if(connection != null)
 				{
 					connection.close();
 				}
 			}
-    	}
-    }
+		}
+	}
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		txtLogin.focusedProperty().addListener((observableValue, aBoolean, t1) -> {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainSite">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="150.0" style="-fx-spacing: 5;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#homeAction" prefHeight="128.0" prefWidth="171.0" style="-fx-background-color: yellow;" text="HOME" />
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#orderAction" prefHeight="135.0" prefWidth="170.0" style="-fx-background-color: yellow;" text="ORDER" />
+                  <Button layoutX="10.0" layoutY="135.0" mnemonicParsing="false" onAction="#settingsAction" prefHeight="134.0" prefWidth="170.0" style="-fx-background-color: yellow;" text="SETTINGS" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="400.0" prefWidth="550.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="pane" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: white;" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
