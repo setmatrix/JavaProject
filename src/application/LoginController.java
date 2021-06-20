@@ -19,7 +19,7 @@ import java.sql.*;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-public class LoginController implements Initializable {
+public class LoginController extends data implements Initializable {
 	@FXML
 	private BorderPane rootPane;
 	@FXML
@@ -86,7 +86,7 @@ public class LoginController implements Initializable {
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
 						sqlNameType = resultSet.getString("NAME_TYPE");
-						data.st = new Student(sqlId, sqlLogin, sqlMail, sqlNameType);
+						st = new Student(sqlId, sqlLogin, sqlMail, sqlNameType);
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("MainSite.fxml"));
 						Parent root = loader.load();
 						MainSite controller = loader.getController();

@@ -3,11 +3,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.*;
@@ -21,14 +17,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 
-public class AplikacjaController implements Initializable {
+public class AplikacjaController extends data implements Initializable {
 
 	private String loggedLogin;
 	private int loggedId;
@@ -67,25 +62,24 @@ public class AplikacjaController implements Initializable {
 		txtType.setText("Type: " + loggedType);
 		if(!loggedType.equals("Admin"))
 		{
-			listView1.setVisible(false);
+			userList.setVisible(false);
 			mody.setVisible(false);
 			del.setVisible(false);
 			loadbutton.setVisible(false);
 		}
 	}
 	@FXML
-	ListView<Student> listView1 = new ListView<>();
-	ObservableList<Student> listaUczniow = FXCollections.observableArrayList();
+	private TableView<Student> userList;
 
 	@FXML
 	void actionModyfikacja() throws IOException, SQLException {
-		if (listView1.getSelectionModel().getSelectedIndex() > -1)
+		if (userList.getSelectionModel().getSelectedIndex() > -1)
 		{
-			Student user = listView1.getSelectionModel().getSelectedItem();
+			Student user = userList.getSelectionModel().getSelectedItem();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Modify.fxml"));
 			Parent root = loader.load();
 			ModifyController controller = loader.getController();
-			controller.initData(user.id, user.login, user.email, user.type);
+			controller.initData(user.getId(), user.getLogin(), user.getEmail(), user.getType());
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 			stage.setTitle("Modify: " + user.getId());
@@ -95,7 +89,7 @@ public class AplikacjaController implements Initializable {
 
 	@FXML
 	void actionUsun() throws UnknownHostException, SQLException {
-		final int selectedIdx = listView1.getSelectionModel().getSelectedIndex();
+		final int selectedIdx = userList.getSelectionModel().getSelectedIndex();
 		Connection connection = null;
 		if (selectedIdx != -1) {
 			String dataLogin;
@@ -114,9 +108,9 @@ public class AplikacjaController implements Initializable {
 				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
 				String sql = "Delete from Users where ID_USER= ?";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-					prestatement.setInt(1, listView1.getSelectionModel().getSelectedItem().getId());
+					prestatement.setInt(1, userList.getSelectionModel().getSelectedItem().getId());
 					prestatement.execute();
-					listView1.getItems().remove(selectedIdx);
+					userList.getItems().remove(selectedIdx);
 				}
 			} catch (SQLException | NullPointerException sq) {
 				JOptionPane.showMessageDialog(null, sq.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
@@ -129,32 +123,20 @@ public class AplikacjaController implements Initializable {
 	}
 	@FXML
 	public void loadAction() throws SQLException {
+		listViewRefresh();
+	}
+
+	private void listViewRefresh() throws SQLException {
 		Connection connection = null;
-		if(loggedType.equals("Admin")) {
-			listView1.setVisible(true);
-		}
-		if(listView1.isVisible())
+		if(userList.isVisible())
 		{
 			try {
-				listView1.getItems().clear();
-				listView1.setItems(listaUczniow);
+				userList.getItems().clear();
 				int id;
 				String login;
 				String email;
 				String nameType;
-				String dataLogin;
-				String dataPass;
-				String pc;
-				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "AlgorytmDjikstry";
-				} else {
-					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "asdf";
-				}
-				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+				connection = getConnection();
 
 				String sql = " SELECT * " +
 						"from Users " +
@@ -169,7 +151,7 @@ public class AplikacjaController implements Initializable {
 						login = resultSet.getString("NICK");
 						email = resultSet.getString("E_MAIL");
 						nameType = resultSet.getString("NAME_TYPE");
-						listaUczniow.add(new Student(id, login, email, nameType));
+						userList.getItems().add(new Student(id, login, email, nameType));
 					}
 					del.setVisible(true);
 					mody.setVisible(true);
@@ -179,6 +161,8 @@ public class AplikacjaController implements Initializable {
 				}
 			} catch (SQLException | UnknownHostException ex) {
 				JOptionPane.showMessageDialog(null, ex.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
+			} catch (Throwable throwable) {
+				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Exception",JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (connection != null) {
 					connection.close();
@@ -214,6 +198,51 @@ public class AplikacjaController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		initData(data.st);
+		try {
+			initData(st);
+			setTable();
+			listViewRefresh();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		} catch (Throwable throwable) {
+			JOptionPane.showMessageDialog(null,throwable.getMessage(), "Initialize Excepption",JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void setTable() throws Throwable {
+		/*Connection connection = null;
+		connection = getConnection();
+
+		String sql = "SELECT COLUMN_NAME "
+		+"FROM INFORMATION_SCHEMA.COLUMNS "
+		+"WHERE TABLE_NAME = 'Users'"
+		+"ORDER BY ORDINAL_POSITION";
+		String columnName = null;
+		TableColumn<Student, String> column;
+		int i = 0;
+
+		try (Statement stmt = connection.createStatement()) {
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next())
+			{
+				columnName = rs.getString("COLUMN_NAME");
+				column = new TableColumn<>(columnName);
+				column.setCellValueFactory(new PropertyValueFactory<>(columnName));
+				userList.getColumns().add(column);
+			}
+		}*/
+		TableColumn<Student, String> column;
+		column = new TableColumn<>("ID_USER");
+		column.setCellValueFactory(new PropertyValueFactory<>("id"));
+		userList.getColumns().add(column);
+		column = new TableColumn<>("LOGIN");
+		column.setCellValueFactory(new PropertyValueFactory<>("login"));
+		userList.getColumns().add(column);
+		column = new TableColumn<>("EMAIL");
+		column.setCellValueFactory(new PropertyValueFactory<>("email"));
+		userList.getColumns().add(column);
+		column = new TableColumn<>("TYPE");
+		column.setCellValueFactory(new PropertyValueFactory<>("type"));
+		userList.getColumns().add(column);
 	}
 }

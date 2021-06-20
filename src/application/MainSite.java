@@ -23,39 +23,23 @@ public class MainSite implements Initializable {
     @FXML
     private Pane pane;
 
-    @FXML
-    private Label txtLogin;
-
     protected Student localS;
 
-    private String loggedLogin;
-    private int loggedId;
-    private String loggedEmail;
-    private String loggedType;
 
     public void initData(Student s) {
         localS = s;
-        this.loggedLogin = localS.getLogin();
-        this.loggedId = localS.getId();
-        this.loggedEmail = localS.getEmail();
-        this.loggedType = localS.getType();
-        txtLogin.setText(loggedLogin);
     }
 
 
     @FXML
     void homeAction(ActionEvent event) throws IOException {
-        //AplikacjaController controller = new AplikacjaController();
-        //controller.initData(new Student(loggedId,loggedLogin,loggedEmail,loggedType));
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Aplikacja.fxml")));
         pane.getChildren().setAll(root);
     }
 
     @FXML
     void orderAction(ActionEvent event) throws IOException {
-        Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Order.fxml")));
-        //AplikacjaController controller = new AplikacjaController();
-        //controller.initData(new Student(loggedId,loggedLogin,loggedEmail,loggedType));
+        Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("History.fxml")));
         pane.getChildren().setAll(root);
     }
 
@@ -68,8 +52,6 @@ public class MainSite implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Aplikacja.fxml")));
-            //AplikacjaController controller = new AplikacjaController();
-            //controller.initData(new Student(loggedId,loggedLogin,loggedEmail,loggedType));
             pane.getChildren().setAll(root);
         } catch (IOException e) {
             e.printStackTrace();

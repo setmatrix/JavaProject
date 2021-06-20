@@ -101,7 +101,7 @@ public class HistoryOrdersController implements Initializable {
 		controller.initData(loggedId);
 		Stage stage = new Stage();
 		stage.setScene(new Scene(root));
-		stage.setTitle("Poka¿ mi swoje towary");
+		stage.setTitle("Pokaï¿½ mi swoje towary");
 		stage.show();
     }
 
