@@ -8,20 +8,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AplikacjaController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AplikacjaController">
    <right>
         <AnchorPane prefHeight="400.0" prefWidth="550.0" BorderPane.alignment="CENTER">
             <Button fx:id="del" layoutX="452.0" layoutY="139.0" mnemonicParsing="false" onAction="#actionUsun" prefHeight="45.0" prefWidth="90.0" text="Usuń" />
             <Button fx:id="mody" layoutX="452.0" layoutY="214.0" mnemonicParsing="false" onAction="#actionModyfikacja" prefHeight="45.0" prefWidth="90.0" text="Modyfikuj" />
             <Button fx:id="loadbutton" layoutX="453.0" layoutY="341.0" mnemonicParsing="false" onAction="#loadAction" prefHeight="45.0" prefWidth="88.0" text="Load" />
             <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="85.0" prefWidth="274.0">
-                <children>
                     <Label prefHeight="17.0" prefWidth="60.0" text="Your data" textAlignment="CENTER" />
                     <Label fx:id="txtId" text="Id:" />
                     <Label fx:id="txtLogin" text="Login" />
                     <Label fx:id="txtEmail" text="Email:" />
                     <Label fx:id="txtType" text="Type:" />
-                </children>
             </VBox>
             <Button alignment="CENTER" layoutX="442.0" layoutY="14.0" mnemonicParsing="false" onAction="#logOut" prefHeight="47.0" prefWidth="86.0" style="-fx-background-color: lightyellow;" text="🢁Log out🢁" textAlignment="CENTER">
                 <font>

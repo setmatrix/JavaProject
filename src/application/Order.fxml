@@ -4,14 +4,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.OrderController">
+<BorderPane prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.OrderController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button layoutX="321.0" layoutY="348.0" mnemonicParsing="false" onAction="#ZawowAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zamów" />
-         <Button layoutX="30.0" layoutY="344.0" mnemonicParsing="false" onAction="#LoadAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Odśwież" />
-         <TableView fx:id="TableViewOrders" layoutX="52.0" layoutY="41.0" prefHeight="276.0" prefWidth="320.0" />
+            <Button layoutX="302.0" layoutY="344.0" mnemonicParsing="false" onAction="#ZawowAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zamów" />
+         <TableView fx:id="TableViewOrders" layoutX="8.0" layoutY="14.0" prefHeight="300.0" prefWidth="682.0" />
       </AnchorPane>
    </center>
 </BorderPane>

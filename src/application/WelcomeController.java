@@ -28,7 +28,6 @@ public class WelcomeController implements Initializable {
 		assert input != null;
 		Image image = new Image(input);
 		image1.setImage(image);
-		rootPane.setStyle("-fx-background-color:  lightBlue;");
 	}
     @FXML
     void login() {

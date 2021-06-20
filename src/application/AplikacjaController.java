@@ -1,15 +1,11 @@
 package application;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.*;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +26,7 @@ public class AplikacjaController extends data implements Initializable {
 	private String loggedEmail;
 	private String loggedType;
 
-	private ImageIcon icon = new ImageIcon("src/info.png");
+	private final ImageIcon infoIcon = new ImageIcon("src/info.png");
 
 	@FXML
 	private Label txtId;
@@ -72,7 +68,7 @@ public class AplikacjaController extends data implements Initializable {
 	private TableView<Student> userList;
 
 	@FXML
-	void actionModyfikacja() throws IOException, SQLException {
+	void actionModyfikacja() throws IOException {
 		if (userList.getSelectionModel().getSelectedIndex() > -1)
 		{
 			Student user = userList.getSelectionModel().getSelectedItem();
@@ -88,32 +84,20 @@ public class AplikacjaController extends data implements Initializable {
 	}
 
 	@FXML
-	void actionUsun() throws UnknownHostException, SQLException {
+	void actionUsun() throws SQLException {
 		final int selectedIdx = userList.getSelectionModel().getSelectedIndex();
 		Connection connection = null;
 		if (selectedIdx != -1) {
-			String dataLogin;
-			String dataPass;
-			String pc;
-			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-				pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-				dataLogin = "sa";
-				dataPass = "AlgorytmDjikstry";
-			} else {
-				pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-				dataLogin = "sa";
-				dataPass = "asdf";
-			}
 			try {
-				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+				connection = getConnection();
 				String sql = "Delete from Users where ID_USER= ?";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setInt(1, userList.getSelectionModel().getSelectedItem().getId());
 					prestatement.execute();
 					userList.getItems().remove(selectedIdx);
 				}
-			} catch (SQLException | NullPointerException sq) {
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
+			} catch (Throwable throwable) {
+				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Delete Problem", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (connection != null) {
 					connection.close();
@@ -177,7 +161,7 @@ public class AplikacjaController extends data implements Initializable {
 	@FXML
 	void logOut(Event event) throws IOException {
 
-		int input = JOptionPane.showConfirmDialog(null,"Are you sure?","Log out",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+		int input = JOptionPane.showConfirmDialog(null,"Are you sure?","Log out",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, infoIcon);
 
 		if (input == JOptionPane.YES_NO_OPTION) {
 			loggedId = 0;
@@ -189,11 +173,10 @@ public class AplikacjaController extends data implements Initializable {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 			stage.setTitle("Welcome " + "Welcome".toUpperCase(Locale.ROOT));
-			JOptionPane.showConfirmDialog(null,"Log out - success","Log out",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+			JOptionPane.showConfirmDialog(null,"Log out - success","Log out",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, infoIcon);
 			((Node) (event.getSource())).getScene().getWindow().hide();
 			stage.show();
 		}
-
 	}
 
 	@Override
@@ -202,35 +185,12 @@ public class AplikacjaController extends data implements Initializable {
 			initData(st);
 			setTable();
 			listViewRefresh();
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
 		} catch (Throwable throwable) {
-			JOptionPane.showMessageDialog(null,throwable.getMessage(), "Initialize Excepption",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,throwable.getMessage(), "Initialize Exception",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	private void setTable() throws Throwable {
-		/*Connection connection = null;
-		connection = getConnection();
-
-		String sql = "SELECT COLUMN_NAME "
-		+"FROM INFORMATION_SCHEMA.COLUMNS "
-		+"WHERE TABLE_NAME = 'Users'"
-		+"ORDER BY ORDINAL_POSITION";
-		String columnName = null;
-		TableColumn<Student, String> column;
-		int i = 0;
-
-		try (Statement stmt = connection.createStatement()) {
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next())
-			{
-				columnName = rs.getString("COLUMN_NAME");
-				column = new TableColumn<>(columnName);
-				column.setCellValueFactory(new PropertyValueFactory<>(columnName));
-				userList.getColumns().add(column);
-			}
-		}*/
+	private void setTable(){
 		TableColumn<Student, String> column;
 		column = new TableColumn<>("ID_USER");
 		column.setCellValueFactory(new PropertyValueFactory<>("id"));

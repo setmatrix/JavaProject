@@ -1,15 +1,24 @@
 package application;
 
 public class HistoryOrders /*implements Comparable<Student>*/{
-	String Order_name;
-	String Order_date;
-	int is_delivered;
+	private int OrderId;
+	private String Order_name;
+	private String Order_date;
+	private int is_delivered;
 
-	public HistoryOrders(String Order_name, String Order_date,	int is_delivered)
+	public HistoryOrders(int OrderId,String Order_name, String Order_date,	int is_delivered)
 	{
+		this.OrderId = OrderId;
 		this.Order_name = Order_name;
 		this.Order_date=Order_date;
 		this.is_delivered = is_delivered;
+	}
+	public int isOrderId() {
+		return OrderId;
+	}
+
+	public void setOrderId(int OrderId) {
+		this.OrderId = OrderId;
 	}
 	
 	public String getOrder_name() {
@@ -38,6 +47,6 @@ public class HistoryOrders /*implements Comparable<Student>*/{
 
 	@Override
 	public String toString() {
-		return "Oder name: "+ Order_name + "Order Date: " + Order_date + "is delivered" + is_delivered + "\n";
+		return "Order ID: " + OrderId + "Oder name: "+ Order_name + "Order Date: " + Order_date + "is delivered" + is_delivered + "\n";
 	}
 }

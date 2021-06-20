@@ -11,12 +11,28 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="536.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModifyController">
-   <left>
-      <AnchorPane prefHeight="302.0" prefWidth="130.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER_RIGHT" layoutX="1.0" prefHeight="292.0" prefWidth="183.0" style="-fx-spacing: 34;">
-               <children>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: lightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModifyController">
+   <center>
+      <AnchorPane prefHeight="400.0" prefWidth="550.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" layoutX="158.0" prefHeight="350.0" prefWidth="200.0" style="-fx-padding: 5; -fx-spacing: 34;">
+                  <TextField fx:id="txtId" alignment="TOP_CENTER" editable="false" />
+                  <TextField fx:id="txtLogin" />
+                  <TextField fx:id="txtMail" />
+                  <ComboBox fx:id="typeBox" prefHeight="25.0" prefWidth="189.0" promptText="Type" visibleRowCount="2" />
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="370.0" prefHeight="350.0" prefWidth="156.0" style="-fx-spacing: 20;">
+                  <Button alignment="CENTER" ellipsisString="S" mnemonicParsing="false" onAction="#ChangePassword" prefHeight="39.0" prefWidth="188.0" text="Change password" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#ChangeLogin" prefHeight="39.0" prefWidth="188.0" text="Change Login" />
+                  <Button mnemonicParsing="false" onAction="#ChangeEmail" prefHeight="39.0" prefWidth="188.0" text="Change E-mail" />
+                  <Button mnemonicParsing="false" onAction="#ChangeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" />
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" layoutX="20.0" prefHeight="350.0" prefWidth="119.0" style="-fx-spacing: 34;">
                   <Label layoutX="147.0" layoutY="96.0" text="Id:">
                      <font>
                         <Font size="17.0" />
@@ -37,43 +53,7 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-               </children>
             </VBox>
-         </children>
-      </AnchorPane>
-   </left>
-   <right>
-      <AnchorPane prefHeight="302.0" prefWidth="101.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" layoutX="7.0" prefHeight="295.0" prefWidth="151.0" style="-fx-spacing: 20;">
-               <children>
-                  <Button alignment="CENTER" ellipsisString="S" mnemonicParsing="false" onAction="#ChangePassword" prefHeight="39.0" prefWidth="188.0" text="Change password" textAlignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#ChangeLogin" prefHeight="39.0" prefWidth="188.0" text="Change Login" />
-                  <Button mnemonicParsing="false" onAction="#ChangeEmail" prefHeight="39.0" prefWidth="188.0" text="Change E-mail" />
-                  <Button mnemonicParsing="false" onAction="#ChangeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </right>
-   <center>
-      <AnchorPane prefHeight="302.0" prefWidth="195.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" layoutY="-1.0" prefHeight="295.0" prefWidth="193.0" style="-fx-padding: 5; -fx-spacing: 34;">
-               <children>
-                  <TextField fx:id="txtId" alignment="TOP_CENTER" editable="false" />
-                  <TextField fx:id="txtLogin" />
-                  <TextField fx:id="txtMail" />
-                  <ComboBox fx:id="typeBox" prefHeight="25.0" prefWidth="189.0" promptText="Type" visibleRowCount="2" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
-         </children>
       </AnchorPane>
    </center>
 </BorderPane>
