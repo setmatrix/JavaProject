@@ -17,6 +17,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -32,7 +35,8 @@ public class HistoryOrdersController implements Initializable {
 	private BorderPane rootPane;
 
 	@FXML
-	ListView<HistoryOrders> listViewOrders = new ListView<>();
+	private TableView<HistoryOrders> TableViewOrders;
+
 	ObservableList<HistoryOrders> listaOrders = FXCollections.observableArrayList();
 
 	@FXML
@@ -47,8 +51,7 @@ public class HistoryOrdersController implements Initializable {
 		}
 	}
 
-	@FXML
-	void LoadAction() throws SQLException, UnknownHostException {
+	private void load()throws SQLException, UnknownHostException {
 		String Order_name = null;
 		String Order_date = null;
 		int is_delivered = 0;
@@ -71,7 +74,7 @@ public class HistoryOrdersController implements Initializable {
 					 "from Orders " +
 					 "INNER JOIN Users ON Users.ID_USER = Orders.CUSTOMER_ID " +
 					 "WHERE ID_USER = ?";
-			listViewOrders.getItems().clear();
+			TableViewOrders.getItems().clear();
 			try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 				loggedId = 2;
 				prestatement.setInt(1, loggedId);
@@ -80,7 +83,7 @@ public class HistoryOrdersController implements Initializable {
 				Order_name = resultSet.getString("ORDER_NAME");
 				Order_date = resultSet.getString("ORDER_DATE");
 				is_delivered = resultSet.getInt("IS_DELIVERED");
-				listaOrders.add(new HistoryOrders(Order_name, Order_date, is_delivered));
+				TableViewOrders.getItems().add(new HistoryOrders(Order_name, Order_date, is_delivered));
 				}
 				
 			}
@@ -91,6 +94,12 @@ public class HistoryOrdersController implements Initializable {
 				connection.close();
 			}
 		}
+	}
+
+	
+	@FXML
+	void LoadAction() throws SQLException, UnknownHostException {
+		load();
 	}
 
 	@FXML
@@ -107,7 +116,27 @@ public class HistoryOrdersController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		listViewOrders.setItems(listaOrders);
+		//listViewOrders.setItems(listaOrders);
+		try {
+			setTable();
+			load();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	private void setTable() throws Throwable {
+		
+		TableColumn<HistoryOrders, String> column;
+		column = new TableColumn<>("ORDER_NAME");
+		column.setCellValueFactory(new PropertyValueFactory<>("Order_name"));
+		TableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("ORDER_DATE");
+		column.setCellValueFactory(new PropertyValueFactory<>("Order_date"));
+		TableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("IS_DELIVERED");
+		column.setCellValueFactory(new PropertyValueFactory<>("is_delivered"));
+		TableViewOrders.getColumns().add(column);
 
+	}
 }
