@@ -100,15 +100,15 @@ public class data {
             throw new Throwable("Password isn't correct");
         }
     }
-    protected void word_check(String lastName, String word) throws Throwable
+    protected void word_check(String word, String com) throws Throwable
     {
-        if(Character.isLowerCase(lastName.charAt(0)))
+        if(Character.isLowerCase(word.charAt(0)))
         {
-            throw new Throwable(word + " must start with a capital letter ");
+            throw new Throwable(com + " must start with a capital letter ");
         }
-        if(lastName.length() < 3)
+        if(word.length() < 3)
         {
-            throw new Throwable(word + " is too short");
+            throw new Throwable(com + " is too short");
         }
     }
     protected boolean getNumberOfModify;

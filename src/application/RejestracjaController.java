@@ -288,7 +288,7 @@ public class RejestracjaController extends data implements Initializable {
 				{
 					warnCity.setText("City Field is empty");
 				}
-				else if(hasloText.getText().length() < 3)
+				else if(txtCity.getText().length() < 3)
 				{
 					warnCity.setText("City Field is too short");
 				}
@@ -392,7 +392,7 @@ public class RejestracjaController extends data implements Initializable {
 	private void number_check(String number) throws Throwable
 	{
 		int i=0;
-		if(number.length() < 9)
+		if(number.length() < 8)
 		{
 			throw new Throwable("Number is too short");
 		}
