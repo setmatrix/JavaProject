@@ -326,11 +326,11 @@ public class RejestracjaController extends data implements Initializable {
 			{
 				if(txtNumber.getText().isEmpty())
 				{
-					warnNumber.setText("Password Field is empty");
+					warnNumber.setText("Number Field is empty");
 				}
 				else if(txtNumber.getText().length() < 3)
 				{
-					warnNumber.setText("Password Field is too short");
+					warnNumber.setText("Number Field is too short");
 				}
 			}
 		});

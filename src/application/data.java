@@ -71,8 +71,33 @@ public class data {
         }
     }
     protected void check_password(String pass) throws Throwable {
-        if(pass.length() < 4) {
+        boolean smallLetter = false;
+        boolean bigLetter = false;
+        boolean isNumber = false;
+        if(pass.length() < 6) {
             throw new Throwable("Password is too short");
+        }
+        for(int i=0;i<pass.length();i++)
+        {
+            if(Character.isDigit(pass.charAt(i)))
+            {
+                isNumber = true;
+            }
+            if(Character.isLetter(pass.charAt(i)))
+            {
+                if(Character.isLowerCase(pass.charAt(i)))
+                {
+                    smallLetter = true;
+                }
+                else if(Character.isUpperCase(pass.charAt(i)))
+                {
+                    bigLetter = true;
+                }
+            }
+        }
+        if(!smallLetter || !bigLetter || !isNumber)
+        {
+            throw new Throwable("Password isn't correct");
         }
     }
     protected void word_check(String lastName, String word) throws Throwable

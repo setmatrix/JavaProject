@@ -35,6 +35,7 @@ public class changePasswordController extends data implements Initializable {
                 if (set.next()) {
                     if (txtNewPass.getText().equals(txtConfirmPass.getText())) {
                         String newPass = txtConfirmPass.getText();
+                        check_password(newPass);
                         txtOldPass.setText("");
                         txtNewPass.setText("");
                         txtConfirmPass.setText("");
