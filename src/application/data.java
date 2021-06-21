@@ -1,5 +1,8 @@
 package application;
 
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
@@ -9,7 +12,7 @@ import java.sql.SQLException;
 public class data {
     protected static Student st;
 
-    protected static Connection getConnection() throws Throwable {
+    protected static Connection getConnection() throws SQLException {
         try {
             String dataLogin;
             String dataPass;
@@ -29,11 +32,10 @@ public class data {
         }
         catch (UnknownHostException | SQLException un)
         {
-            throw new Throwable(un.getMessage());
+            throw new SQLException(un.getMessage());
         }
     }
-    protected static void check_email(String mail) throws Throwable
-    {
+    protected static void check_email(TextField text, Label label, String mail) throws emailException {
         int monkey = 0;
         int moncount = 0;
         int domainLength;
@@ -44,7 +46,7 @@ public class data {
         else if(mail.contains(".pl"))
         {
             domainLength = 3;
-        } else throw new Throwable(".pl or .com only");
+        } else throw new emailException(text,label,".pl or .com only");
         for(int i=0;i<mail.length(); i++)
         {
             if(mail.charAt(i) == '@')
@@ -55,27 +57,27 @@ public class data {
         }
         if(moncount == 0)
         {
-            throw new Throwable("Missing @");
+            throw new emailException(text,label,"Missing @");
         }
         if(moncount > 1)
         {
-            throw new Throwable("Too much @");
+            throw new emailException(text,label,"Too much @");
         }
         if((mail.substring(monkey).length() < domainLength +3))
         {
-            throw new Throwable("Domain is not correct");
+            throw new emailException(text,label,"Domain is not correct");
         }
         if(mail.substring(0,monkey).length() < 4)
         {
-            throw new Throwable("Length before @ is short");
+            throw new emailException(text,label,"Length before @ is short");
         }
     }
-    protected void check_password(String pass) throws Throwable {
+    protected void check_password(TextField text, Label label ,String pass) throws emailException {
         boolean smallLetter = false;
         boolean bigLetter = false;
         boolean isNumber = false;
         if(pass.length() < 6) {
-            throw new Throwable("Password is too short");
+            throw new emailException(text,label,"Password is too short");
         }
         for(int i=0;i<pass.length();i++)
         {
@@ -97,18 +99,69 @@ public class data {
         }
         if(!smallLetter || !bigLetter || !isNumber)
         {
-            throw new Throwable("Password isn't correct");
+            throw new emailException(text,label,"Password isn't correct");
         }
     }
-    protected void word_check(String word, String com) throws Throwable
+    protected void word_check(TextField text, Label label, String word, String com) throws emailException
     {
         if(Character.isLowerCase(word.charAt(0)))
         {
-            throw new Throwable(com + " must start with a capital letter ");
+            throw new emailException(text,label,com + " must start with a capital letter ");
         }
         if(word.length() < 3)
         {
-            throw new Throwable(com + " is too short");
+            throw new emailException(text, label, com + " is too short");
+        }
+    }
+    protected void login_check(TextField text, Label label, String login) throws emailException
+    {
+        if(login.length() < 3)
+        {
+            throw new emailException(text,label,"Login is too short");
+        }
+    }
+    protected void address_check(TextField text, Label label, String address) throws emailException
+    {
+        if(address.length() < 3)
+        {
+            throw new emailException(text,label,"Address is too short");
+        }
+    }
+    protected void postalCode_check(TextField text, Label label, String postalCode) throws emailException
+    {
+        int count = 0;
+        if(postalCode.length() < 5)
+        {
+            throw new emailException(text, label, "Postal Code is too short");
+        }
+        for(int i=0; i<postalCode.length(); i++) {
+            if (postalCode.charAt(i) == '-') {
+                count += 1;
+                if (count > 1) {
+                    throw new emailException(text, label, "Format for PostalCode is wrong");
+                }
+            }
+            if (Character.isLetter(postalCode.charAt(i))) {
+                throw new emailException(text, label, "postalCode must have digits or one - only");
+            }
+        }
+    }
+    protected void number_check(TextField text, Label label,String number) throws emailException
+    {
+        int i=0;
+        if(number.length() < 8)
+        {
+            throw new emailException(text,label,"Number is too short");
+        }
+        if(number.charAt(0)=='+')
+        {
+            i = 1;
+        }
+        for(int j = i; j<number.length(); j++)
+        {
+            if(!Character.isDigit(number.charAt(j))) {
+                throw new emailException(text,label,"Numbers must have digits only");
+            }
         }
     }
     protected boolean getNumberOfModify;

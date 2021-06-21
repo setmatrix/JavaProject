@@ -17,7 +17,7 @@
                   <TextField fx:id="txtId" alignment="TOP_CENTER" editable="false" />
                   <TextField fx:id="txtLogin" />
                   <TextField fx:id="txtMail" />
-                  <ComboBox fx:id="typeBox" prefHeight="25.0" prefWidth="189.0" promptText="Type" visibleRowCount="2" />
+                  <ComboBox fx:id="typeBox" prefHeight="25.0" prefWidth="189.0" promptText="Type" visible="true" visibleRowCount="2" />
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -26,7 +26,7 @@
                   <Button fx:id="passwordButton" alignment="CENTER" ellipsisString="S" mnemonicParsing="false" onAction="#ChangePassword" prefHeight="39.0" prefWidth="188.0" text="Change password" textAlignment="CENTER" />
                   <Button mnemonicParsing="false" onAction="#ChangeLogin" prefHeight="39.0" prefWidth="188.0" text="Change Login" />
                   <Button mnemonicParsing="false" onAction="#ChangeEmail" prefHeight="39.0" prefWidth="188.0" text="Change E-mail" />
-                  <Button fx:id="typeButton" mnemonicParsing="false" onAction="#ChangeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" />
+                  <Button fx:id="typeButton" mnemonicParsing="false" onAction="#ChangeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" visible="true" />
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -42,12 +42,12 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label layoutX="87.0" layoutY="282.0" text="E-mail:">
+                  <Label fx:id="labelEmail" layoutX="87.0" layoutY="282.0" text="E-mail:">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="typeLabel" layoutX="87.0" layoutY="282.0" text="Type:">
+                  <Label fx:id="typeLabel" layoutX="87.0" layoutY="282.0" text="Type:" visible="true">
                      <font>
                         <Font size="17.0" />
                      </font>

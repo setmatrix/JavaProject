@@ -72,11 +72,14 @@ public class ModifyController extends data implements Initializable {
 	private Label typeLabel;
 
 	@FXML
+	private Label labelEmail;
+
+	@FXML
 	void ChangeEmail() throws SQLException {
 		Connection connection = null;
 		String email = txtMail.getText();
 		try {
-			check_email(email);
+			check_email(txtMail,labelEmail,email);
 			connection = getConnection();
 
 			String sql = "UPDATE Users SET E_MAIL = ? WHERE ID_USER = ?";

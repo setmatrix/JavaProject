@@ -2,6 +2,7 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
 import javax.swing.*;
@@ -16,6 +17,10 @@ public class changePasswordController extends data implements Initializable {
     private int Id;
     @FXML
     private PasswordField txtOldPass;
+
+    @FXML
+    private Label confirmPasswordLabel;
+
 
     @FXML
     private PasswordField txtNewPass;
@@ -35,7 +40,7 @@ public class changePasswordController extends data implements Initializable {
                 if (set.next()) {
                     if (txtNewPass.getText().equals(txtConfirmPass.getText())) {
                         String newPass = txtConfirmPass.getText();
-                        check_password(newPass);
+                        check_password(txtConfirmPass,confirmPasswordLabel,newPass);
                         txtOldPass.setText("");
                         txtNewPass.setText("");
                         txtConfirmPass.setText("");

@@ -35,24 +35,6 @@ public class RejestracjaController extends data implements Initializable {
 	private Label warnPass;
 
 	@FXML
-	private Label warnFirstName;
-
-	@FXML
-	private Label warnLastName;
-
-	@FXML
-	private Label warnCode;
-
-	@FXML
-	private Label warnAddress;
-
-	@FXML
-	private Label warnCity;
-
-	@FXML
-	private Label warnNumber;
-
-	@FXML
 	private TextField firstNameText;
 
 	@FXML
@@ -69,6 +51,51 @@ public class RejestracjaController extends data implements Initializable {
 
 	@FXML
 	private TextField txtNumber;
+
+	@FXML
+	private Label labelAddress;
+
+	@FXML
+	private Label labelPostalCode;
+
+	@FXML
+	private Label labelCity;
+
+	@FXML
+	private Label labelNumber;
+
+	@FXML
+	private Label labelMail;
+
+	@FXML
+	private Label loginLabel;
+
+	@FXML
+	private Label labelPassword;
+
+	@FXML
+	private Label labelFirstName;
+
+	@FXML
+	private Label labelLastName;
+
+	@FXML
+	private Label warnFirstName;
+
+	@FXML
+	private Label warnLastName;
+
+	@FXML
+	private Label warnCode;
+
+	@FXML
+	private Label warnAddress;
+
+	@FXML
+	private Label warnCity;
+
+	@FXML
+	private Label warnNumber;
     @FXML
     void powrotAction(){
     	try
@@ -84,7 +111,7 @@ public class RejestracjaController extends data implements Initializable {
     	}
     }
 	@FXML
-	 void zatwierdzAction() throws SQLException {
+	 void zatwierdzAction() throws SQLException, emailException {
 		if(txtMail.getText().isEmpty() || loginText.getText().isEmpty() || hasloText.getText().isEmpty())
 		{
 			JOptionPane.showMessageDialog(null, "Fill requires Fields", "Register email Field", JOptionPane.WARNING_MESSAGE);
@@ -105,15 +132,15 @@ public class RejestracjaController extends data implements Initializable {
 			Connection connection = null;
 			try
 			{
-				check_email(mail);
-				check_password(pass);
-				login_check(nick);
-				word_check(firstname, "First Name");
-				word_check(lastname, "Last Name");
-				address_check(address);
-				postalCode_check(postal_Code);
-				word_check(city, "City");
-				number_check(number);
+				check_email(txtMail,labelMail,mail);
+				check_password(hasloText,labelPassword,pass);
+				login_check(loginText,loginLabel,nick);
+				word_check(firstNameText,labelFirstName,firstname, "First Name");
+				word_check(LastNameText,labelLastName,lastname, "Last Name");
+				address_check(txtAddress,labelAddress,address);
+				postalCode_check(txtCode,labelPostalCode,postal_Code);
+				word_check(txtCity,labelCity,city, "City");
+				number_check(txtNumber,labelNumber,number);
 				connection = getConnection();
 				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME, ADDRESS, POSTAL_CODE, CITY, Number)"
 						+ " VALUES (?,?,HASHBYTES(?,?),2,?,?,?,?,?,?);";
@@ -142,9 +169,8 @@ public class RejestracjaController extends data implements Initializable {
 						txtNumber.setText("");
 					}
 				}
-			}
-			 catch (Throwable throwable) {
-				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Register Error", JOptionPane.WARNING_MESSAGE);
+			} catch(emailException | SQLException em) {
+				JOptionPane.showMessageDialog(null, em.getMessage(), "Registration Exception", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (connection!= null) {
 					connection.close();
@@ -230,7 +256,7 @@ public class RejestracjaController extends data implements Initializable {
 				}
 				else if(firstNameText.getText().length() < 3)
 				{
-					warnFirstName.setText("Password Field is too short");
+					warnFirstName.setText("First Name Field is too short");
 				}
 			}
 		});
@@ -355,56 +381,5 @@ public class RejestracjaController extends data implements Initializable {
 						at least one number"""
 		);
 		hasloText.setTooltip(tool);
-	}
-	private void login_check(String login) throws Throwable
-	{
-		if(login.length() < 3)
-		{
-			throw new Throwable("Login is too short");
-		}
-	}
-	private void address_check(String address) throws Throwable
-	{
-		if(address.length() < 3)
-		{
-			throw new Throwable("Address is too short");
-		}
-	}
-	private void postalCode_check(String postalCode) throws Throwable
-	{
-		int count = 0;
-		if(postalCode.length() < 5)
-		{
-			throw new Throwable("Postal Code is too short");
-		}
-		for(int i=0; i<postalCode.length(); i++) {
-			if (postalCode.charAt(i) == '-') {
-				count += 1;
-				if (count > 1) {
-					throw new Throwable("Format for PostalCode is wrong");
-				}
-			}
-			if (Character.isLetter(postalCode.charAt(i))) {
-				throw new Throwable("postalCode must have digits or one - only");
-			}
-		}
-	}
-	private void number_check(String number) throws Throwable
-	{
-		int i=0;
-		if(number.length() < 8)
-		{
-			throw new Throwable("Number is too short");
-		}
-		if(number.charAt(0)=='+')
-		{
-			i = 1;
-		}
-		for(int j = i; j<number.length(); j++)
-		{
-			if(!Character.isDigit(number.charAt(j))) {
-				throw new Throwable("Numbers must have digits only");
-			}
-		}
 	}
 }

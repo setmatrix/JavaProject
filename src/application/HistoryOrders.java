@@ -1,52 +1,52 @@
 package application;
 
 public class HistoryOrders /*implements Comparable<Student>*/{
-	private int OrderId;
-	private String Order_name;
-	private String Order_date;
-	private int is_delivered;
+	private int orderId;
+	private String orderName;
+	private String orderDate;
+	private int isDelivered;
 
-	public HistoryOrders(int OrderId,String Order_name, String Order_date,	int is_delivered)
+	public HistoryOrders(int orderId,String orderName, String orderDate,int isDelivered)
 	{
-		this.OrderId = OrderId;
-		this.Order_name = Order_name;
-		this.Order_date=Order_date;
-		this.is_delivered = is_delivered;
+		this.orderId = orderId;
+		this.orderName = orderName;
+		this.orderDate=orderDate;
+		this.isDelivered = isDelivered;
 	}
 	public int isOrderId() {
-		return OrderId;
+		return orderId;
 	}
 
 	public void setOrderId(int OrderId) {
-		this.OrderId = OrderId;
+		this.orderId = orderId;
 	}
 	
-	public String getOrder_name() {
-		return Order_name;
+	public String getOrderName() {
+		return orderName;
 	}
 
-	public void setOrder_name(String order_name) {
-		Order_name = order_name;
+	public void setOrderName(String order_name) {
+		this.orderName = orderName;
 	}
 
-	public String getOrder_date() {
-		return Order_date;
+	public String getOrderDate() {
+		return orderDate;
 	}
 
-	public void setOrder_date(String order_date) {
-		Order_date = order_date;
+	public void setOrderDate(String order_date) {
+		this.orderDate = order_date;
 	}
 
-	public int isIs_delivered() {
-		return is_delivered;
+	public int isIsDelivered() {
+		return isDelivered;
 	}
 
-	public void setIs_delivered(int is_delivered) {
-		this.is_delivered = is_delivered;
+	public void setIs_delivered(int isDelivered) {
+		this.isDelivered = isDelivered;
 	}
 
 	@Override
 	public String toString() {
-		return "Order ID: " + OrderId + "Oder name: "+ Order_name + "Order Date: " + Order_date + "is delivered" + is_delivered + "\n";
+		return "Order ID: " + orderId + "Oder name: "+ orderName + "Order Date: " + orderDate + "is delivered" + isDelivered + "\n";
 	}
 }

@@ -1,7 +1,6 @@
 package application;
 import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -143,7 +142,7 @@ public class AplikacjaController extends data implements Initializable {
 						loadbutton.setText("Refresh");
 					}
 				}
-			} catch (SQLException | UnknownHostException ex) {
+			} catch (SQLException ex) {
 				JOptionPane.showMessageDialog(null, ex.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
 			} catch (Throwable throwable) {
 				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Exception",JOptionPane.ERROR_MESSAGE);

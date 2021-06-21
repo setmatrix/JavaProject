@@ -86,16 +86,16 @@ public class HistoryOrdersController extends data implements Initializable {
 		
 		TableColumn<HistoryOrders, String> column;
 		column = new TableColumn<>("ID");
-		column.setCellValueFactory(new PropertyValueFactory<>("OrderId"));
+		column.setCellValueFactory(new PropertyValueFactory<>("orderId"));
 		TableViewOrders.getColumns().add(column);
 		column = new TableColumn<>("ORDER_NAME");
-		column.setCellValueFactory(new PropertyValueFactory<>("Order_name"));
+		column.setCellValueFactory(new PropertyValueFactory<>("orderName"));
 		TableViewOrders.getColumns().add(column);
 		column = new TableColumn<>("ORDER_DATE");
-		column.setCellValueFactory(new PropertyValueFactory<>("Order_date"));
+		column.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
 		TableViewOrders.getColumns().add(column);
 		column = new TableColumn<>("IS_DELIVERED");
-		column.setCellValueFactory(new PropertyValueFactory<>("is_delivered"));
+		column.setCellValueFactory(new PropertyValueFactory<>("isDelivered"));
 		TableViewOrders.getColumns().add(column);
 
 	}

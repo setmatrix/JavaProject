@@ -31,22 +31,22 @@
          <TextField fx:id="txtNumber" alignment="TOP_LEFT" layoutX="337.0" layoutY="263.0" prefHeight="45.0" prefWidth="149.0" promptText="Number" style="-fx-background-color: lightyellow;" />
          <VBox alignment="CENTER_RIGHT" layoutX="250.0" layoutY="93.0" prefHeight="214.0" prefWidth="81.0" style="-fx-spacing: 39;">
             <children>
-               <Label text="Address">
+               <Label fx:id="labelAddress" text="Address">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label text="Postal Code">
+               <Label fx:id="labelPostalCode" text="Postal Code">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label layoutX="70.0" layoutY="109.0" text="City">
+               <Label fx:id="labelCity" layoutX="70.0" layoutY="109.0" text="City">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label text="Number">
+               <Label fx:id="labelNumber" text="Number">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
@@ -55,27 +55,27 @@
          </VBox>
          <VBox alignment="CENTER_RIGHT" layoutX="9.0" layoutY="89.0" prefHeight="278.0" prefWidth="62.0" style="-fx-spacing: 39;">
             <children>
-                  <Label text="E-mail">
+                  <Label fx:id="labelMail" text="E-mail">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label text="Log in">
+                  <Label fx:id="loginLabel" text="Log in">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" text="Password">
+                  <Label fx:id="labelPassword" alignment="CENTER_RIGHT" text="Password">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-               <Label text="FirstName">
+               <Label fx:id="labelFirstName" text="FirstName">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label text="LastName">
+               <Label fx:id="labelLastName" text="LastName">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
