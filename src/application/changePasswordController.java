@@ -58,7 +58,7 @@ public class changePasswordController extends data implements Initializable {
                 }
             }
         } catch (Throwable thr) {
-            JOptionPane.showMessageDialog(null, "Problem with Database", "SQL Exception", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Password incorrect", "Pass Exception", JOptionPane.ERROR_MESSAGE);
         }
     }
 
