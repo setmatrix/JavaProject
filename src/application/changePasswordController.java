@@ -21,7 +21,6 @@ public class changePasswordController extends data implements Initializable {
     @FXML
     private Label confirmPasswordLabel;
 
-
     @FXML
     private PasswordField txtNewPass;
 
