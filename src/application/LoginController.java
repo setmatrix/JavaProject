@@ -136,10 +136,7 @@ public class LoginController extends data implements Initializable {
 		Tooltip tool = new Tooltip();
 		tool.setText(
 				"""
-						Your email must have:
-						at least 8 characters in length
-						 .pl or com
-						 one @"""
+  				Put your login here"""
 		);
 		txtLogin.setTooltip(tool);
 		tool = new Tooltip();
