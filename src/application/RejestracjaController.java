@@ -1,5 +1,4 @@
 package application;
-import java.net.InetAddress;
 import java.net.URL;
 import java.util.Objects;
 import java.sql.*;
@@ -13,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-public class RejestracjaController implements Initializable {
+public class RejestracjaController extends data implements Initializable {
 	@FXML
 	private BorderPane rootPane;
 
@@ -36,24 +35,6 @@ public class RejestracjaController implements Initializable {
 	private Label warnPass;
 
 	@FXML
-	private TextField firstNameText;
-
-	@FXML
-	private TextField LastNameText;
-
-	@FXML
-	private TextField txtAddress;
-
-	@FXML
-	private TextField txtCode;
-
-	@FXML
-	private TextField txtCity;
-
-	@FXML
-	private TextField txtNumber;
-
-	@FXML
 	private Label warnFirstName;
 
 	@FXML
@@ -70,6 +51,24 @@ public class RejestracjaController implements Initializable {
 
 	@FXML
 	private Label warnNumber;
+
+	@FXML
+	private TextField firstNameText;
+
+	@FXML
+	private TextField LastNameText;
+
+	@FXML
+	private TextField txtAddress;
+
+	@FXML
+	private TextField txtCode;
+
+	@FXML
+	private TextField txtCity;
+
+	@FXML
+	private TextField txtNumber;
     @FXML
     void powrotAction(){
     	try
@@ -102,9 +101,7 @@ public class RejestracjaController implements Initializable {
 			String postal_Code = txtCode.getText();
 			String city=txtCity.getText();
 			String number=txtNumber.getText();
-			
-			
-			
+
 			Connection connection = null;
 			try
 			{
@@ -117,19 +114,7 @@ public class RejestracjaController implements Initializable {
 				postalCode_check(postal_Code);
 				word_check(city, "City");
 				number_check(number);
-				String sqlLogin;
-				String sqlPass;
-				String pc;
-				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-					sqlLogin = "sa";
-					sqlPass= "AlgorytmDjikstry";
-				} else {
-					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-					sqlLogin = "sa";
-					sqlPass = "asdf";
-				}
-				connection = DriverManager.getConnection(pc, sqlLogin, sqlPass);
+				connection = getConnection();
 				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME, ADDRESS, POSTAL_CODE, CITY, Number)"
 						+ " VALUES (?,?,HASHBYTES(?,?),2,?,?,?,?,?,?);";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
@@ -158,10 +143,7 @@ public class RejestracjaController implements Initializable {
 					}
 				}
 			}
-			catch (SQLException sq)
-			{
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Register SQL Error", JOptionPane.ERROR_MESSAGE);
-			} catch (Throwable throwable) {
+			 catch (Throwable throwable) {
 				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Register Error", JOptionPane.WARNING_MESSAGE);
 			} finally {
 				if (connection!= null) {
@@ -232,6 +214,126 @@ public class RejestracjaController implements Initializable {
 				}
 			}
 		});
+		firstNameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnFirstName.getText().isEmpty())
+				{
+					warnFirstName.setText("");
+				}
+			}
+			else
+			{
+				if(firstNameText.getText().isEmpty())
+				{
+					warnFirstName.setText("FirstName Field is empty");
+				}
+				else if(firstNameText.getText().length() < 3)
+				{
+					warnFirstName.setText("Password Field is too short");
+				}
+			}
+		});
+		LastNameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnLastName.getText().isEmpty())
+				{
+					warnLastName.setText("");
+				}
+			}
+			else
+			{
+				if(LastNameText.getText().isEmpty())
+				{
+					warnLastName.setText("Last Name Field is empty");
+				}
+				else if(LastNameText.getText().length() < 3)
+				{
+					warnLastName.setText("Last Name Field is too short");
+				}
+			}
+		});
+		txtAddress.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnAddress.getText().isEmpty())
+				{
+					warnAddress.setText("");
+				}
+			}
+			else
+			{
+				if(txtAddress.getText().isEmpty())
+				{
+					warnAddress.setText("Address Field is empty");
+				}
+				else if(txtAddress.getText().length() < 3)
+				{
+					warnAddress.setText("Address Field is too short");
+				}
+			}
+		});
+		txtCity.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnCity.getText().isEmpty())
+				{
+					warnCity.setText("");
+				}
+			}
+			else
+			{
+				if(txtCity.getText().isEmpty())
+				{
+					warnCity.setText("City Field is empty");
+				}
+				else if(txtCity.getText().length() < 3)
+				{
+					warnCity.setText("City Field is too short");
+				}
+			}
+		});
+		txtCode.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnCode.getText().isEmpty())
+				{
+					warnCode.setText("");
+				}
+			}
+			else
+			{
+				if(txtCode.getText().isEmpty())
+				{
+					warnCode.setText("Password Field is empty");
+				}
+				else if(txtCode.getText().length() < 3)
+				{
+					warnCode.setText("Password Field is too short");
+				}
+			}
+		});
+		txtNumber.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+			if(t1)
+			{
+				if(!warnNumber.getText().isEmpty())
+				{
+					warnNumber.setText("");
+				}
+			}
+			else
+			{
+				if(txtNumber.getText().isEmpty())
+				{
+					warnNumber.setText("Number Field is empty");
+				}
+				else if(txtNumber.getText().length() < 3)
+				{
+					warnNumber.setText("Number Field is too short");
+				}
+			}
+		});
 		Tooltip tool = new Tooltip();
 		tool.setText(
 				"""
@@ -254,65 +356,11 @@ public class RejestracjaController implements Initializable {
 		);
 		hasloText.setTooltip(tool);
 	}
-	private void check_email(String mail) throws Throwable
-	{
-		int monkey = 0;
-		int moncount = 0;
-		int domainLength;
-		if(mail.contains(".com"))
-		{
-			domainLength = 4;
-		}
-		else if(mail.contains(".pl"))
-		{
-			domainLength = 3;
-		} else throw new Throwable(".pl or .com only");
-		for(int i=0;i<mail.length(); i++)
-		{
-			if(mail.charAt(i) == '@')
-			{
-				monkey = i;
-				moncount+=1;
-			}
-		}
-		if(moncount == 0)
-		{
-			throw new Throwable("Missing @");
-		}
-		if(moncount > 1)
-		{
-			throw new Throwable("Too much @");
-		}
-		if((mail.substring(monkey).length() < domainLength +3))
-		{
-			throw new Throwable("Domain is not correct");
-		}
-		if(mail.substring(0,monkey).length() < 4)
-		{
-			throw new Throwable("Length before @ is short");
-		}
-	}
-	private void check_password(String pass) throws Throwable {
-		if(pass.length() < 4) {
-			throw new Throwable("Password is too short");
-		}
-	}
 	private void login_check(String login) throws Throwable
 	{
 		if(login.length() < 3)
 		{
 			throw new Throwable("Login is too short");
-		}
-	}
-	private void word_check(String lastName, String word) throws Throwable
-	{
-		if(Character.isLowerCase(lastName.charAt(0)))
-		{
-			throw new Throwable(word + " must start with a capital letter ");
-		}
-		if(lastName.length() < 3)
-		{
-			throw new Throwable(word + " is too short");
 		}
 	}
 	private void address_check(String address) throws Throwable
@@ -325,7 +373,6 @@ public class RejestracjaController implements Initializable {
 	private void postalCode_check(String postalCode) throws Throwable
 	{
 		int count = 0;
-		int digitcount = 0;
 		if(postalCode.length() < 5)
 		{
 			throw new Throwable("Postal Code is too short");
@@ -337,9 +384,6 @@ public class RejestracjaController implements Initializable {
 					throw new Throwable("Format for PostalCode is wrong");
 				}
 			}
-			if (Character.isDigit(postalCode.charAt(i))) {
-				digitcount +=1;
-			}
 			if (Character.isLetter(postalCode.charAt(i))) {
 				throw new Throwable("postalCode must have digits or one - only");
 			}
@@ -348,7 +392,7 @@ public class RejestracjaController implements Initializable {
 	private void number_check(String number) throws Throwable
 	{
 		int i=0;
-		if(number.length() < 9)
+		if(number.length() < 8)
 		{
 			throw new Throwable("Number is too short");
 		}

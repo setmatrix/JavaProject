@@ -56,20 +56,7 @@ public class LoginController extends data implements Initializable {
 				int sqlId;
 				String sqlNameType;
 
-				String dataLogin;
-				String dataPass;
-				String pc;
-
-				if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-					pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass= "AlgorytmDjikstry";
-				} else {
-					pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-					dataLogin = "sa";
-					dataPass = "asdf";
-				}
-				connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+				connection = getConnection();
 
 				String sql = " SELECT ID_USER, E_MAIL, NICK, PASSWORD, NAME_TYPE "
 						+"FROM Users "
@@ -100,12 +87,10 @@ public class LoginController extends data implements Initializable {
 						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-			}
-			catch (SQLException | UnknownHostException sq)
+			} catch (Throwable sq)
 			{
 				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
-			}
-			finally {
+			} finally {
 				if(connection != null)
 				{
 					connection.close();
@@ -151,10 +136,7 @@ public class LoginController extends data implements Initializable {
 		Tooltip tool = new Tooltip();
 		tool.setText(
 				"""
-						Your email must have:
-						at least 8 characters in length
-						 .pl or com
-						 one @"""
+  				Put your login here"""
 		);
 		txtLogin.setTooltip(tool);
 		tool = new Tooltip();
