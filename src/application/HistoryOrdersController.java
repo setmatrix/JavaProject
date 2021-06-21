@@ -49,8 +49,8 @@ public class HistoryOrdersController extends data implements Initializable {
 					TableViewOrders.getItems().add(new HistoryOrders(orderId, Order_name, Order_date, is_delivered));
 				}
 			}
-		} catch (Throwable throwable) {
-			JOptionPane.showMessageDialog(null, throwable.getMessage(), "Load Problem", JOptionPane.ERROR_MESSAGE);
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null, sq.getMessage(), "Load Problem", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -74,13 +74,9 @@ public class HistoryOrdersController extends data implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		try {
-			setTable();
-			initData();
-			load();
-		} catch (Throwable e) {
-			JOptionPane.showMessageDialog(null,e.getMessage(), "Initialize Problem", JOptionPane.WARNING_MESSAGE);
-		}
+		setTable();
+		initData();
+		load();
 	}
 	private void setTable() {
 		
