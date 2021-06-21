@@ -29,9 +29,9 @@ public class HistoryOrdersController extends data implements Initializable {
 
 	private void load(){
 		int orderId;
-		String Order_name;
-		String Order_date;
-		int is_delivered;
+		String OrderName;
+		String OrderDate;
+		int isDelivered;
 		try (Connection connection = getConnection()) {
 			String sql = " SELECT *" +
 					"from Orders " +
@@ -43,10 +43,10 @@ public class HistoryOrdersController extends data implements Initializable {
 				ResultSet resultSet = prestatement.executeQuery();
 				while (resultSet.next()) {
 					orderId = resultSet.getInt("ORDER_ID");
-					Order_name = resultSet.getString("ORDER_NAME");
-					Order_date = resultSet.getString("ORDER_DATE");
-					is_delivered = resultSet.getInt("IS_DELIVERED");
-					tableViewOrders.getItems().add(new HistoryOrders(orderId, Order_name, Order_date, is_delivered));
+					OrderName = resultSet.getString("ORDER_NAME");
+					OrderDate = resultSet.getString("ORDER_DATE");
+					isDelivered = resultSet.getInt("IS_DELIVERED");
+					tableViewOrders.getItems().add(new HistoryOrders(orderId, OrderName, OrderDate, isDelivered));
 				}
 			}
 		} catch (SQLException sq) {
