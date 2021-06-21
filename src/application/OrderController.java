@@ -23,7 +23,7 @@ public class OrderController extends data implements Initializable {
 	@FXML
 	private TableView<Orders> TableViewOrders;
 
-	private void load() throws Throwable {
+	private void load() throws SQLException {
 		String GAME_NAME;
 		String PRODUCER;
 		String PUBLISHER;
@@ -47,7 +47,7 @@ public class OrderController extends data implements Initializable {
 	}
 
 	@FXML
-	void ZawowAction() throws Throwable {
+	void ZawowAction() throws SQLException {
 		if (TableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
 			Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
 			Connection connection = getConnection();
@@ -61,6 +61,10 @@ public class OrderController extends data implements Initializable {
 				prestatement.setInt(3, loggedId);
 				prestatement.executeUpdate();
 			}
+			catch (SQLException sq)
+			{
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Order", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -69,8 +73,8 @@ public class OrderController extends data implements Initializable {
 		try {
 			setTable();
 			load();
-		} catch (Throwable e) {
-			JOptionPane.showMessageDialog(null,e.getMessage(), "Initialize Problem", JOptionPane.WARNING_MESSAGE);
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null, sq.getMessage(), "Order", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	private void setTable(){

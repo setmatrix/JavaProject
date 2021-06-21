@@ -11,10 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.Locale;
 import java.util.Objects;
@@ -31,7 +30,7 @@ public class LoginController extends data implements Initializable {
 	@FXML
 	private Label warnPass;
 	@FXML
-	void logClick(ActionEvent event) throws IOException, SQLException {
+	void logClick(ActionEvent event) throws SQLException {
 		boolean emailCheck = true;
 		boolean passCheck = true;
 		if(txtLogin.getText().isEmpty())
@@ -87,7 +86,7 @@ public class LoginController extends data implements Initializable {
 						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login", JOptionPane.WARNING_MESSAGE);
 					}
 				}
-			} catch (Throwable sq)
+			} catch (SQLException | IOException sq)
 			{
 				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
 			} finally {
@@ -136,7 +135,7 @@ public class LoginController extends data implements Initializable {
 		Tooltip tool = new Tooltip();
 		tool.setText(
 				"""
-  				Put your login here"""
+						Put your login here"""
 		);
 		txtLogin.setTooltip(tool);
 		tool = new Tooltip();

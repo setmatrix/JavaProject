@@ -28,10 +28,10 @@ public class ModifyController extends data implements Initializable {
 		typeLabel.setVisible(true);
 		typeButton.setVisible(true);
 		passwordButton.setVisible(false);
-		ReadType();
+		readType();
 	}
 
-	private void ReadType() {
+	private void readType() {
 		Connection connection;
 		try {
 			connection = getConnection();
@@ -46,8 +46,8 @@ public class ModifyController extends data implements Initializable {
 					typeBox.getItems().add(type);
 				}
 			}
-		} catch (Throwable throwable) {
-			JOptionPane.showMessageDialog(null, throwable.getMessage(), "Read Problem", JOptionPane.ERROR_MESSAGE);
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null, sq.getMessage(), "Read Problem", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	@FXML
@@ -91,11 +91,10 @@ public class ModifyController extends data implements Initializable {
 
 				JOptionPane.showMessageDialog(null, "Enail change - success", "Email information", JOptionPane.INFORMATION_MESSAGE);
 			}
-		} catch (SQLException sq) {
+		} catch (SQLException | emailException sq) {
 			JOptionPane.showMessageDialog(null, sq.getMessage(), "Database Problem", JOptionPane.ERROR_MESSAGE);
-		} catch (Throwable th) {
-			JOptionPane.showMessageDialog(null, th.getMessage(), "Email Exception", JOptionPane.WARNING_MESSAGE);
-		} finally {
+		}
+		finally {
 			if (connection != null) {
 				connection.close();
 			}
@@ -119,10 +118,7 @@ public class ModifyController extends data implements Initializable {
 			}
 		} catch (SQLException sq) {
 			JOptionPane.showMessageDialog(null, sq.getMessage(), "Database Problem", JOptionPane.ERROR_MESSAGE);
-		} catch (Throwable th) {
-			JOptionPane.showMessageDialog(null, th.getMessage(), "Email Exception", JOptionPane.WARNING_MESSAGE);
 		}
-
 	}
 
 	@FXML
@@ -144,7 +140,7 @@ public class ModifyController extends data implements Initializable {
 	void ChangeType() {
 		Connection connection;
 		String type = typeBox.getValue();
-		int id_type = 0;
+		int idType = 0;
 		try {
 			connection = getConnection();
 
@@ -155,19 +151,19 @@ public class ModifyController extends data implements Initializable {
 				ResultSet resultSet = statement.executeQuery();
 
 				if (resultSet.next()) {
-					id_type = resultSet.getInt("ID_TYPE");
+					idType = resultSet.getInt("ID_TYPE");
 				}
 				sql = "UPDATE Users SET ID_TYPE = ? WHERE ID_USER = ?";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-					prestatement.setInt(1, id_type);
+					prestatement.setInt(1, idType);
 					prestatement.setInt(2, Integer.parseInt(txtId.getText()));
 					prestatement.execute();
 
 					JOptionPane.showMessageDialog(null, "Type changed succesfully", "Type change", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-		} catch (Throwable throwable) {
-			JOptionPane.showMessageDialog(null, throwable.getMessage(), "Type change", JOptionPane.ERROR_MESSAGE);
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null, sq.getMessage(), "Type change", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

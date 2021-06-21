@@ -95,7 +95,7 @@ public class AplikacjaController extends data implements Initializable {
 					prestatement.execute();
 					userList.getItems().remove(selectedIdx);
 				}
-			} catch (Throwable throwable) {
+			} catch (SQLException throwable) {
 				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Delete Problem", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (connection != null) {
@@ -144,9 +144,8 @@ public class AplikacjaController extends data implements Initializable {
 				}
 			} catch (SQLException ex) {
 				JOptionPane.showMessageDialog(null, ex.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
-			} catch (Throwable throwable) {
-				JOptionPane.showMessageDialog(null, throwable.getMessage(), "Exception",JOptionPane.ERROR_MESSAGE);
-			} finally {
+			}
+				finally {
 				if (connection != null) {
 					connection.close();
 				}
@@ -184,8 +183,8 @@ public class AplikacjaController extends data implements Initializable {
 			initData(st);
 			setTable();
 			listViewRefresh();
-		} catch (Throwable throwable) {
-			JOptionPane.showMessageDialog(null,throwable.getMessage(), "Initialize Exception",JOptionPane.ERROR_MESSAGE);
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null,sq.getMessage(), "Initialize Exception",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
