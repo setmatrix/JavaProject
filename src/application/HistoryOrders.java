@@ -17,7 +17,7 @@ public class HistoryOrders /*implements Comparable<Student>*/{
 		return orderId;
 	}
 
-	public void setOrderId(int OrderId) {
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 	
@@ -25,7 +25,7 @@ public class HistoryOrders /*implements Comparable<Student>*/{
 		return orderName;
 	}
 
-	public void setOrderName(String order_name) {
+	public void setOrderName(String orderName) {
 		this.orderName = orderName;
 	}
 
@@ -33,15 +33,15 @@ public class HistoryOrders /*implements Comparable<Student>*/{
 		return orderDate;
 	}
 
-	public void setOrderDate(String order_date) {
-		this.orderDate = order_date;
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
 	}
 
 	public int isIsDelivered() {
 		return isDelivered;
 	}
 
-	public void setIs_delivered(int isDelivered) {
+	public void setIsDelivered(int isDelivered) {
 		this.isDelivered = isDelivered;
 	}
 

@@ -50,7 +50,7 @@ public class OrderController extends data implements Initializable {
 	}
 
 	@FXML
-	void ZawowAction() throws Throwable {
+	void ZawowAction() throws SQLException {
 		if (TableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
 			Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
 			Connection connection = getConnection();
@@ -63,6 +63,10 @@ public class OrderController extends data implements Initializable {
 				prestatement.setString(2, formatter.format(date));
 				prestatement.setInt(3, loggedId);
 				prestatement.executeUpdate();
+			}
+			catch (SQLException sq)
+			{
+				JOptionPane.showMessageDialog(null, sq.getMessage(), "Order", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -107,23 +111,23 @@ public class OrderController extends data implements Initializable {
             fileChooser.getExtensionFilters().add(extFilter);
 			fileChooser.setTitle("Open Resource File");
 		    File file = fileChooser.showSaveDialog(null);
-			FileWriter myWriter = new FileWriter(file);
-			Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
-			Connection connection = getConnection();
-			String sql = "Select FIRST_NAME, LAST_NAME\n" + "  from Users u\n"
-					+ "  inner join Orders o  ON u.ID_USER = o.CUSTOMER_ID\n"
-					+ "  inner join Games g on g.GAME_NAME = o.ORDER_NAME\n" + "  where o.ORDER_NAME = ?";
-			try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-				prestatement.setString(1, game.GAME_NAME);
-				ResultSet resultSet = prestatement.executeQuery();
-				myWriter.write("Uzytkownicy ktorze posiadaja gre:" + game.GAME_NAME + "\n");
-				while (resultSet.next()) {
-					FIRST_NAME = resultSet.getString("FIRST_NAME");
-					LAST_NAME = resultSet.getString("LAST_NAME");
-					 myWriter.write(FIRST_NAME + " " + LAST_NAME + "\n");
-					 
+			try (FileWriter myWriter = new FileWriter(file)) {
+				Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
+				Connection connection = getConnection();
+				String sql = "Select FIRST_NAME, LAST_NAME " + "  from Users u "
+						+ "inner join Orders o ON ID_USER = o.CUSTOMER_ID "
+						+ "inner join Games g on g.GAME_NAME = o.ORDER_NAME " + " where o.ORDER_NAME = ?";
+				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
+					prestatement.setString(1, game.GAME_NAME);
+					ResultSet resultSet = prestatement.executeQuery();
+					myWriter.write("Uzytkownicy ktorze posiadaja gre:" + game.GAME_NAME + "\n");
+					while (resultSet.next()) {
+						FIRST_NAME = resultSet.getString("FIRST_NAME");
+						LAST_NAME = resultSet.getString("LAST_NAME");
+						myWriter.write(FIRST_NAME + " " + LAST_NAME + "\n");
+					}
+					myWriter.close();
 				}
-				myWriter.close();
 			}
 		}
 	}

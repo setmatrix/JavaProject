@@ -25,7 +25,7 @@ public class HistoryOrdersController extends data implements Initializable {
 	}
 
 	@FXML
-	private TableView<HistoryOrders> TableViewOrders;
+	private TableView<HistoryOrders> tableViewOrders;
 
 	private void load(){
 		int orderId;
@@ -37,7 +37,7 @@ public class HistoryOrdersController extends data implements Initializable {
 					"from Orders " +
 					"INNER JOIN Users ON Users.ID_USER = Orders.CUSTOMER_ID " +
 					"WHERE ID_USER = ?";
-			TableViewOrders.getItems().clear();
+			tableViewOrders.getItems().clear();
 			try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 				prestatement.setInt(1, loggedId);
 				ResultSet resultSet = prestatement.executeQuery();
@@ -46,7 +46,7 @@ public class HistoryOrdersController extends data implements Initializable {
 					Order_name = resultSet.getString("ORDER_NAME");
 					Order_date = resultSet.getString("ORDER_DATE");
 					is_delivered = resultSet.getInt("IS_DELIVERED");
-					TableViewOrders.getItems().add(new HistoryOrders(orderId, Order_name, Order_date, is_delivered));
+					tableViewOrders.getItems().add(new HistoryOrders(orderId, Order_name, Order_date, is_delivered));
 				}
 			}
 		} catch (SQLException sq) {
@@ -83,16 +83,16 @@ public class HistoryOrdersController extends data implements Initializable {
 		TableColumn<HistoryOrders, String> column;
 		column = new TableColumn<>("ID");
 		column.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-		TableViewOrders.getColumns().add(column);
+		tableViewOrders.getColumns().add(column);
 		column = new TableColumn<>("ORDER_NAME");
 		column.setCellValueFactory(new PropertyValueFactory<>("orderName"));
-		TableViewOrders.getColumns().add(column);
+		tableViewOrders.getColumns().add(column);
 		column = new TableColumn<>("ORDER_DATE");
 		column.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-		TableViewOrders.getColumns().add(column);
+		tableViewOrders.getColumns().add(column);
 		column = new TableColumn<>("IS_DELIVERED");
 		column.setCellValueFactory(new PropertyValueFactory<>("isDelivered"));
-		TableViewOrders.getColumns().add(column);
+		tableViewOrders.getColumns().add(column);
 
 	}
 }
