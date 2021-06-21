@@ -1,12 +1,18 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.net.InetAddress;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -18,6 +24,10 @@ public class ModifyController extends data implements Initializable {
 		txtLogin.setText(login);
 		txtMail.setText(email);
 		typeBox.setValue(type);
+		typeBox.setVisible(true);
+		typeLabel.setVisible(true);
+		typeButton.setVisible(true);
+		passwordButton.setVisible(false);
 		ReadType();
 	}
 
@@ -40,10 +50,11 @@ public class ModifyController extends data implements Initializable {
 			JOptionPane.showMessageDialog(null, throwable.getMessage(), "Read Problem", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
-
 	@FXML
 	private TextField txtId;
+
+	@FXML
+	private Button passwordButton;
 
 	@FXML
 	private TextField txtLogin;
@@ -53,6 +64,12 @@ public class ModifyController extends data implements Initializable {
 
 	@FXML
 	private ComboBox<String> typeBox;
+
+	@FXML
+	private Button typeButton;
+
+	@FXML
+	private Label typeLabel;
 
 	@FXML
 	void ChangeEmail() throws SQLException {
@@ -83,23 +100,9 @@ public class ModifyController extends data implements Initializable {
 	}
 
 	@FXML
-	void ChangeLogin() throws SQLException {
-		Connection connection = null;
+	void ChangeLogin(){
 		String login = txtLogin.getText();
-		try {
-			String dataLogin;
-			String dataPass;
-			String pc;
-			if (InetAddress.getLocalHost().getHostName().equals("DESKTOP-HIQPTQP")) {
-				pc = "jdbc:sqlserver://desktop-hiqptqp\\sqlexpress;databaseName=javaProject";
-				dataLogin = "sa";
-				dataPass = "AlgorytmDjikstry";
-			} else {
-				pc = "jdbc:sqlserver://DESKTOP-3SJ6CNC\\ASDF2019;databaseName=javaProject";
-				dataLogin = "sa";
-				dataPass = "asdf";
-			}
-			connection = DriverManager.getConnection(pc, dataLogin, dataPass);
+		try (Connection connection = getConnection()) {
 
 			String sql = "UPDATE Users SET NICK = ? WHERE ID_USER = ?";
 
@@ -115,17 +118,23 @@ public class ModifyController extends data implements Initializable {
 			JOptionPane.showMessageDialog(null, sq.getMessage(), "Database Problem", JOptionPane.ERROR_MESSAGE);
 		} catch (Throwable th) {
 			JOptionPane.showMessageDialog(null, th.getMessage(), "Email Exception", JOptionPane.WARNING_MESSAGE);
-		} finally {
-			if (connection != null) {
-				connection.close();
-			}
 		}
 
 	}
 
 	@FXML
 	void ChangePassword() {
-
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("changePassword.fxml"));
+			Parent root = loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.show();
+		}
+		catch (IOException sq)
+		{
+			JOptionPane.showMessageDialog(null,"Error with File","ChangePasswordFile",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@FXML
@@ -169,7 +178,9 @@ public class ModifyController extends data implements Initializable {
 		txtId.setText(String.valueOf(st.getId()));
 		txtLogin.setText(st.getLogin());
 		txtMail.setText(st.getEmail());
-		typeBox.setValue(st.getType());
-		ReadType();
+		typeBox.setVisible(false);
+		typeLabel.setVisible(false);
+		typeButton.setVisible(false);
+		passwordButton.setVisible(true);
 	}
 }
