@@ -1,7 +1,10 @@
 package application;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -9,7 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class data {
+public class Data {
     protected static Student st;
 
     protected static Connection getConnection() throws SQLException {
@@ -165,4 +168,34 @@ public class data {
         }
     }
     protected boolean getNumberOfModify;
+
+    protected void setListener(TextField field, Label warnLabel, String text)
+    {
+        field.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if(t1)
+            {
+                if(!warnLabel.getText().isEmpty())
+                {
+                    warnLabel.setText("");
+                }
+            }
+            else
+            {
+                if(field.getText().isEmpty())
+                {
+                    warnLabel.setText(text + " Field is empty");
+                }
+                else if(field.getText().length() < 3)
+                {
+                    warnLabel.setText(text + " is too short");
+                }
+            }
+        });
+    }
+    protected void setColumn(TableView<Orders> table, String text)
+    {
+        TableColumn<Orders, String> column = new TableColumn<>(text);
+        column.setCellValueFactory(new PropertyValueFactory<>(text));
+        table.getColumns().add(column);
+    }
 }

@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class HistoryOrdersController extends data implements Initializable {
+public class HistoryOrdersController extends Data implements Initializable {
 	
 	int loggedId;
 	
@@ -29,8 +29,8 @@ public class HistoryOrdersController extends data implements Initializable {
 
 	private void load(){
 		int orderId;
-		String OrderName;
-		String OrderDate;
+		String orderName;
+		String orderDate;
 		int isDelivered;
 		try (Connection connection = getConnection()) {
 			String sql = " SELECT *" +
@@ -43,10 +43,10 @@ public class HistoryOrdersController extends data implements Initializable {
 				ResultSet resultSet = prestatement.executeQuery();
 				while (resultSet.next()) {
 					orderId = resultSet.getInt("ORDER_ID");
-					OrderName = resultSet.getString("ORDER_NAME");
-					OrderDate = resultSet.getString("ORDER_DATE");
+					orderName = resultSet.getString("ORDER_NAME");
+					orderDate = resultSet.getString("ORDER_DATE");
 					isDelivered = resultSet.getInt("IS_DELIVERED");
-					tableViewOrders.getItems().add(new HistoryOrders(orderId, OrderName, OrderDate, isDelivered));
+					tableViewOrders.getItems().add(new HistoryOrders(orderId, orderName, orderDate, isDelivered));
 				}
 			}
 		} catch (SQLException sq) {
@@ -56,12 +56,12 @@ public class HistoryOrdersController extends data implements Initializable {
 
 	
 	@FXML
-	void LoadAction() {
+	void loadAction() {
 		load();
 	}
 
 	@FXML
-    void ZawowAction() throws IOException {
+    void zawowAction() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Order.fxml"));
 		Parent root = loader.load();
 		OrderController controller = loader.getController();

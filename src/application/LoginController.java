@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-public class LoginController extends data implements Initializable {
+public class LoginController extends Data implements Initializable {
 	@FXML
 	private BorderPane rootPane;
 	@FXML
@@ -99,39 +99,8 @@ public class LoginController extends data implements Initializable {
 	}
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtLogin.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if (t1) {
-				if (!warnMail.getText().isEmpty()) {
-					warnMail.setText("");
-				}
-			} else {
-				if (txtLogin.getText().isEmpty()) {
-					warnMail.setText("Login Field is empty");
-				} else if (txtLogin.getText().length() < 3) {
-					warnMail.setText("Login is too short");
-				}
-			}
-		});
-		passwordBox.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnPass.getText().isEmpty())
-				{
-					warnPass.setText("");
-				}
-			}
-			else
-			{
-				if(passwordBox.getText().isEmpty())
-				{
-					warnPass.setText("Password Field is empty");
-				}
-				else if(passwordBox.getText().length() < 3)
-				{
-					warnPass.setText("Password is too short");
-				}
-			}
-		});
+		setListener(txtLogin,warnMail,"Login");
+		setListener(passwordBox,warnPass,"Password");
 		Tooltip tool = new Tooltip();
 		tool.setText("Put your login here");
 		txtLogin.setTooltip(tool);

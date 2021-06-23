@@ -24,7 +24,7 @@
             <Label fx:id="warnNick" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="178.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
             <Label fx:id="warnPass" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="234.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
          <TextField fx:id="firstNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="262.0" prefHeight="45.0" prefWidth="149.0" promptText="firstname" style="-fx-background-color: lightyellow;" />
-         <TextField fx:id="LastNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="319.0" prefHeight="45.0" prefWidth="149.0" promptText="lastname" style="-fx-background-color: lightyellow;" />
+         <TextField fx:id="lastNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="319.0" prefHeight="45.0" prefWidth="149.0" promptText="lastname" style="-fx-background-color: lightyellow;" />
          <TextField fx:id="txtAddress" alignment="TOP_LEFT" layoutX="337.0" layoutY="95.0" prefHeight="45.0" prefWidth="149.0" promptText="Address" style="-fx-background-color: lightyellow;" />
          <TextField fx:id="txtCode" alignment="TOP_LEFT" layoutX="337.0" layoutY="150.0" prefHeight="45.0" prefWidth="149.0" promptText="Postal Code" style="-fx-background-color: lightyellow;" />
          <TextField fx:id="txtCity" alignment="TOP_LEFT" layoutX="337.0" layoutY="206.0" prefHeight="45.0" prefWidth="149.0" promptText="City" style="-fx-background-color: lightyellow;" />

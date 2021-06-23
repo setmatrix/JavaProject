@@ -1,6 +1,6 @@
 package application;
 
-public class Student /*implements Comparable<Student>*/{
+public class Student{
 	int id;
 	String login;
 	String email;
@@ -36,20 +36,6 @@ public class Student /*implements Comparable<Student>*/{
 	public void setType(String type) {
 		this.type = type;
 	}
-	/*@Override
-	public int compareTo(Student o) {
-		int result = this.rocznik - o.rocznik;
-		if(result == 0)
-		{
-			result = this.srednia - o.srednia;
-			if(result == 0)
-			{
-				return this.nazwisko.compareTo(o.nazwisko);
-			}
-			return result;
-		}
-		return result;
-	}*/
 	@Override
 	public String toString() {
 		return "Id: " + id + ",Login: " + login + ",Email=" + email + ", Type: " + type +"\n";

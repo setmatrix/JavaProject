@@ -2,20 +2,19 @@ package application;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 
 import javax.swing.*;
 
-public class OrderController extends data implements Initializable {
+public class OrderController extends Data implements Initializable {
 
 	int loggedId;
 
@@ -24,14 +23,14 @@ public class OrderController extends data implements Initializable {
 	}
 
 	@FXML
-	private TableView<Orders> TableViewOrders;
+	private TableView<Orders> tableViewOrders;
 
-	private void load() throws Throwable {
-		String GAME_NAME;
-		String PRODUCER;
-		String PUBLISHER;
-		String RELEASED;
-		String PLATFORM;
+	private void load() throws SQLException {
+		String gameName;
+		String producer;
+		String publisher;
+		String released;
+		String platform;
 
 		Connection connection = getConnection();
 
@@ -39,20 +38,20 @@ public class OrderController extends data implements Initializable {
 		try (PreparedStatement preStatement = connection.prepareStatement(sql)) {
 			ResultSet resultSet = preStatement.executeQuery();
 			while (resultSet.next()) {
-				GAME_NAME = resultSet.getString("GAME_NAME");
-				PRODUCER = resultSet.getString("PRODUCER");
-				PUBLISHER = resultSet.getString("PUBLISHER");
-				RELEASED = resultSet.getString("RELEASED");
-				PLATFORM = resultSet.getString("SNAME_PLATFORM");
-				TableViewOrders.getItems().add(new Orders(GAME_NAME, PRODUCER, PUBLISHER, RELEASED, PLATFORM));
+				gameName = resultSet.getString("GAME_NAME");
+				producer = resultSet.getString("PRODUCER");
+				publisher = resultSet.getString("PUBLISHER");
+				released = resultSet.getString("RELEASED");
+				platform = resultSet.getString("SNAME_PLATFORM");
+				tableViewOrders.getItems().add(new Orders(gameName, producer, publisher, released, platform));
 			}
 		}
 	}
 
 	@FXML
-	void ZawowAction() throws SQLException {
-		if (TableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
-			Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
+	void zawowAction() throws SQLException {
+		if (tableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
+			Orders game = tableViewOrders.getSelectionModel().getSelectedItem();
 			Connection connection = getConnection();
 			String sql = "INSERT INTO Orders (ORDER_NAME, ORDER_DATE, IS_DELIVERED, CUSTOMER_ID)"
 					+ " VALUES (?,?,1,?);";
@@ -76,43 +75,32 @@ public class OrderController extends data implements Initializable {
 		try {
 			setTable();
 			load();
-		} catch (Throwable e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Initialize Problem", JOptionPane.WARNING_MESSAGE);
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null, sq.getMessage(), "Initialize Problem", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
 	private void setTable() {
-		TableColumn<Orders, String> column;
-		column = new TableColumn<>("GAME_NAME");
-		column.setCellValueFactory(new PropertyValueFactory<>("GAME_NAME"));
-		TableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("PRODUCER");
-		column.setCellValueFactory(new PropertyValueFactory<>("PRODUCER"));
-		TableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("PUBLISHER");
-		column.setCellValueFactory(new PropertyValueFactory<>("PUBLISHER"));
-		TableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("RELEASED");
-		column.setCellValueFactory(new PropertyValueFactory<>("RELEASED"));
-		TableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("PLATFORM");
-		column.setCellValueFactory(new PropertyValueFactory<>("SNAMEPLATFORM"));
-		TableViewOrders.getColumns().add(column);
+		setColumn(tableViewOrders, "GAME_NAME");
+		setColumn(tableViewOrders, "PRODUCER");
+		setColumn(tableViewOrders, "PUBLISHER");
+		setColumn(tableViewOrders, "RELEASED");
+		setColumn(tableViewOrders, "PLATFORM");
 
 	}
 
 	@FXML
-	void ZapiszAction() throws Throwable {
-		String FIRST_NAME = null;
-		String LAST_NAME = null;
-		if (TableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
+	void zapiszAction(){
+		String firstName;
+		String lastName;
+		if (tableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
 			FileChooser fileChooser = new FileChooser();
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(extFilter);
 			fileChooser.setTitle("Open Resource File");
 		    File file = fileChooser.showSaveDialog(null);
 			try (FileWriter myWriter = new FileWriter(file)) {
-				Orders game = TableViewOrders.getSelectionModel().getSelectedItem();
+				Orders game = tableViewOrders.getSelectionModel().getSelectedItem();
 				Connection connection = getConnection();
 				String sql = "Select FIRST_NAME, LAST_NAME " + "  from Users u "
 						+ "inner join Orders o ON ID_USER = o.CUSTOMER_ID "
@@ -122,12 +110,17 @@ public class OrderController extends data implements Initializable {
 					ResultSet resultSet = prestatement.executeQuery();
 					myWriter.write("Uzytkownicy ktorze posiadaja gre:" + game.GAME_NAME + "\n");
 					while (resultSet.next()) {
-						FIRST_NAME = resultSet.getString("FIRST_NAME");
-						LAST_NAME = resultSet.getString("LAST_NAME");
-						myWriter.write(FIRST_NAME + " " + LAST_NAME + "\n");
+						firstName = resultSet.getString("FIRST_NAME");
+						lastName = resultSet.getString("LAST_NAME");
+						myWriter.write(firstName+ " " +lastName + "\n");
 					}
-					myWriter.close();
 				}
+			} catch (SQLException sq) {
+				JOptionPane.showMessageDialog(null,sq.getMessage(), "SQL Exception", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (IOException io)
+			{
+				JOptionPane.showMessageDialog(null,io.getMessage(), "IO Exception", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MainSite extends data implements Initializable {
+public class MainSite extends Data implements Initializable {
     @FXML
     private Pane pane;
 

@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 
-public class AplikacjaController extends data implements Initializable {
+public class AplikacjaController extends Data implements Initializable {
 
 	private String loggedLogin;
 	private int loggedId;

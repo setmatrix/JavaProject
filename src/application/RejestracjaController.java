@@ -12,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-public class RejestracjaController extends data implements Initializable {
+public class RejestracjaController extends Data implements Initializable {
 	@FXML
 	private BorderPane rootPane;
 
@@ -38,7 +38,7 @@ public class RejestracjaController extends data implements Initializable {
 	private TextField firstNameText;
 
 	@FXML
-	private TextField LastNameText;
+	private TextField lastNameText;
 
 	@FXML
 	private TextField txtAddress;
@@ -111,7 +111,7 @@ public class RejestracjaController extends data implements Initializable {
     	}
     }
 	@FXML
-	 void zatwierdzAction() throws SQLException, emailException {
+	 void zatwierdzAction() throws SQLException{
 		if(txtMail.getText().isEmpty() || loginText.getText().isEmpty() || hasloText.getText().isEmpty())
 		{
 			JOptionPane.showMessageDialog(null, "Fill requires Fields", "Register email Field", JOptionPane.WARNING_MESSAGE);
@@ -122,10 +122,10 @@ public class RejestracjaController extends data implements Initializable {
 			String pass = hasloText.getText();
 			String nick = loginText.getText();
 			String firstname = firstNameText.getText();
-			String lastname = LastNameText.getText();
+			String lastname = lastNameText.getText();
 
 			String address = txtAddress.getText();
-			String postal_Code = txtCode.getText();
+			String postalCode = txtCode.getText();
 			String city=txtCity.getText();
 			String number=txtNumber.getText();
 
@@ -136,9 +136,9 @@ public class RejestracjaController extends data implements Initializable {
 				check_password(hasloText,labelPassword,pass);
 				login_check(loginText,loginLabel,nick);
 				word_check(firstNameText,labelFirstName,firstname, "First Name");
-				word_check(LastNameText,labelLastName,lastname, "Last Name");
+				word_check(lastNameText,labelLastName,lastname, "Last Name");
 				address_check(txtAddress,labelAddress,address);
-				postalCode_check(txtCode,labelPostalCode,postal_Code);
+				postalCode_check(txtCode,labelPostalCode,postalCode);
 				word_check(txtCity,labelCity,city, "City");
 				number_check(txtNumber,labelNumber,number);
 				connection = getConnection();
@@ -152,7 +152,7 @@ public class RejestracjaController extends data implements Initializable {
 					prestatement.setString(5, firstname);
 					prestatement.setString(6, lastname);
 					prestatement.setString(7,address);
-					prestatement.setString(8,postal_Code);
+					prestatement.setString(8,postalCode);
 					prestatement.setString(9,city);
 					prestatement.setString(10,number);
 					int rows = prestatement.executeUpdate();
@@ -162,7 +162,7 @@ public class RejestracjaController extends data implements Initializable {
 						hasloText.setText("");
 						loginText.setText("");
 						firstNameText.setText("");
-						LastNameText.setText("");
+						lastNameText.setText("");
 						txtAddress.setText("");
 						txtCode.setText("");
 						txtCity.setText("");
@@ -180,186 +180,15 @@ public class RejestracjaController extends data implements Initializable {
 	}
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		txtMail.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnMail.getText().isEmpty())
-				{
-					warnMail.setText("");
-				}
-			}
-			else
-			{
-				if(txtMail.getText().isEmpty())
-				{
-					warnMail.setText("E-mail Field is empty");
-				}
-				else if(txtMail.getText().length() < 3)
-				{
-					warnMail.setText("E-mail is too short");
-				}
-			}
-		});
-		loginText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnNick.getText().isEmpty())
-				{
-					warnNick.setText("");
-				}
-			}
-			else
-			{
-				if(loginText.getText().isEmpty())
-				{
-					warnNick.setText("Login Field is empty");
-				}
-				else if(loginText.getText().length() < 3)
-				{
-					warnNick.setText("Login is too short");
-				}
-			}
-		});
-		hasloText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnPass.getText().isEmpty())
-				{
-					warnPass.setText("");
-				}
-			}
-			else
-			{
-				if(hasloText.getText().isEmpty())
-				{
-					warnPass.setText("Password Field is empty");
-				}
-				else if(hasloText.getText().length() < 3)
-				{
-					warnPass.setText("Password Field is too short");
-				}
-			}
-		});
-		firstNameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnFirstName.getText().isEmpty())
-				{
-					warnFirstName.setText("");
-				}
-			}
-			else
-			{
-				if(firstNameText.getText().isEmpty())
-				{
-					warnFirstName.setText("FirstName Field is empty");
-				}
-				else if(firstNameText.getText().length() < 3)
-				{
-					warnFirstName.setText("First Name Field is too short");
-				}
-			}
-		});
-		LastNameText.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnLastName.getText().isEmpty())
-				{
-					warnLastName.setText("");
-				}
-			}
-			else
-			{
-				if(LastNameText.getText().isEmpty())
-				{
-					warnLastName.setText("Last Name Field is empty");
-				}
-				else if(LastNameText.getText().length() < 3)
-				{
-					warnLastName.setText("Last Name Field is too short");
-				}
-			}
-		});
-		txtAddress.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnAddress.getText().isEmpty())
-				{
-					warnAddress.setText("");
-				}
-			}
-			else
-			{
-				if(txtAddress.getText().isEmpty())
-				{
-					warnAddress.setText("Address Field is empty");
-				}
-				else if(txtAddress.getText().length() < 3)
-				{
-					warnAddress.setText("Address Field is too short");
-				}
-			}
-		});
-		txtCity.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnCity.getText().isEmpty())
-				{
-					warnCity.setText("");
-				}
-			}
-			else
-			{
-				if(txtCity.getText().isEmpty())
-				{
-					warnCity.setText("City Field is empty");
-				}
-				else if(txtCity.getText().length() < 3)
-				{
-					warnCity.setText("City Field is too short");
-				}
-			}
-		});
-		txtCode.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnCode.getText().isEmpty())
-				{
-					warnCode.setText("");
-				}
-			}
-			else
-			{
-				if(txtCode.getText().isEmpty())
-				{
-					warnCode.setText("Password Field is empty");
-				}
-				else if(txtCode.getText().length() < 3)
-				{
-					warnCode.setText("Password Field is too short");
-				}
-			}
-		});
-		txtNumber.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-			if(t1)
-			{
-				if(!warnNumber.getText().isEmpty())
-				{
-					warnNumber.setText("");
-				}
-			}
-			else
-			{
-				if(txtNumber.getText().isEmpty())
-				{
-					warnNumber.setText("Number Field is empty");
-				}
-				else if(txtNumber.getText().length() < 3)
-				{
-					warnNumber.setText("Number Field is too short");
-				}
-			}
-		});
+    	setListener(txtMail,warnMail,"E-mail");
+    	setListener(loginText,warnNick,"Login");
+    	setListener(hasloText, warnPass, "Password");
+    	setListener(firstNameText,warnFirstName, "First Name");
+    	setListener(lastNameText,warnLastName, "Last Name");
+    	setListener(txtAddress,warnAddress,"Address");
+    	setListener(txtCity,warnCity,"City");
+    	setListener(txtCode,warnCode,"Code");
+    	setListener(txtNumber,warnNumber,"Number");
 		Tooltip tool = new Tooltip();
 		tool.setText(
 				"""

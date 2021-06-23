@@ -17,7 +17,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class ModifyController extends data implements Initializable {
+public class ModifyController extends Data implements Initializable {
 
 	public void initData(int id, String login, String email, String type) {
 		txtId.setText(String.valueOf(id));
@@ -75,7 +75,7 @@ public class ModifyController extends data implements Initializable {
 	private Label labelEmail;
 
 	@FXML
-	void ChangeEmail() throws SQLException {
+	void changeEmail() throws SQLException {
 		Connection connection = null;
 		String email = txtMail.getText();
 		try {
@@ -102,7 +102,7 @@ public class ModifyController extends data implements Initializable {
 	}
 
 	@FXML
-	void ChangeLogin(){
+	void changeLogin(){
 		String login = txtLogin.getText();
 		try (Connection connection = getConnection()) {
 
@@ -122,7 +122,7 @@ public class ModifyController extends data implements Initializable {
 	}
 
 	@FXML
-	void ChangePassword() {
+	void changePassword() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("changePassword.fxml"));
 			Parent root = loader.load();
@@ -137,7 +137,7 @@ public class ModifyController extends data implements Initializable {
 	}
 
 	@FXML
-	void ChangeType() {
+	void changeType() {
 		Connection connection;
 		String type = typeBox.getValue();
 		int idType = 0;

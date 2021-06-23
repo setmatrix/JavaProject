@@ -23,10 +23,10 @@
                </opaqueInsets>
             </VBox>
             <VBox alignment="CENTER" layoutX="370.0" prefHeight="350.0" prefWidth="156.0" style="-fx-spacing: 20;">
-                  <Button fx:id="passwordButton" alignment="CENTER" ellipsisString="S" mnemonicParsing="false" onAction="#ChangePassword" prefHeight="39.0" prefWidth="188.0" text="Change password" textAlignment="CENTER" />
-                  <Button mnemonicParsing="false" onAction="#ChangeLogin" prefHeight="39.0" prefWidth="188.0" text="Change Login" />
-                  <Button mnemonicParsing="false" onAction="#ChangeEmail" prefHeight="39.0" prefWidth="188.0" text="Change E-mail" />
-                  <Button fx:id="typeButton" mnemonicParsing="false" onAction="#ChangeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" visible="true" />
+                  <Button fx:id="passwordButton" alignment="CENTER" ellipsisString="S" mnemonicParsing="false" onAction="#changePassword" prefHeight="39.0" prefWidth="188.0" text="Change password" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#changeLogin" prefHeight="39.0" prefWidth="188.0" text="Change Login" />
+                  <Button mnemonicParsing="false" onAction="#changeEmail" prefHeight="39.0" prefWidth="188.0" text="Change E-mail" />
+                  <Button fx:id="typeButton" mnemonicParsing="false" onAction="#changeType" prefHeight="39.0" prefWidth="188.0" text="Change Type" visible="true" />
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
