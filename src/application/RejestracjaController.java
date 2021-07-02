@@ -98,17 +98,7 @@ public class RejestracjaController extends Data implements Initializable {
 	private Label warnNumber;
     @FXML
     void powrotAction(){
-    	try
-    	{
-    	BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Welcome.fxml")));
-		rootPane.setStyle("-fx-background-color:  #30C4CE;");
-
-		rootPane.getChildren().setAll(root);
-    	}
-    	catch (Exception e)
-    	{
-    		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
-    	}
+    	powrot();
     }
 	@FXML
 	 void zatwierdzAction() throws SQLException{
@@ -167,6 +157,7 @@ public class RejestracjaController extends Data implements Initializable {
 						txtCode.setText("");
 						txtCity.setText("");
 						txtNumber.setText("");
+						powrot();
 					}
 				}
 			} catch(emailException | SQLException em) {
@@ -210,5 +201,19 @@ public class RejestracjaController extends Data implements Initializable {
 						at least one number"""
 		);
 		hasloText.setTooltip(tool);
+	}
+	private void powrot()
+	{
+		try
+		{
+			BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Welcome.fxml")));
+			rootPane.setStyle("-fx-background-color:  #30C4CE;");
+
+			rootPane.getChildren().setAll(root);
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
