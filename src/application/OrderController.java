@@ -58,7 +58,7 @@ public class OrderController extends Data implements Initializable {
 			try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date date = new Date(System.currentTimeMillis());
-				prestatement.setString(1, game.GAME_NAME);
+				prestatement.setString(1, game.getGAME_NAME());
 				prestatement.setString(2, formatter.format(date));
 				prestatement.setInt(3, loggedId);
 				prestatement.executeUpdate();
@@ -106,9 +106,9 @@ public class OrderController extends Data implements Initializable {
 						+ "inner join Orders o ON ID_USER = o.CUSTOMER_ID "
 						+ "inner join Games g on g.GAME_NAME = o.ORDER_NAME " + " where o.ORDER_NAME = ?";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-					prestatement.setString(1, game.GAME_NAME);
+					prestatement.setString(1, game.getGAME_NAME());
 					ResultSet resultSet = prestatement.executeQuery();
-					myWriter.write("Uzytkownicy ktorze posiadaja gre:" + game.GAME_NAME + "\n");
+					myWriter.write("Uzytkownicy ktorze posiadaja gre:" + game.getGAME_NAME() + "\n");
 					while (resultSet.next()) {
 						firstName = resultSet.getString("FIRST_NAME");
 						lastName = resultSet.getString("LAST_NAME");

@@ -5,9 +5,9 @@ import javafx.scene.control.TextField;
 
 public class emailException extends Exception {
 
-    String name;
-    TextField text;
-    Label label;
+    private String name;
+    private TextField text;
+    private Label label;
     emailException(TextField text, Label label, String name)
     {
         this.name = name;

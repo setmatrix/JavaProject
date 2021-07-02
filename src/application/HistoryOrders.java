@@ -1,6 +1,6 @@
 package application;
 
-public class HistoryOrders /*implements Comparable<Student>*/{
+public class HistoryOrders{
 	private int orderId;
 	private String orderName;
 	private String orderDate;
@@ -13,7 +13,7 @@ public class HistoryOrders /*implements Comparable<Student>*/{
 		this.orderDate=orderDate;
 		this.isDelivered = isDelivered;
 	}
-	public int isOrderId() {
+	public int getOrderId() {
 		return orderId;
 	}
 
@@ -37,7 +37,7 @@ public class HistoryOrders /*implements Comparable<Student>*/{
 		this.orderDate = orderDate;
 	}
 
-	public int isIsDelivered() {
+	public int getIsDelivered() {
 		return isDelivered;
 	}
 

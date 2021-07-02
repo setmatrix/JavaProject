@@ -1,11 +1,11 @@
 package application;
 
 public class Orders /*implements Comparable<Student>*/{
-	String GAME_NAME;
-	String PRODUCER;
-	String PUBLISHER;
-	String RELEASED;
-	String PLATFORM;
+	private String GAME_NAME;
+	private String PRODUCER;
+	private String PUBLISHER;
+	private String RELEASED;
+	private String PLATFORM;
 	
 	public Orders(String GAME_NAME, String PRODUCER, String PUBLISHER, String RELEASED, String PLATFORM)
 	{
@@ -16,8 +16,8 @@ public class Orders /*implements Comparable<Student>*/{
 		this.PLATFORM = PLATFORM;
 	}
 	public String getGAME_NAME() { return GAME_NAME; }
-	public void setGAME_NAME(String gAME_NAME) {
-		this.GAME_NAME = gAME_NAME;
+	public void setGAME_NAME(String GAME_NAME) {
+		this.GAME_NAME = GAME_NAME;
 	}
 	public String getPLATFORM() { return PLATFORM; }
 	public void setPLATFORM(String PLATFORM) {
@@ -26,20 +26,20 @@ public class Orders /*implements Comparable<Student>*/{
 	public String getPRODUCER() {
 		return PRODUCER;
 	}
-	public void setPRODUCER(String pRODUCER) {
-		this.PRODUCER = pRODUCER;
+	public void setPRODUCER(String PRODUCER) {
+		this.PRODUCER = PRODUCER;
 	}
 	public String getPUBLISHER() {
 		return PUBLISHER;
 	}
-	public void setPUBLISHER(String pUBLISHER) {
-		this.PUBLISHER = pUBLISHER;
+	public void setPUBLISHER(String PUBLISHER) {
+		this.PUBLISHER = PUBLISHER;
 	}
 	public String getRELEASED() {
 		return RELEASED;
 	}
-	public void setRELEASED(String rELEASED) {
-		this.RELEASED = rELEASED;
+	public void setRELEASED(String RELEASED) {
+		this.RELEASED = RELEASED;
 	}
 	@Override
 	public String toString() {
