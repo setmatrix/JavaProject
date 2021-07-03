@@ -1,16 +1,15 @@
 package application;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
+
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TableView;
-import javafx.stage.FileChooser;
 
 import javax.swing.*;
 
@@ -37,19 +36,31 @@ public class OrderController extends Data implements Initializable {
 		String sql = " SELECT *" + "from Games ";
 		try (PreparedStatement preStatement = connection.prepareStatement(sql)) {
 			ResultSet resultSet = preStatement.executeQuery();
-			while (resultSet.next()) {
+			if(resultSet.next()) {
 				gameName = resultSet.getString("GAME_NAME");
 				producer = resultSet.getString("PRODUCER");
 				publisher = resultSet.getString("PUBLISHER");
 				released = resultSet.getString("RELEASED");
 				platform = resultSet.getString("SNAME_PLATFORM");
 				tableViewOrders.getItems().add(new Orders(gameName, producer, publisher, released, platform));
+				while (resultSet.next()) {
+					gameName = resultSet.getString("GAME_NAME");
+					producer = resultSet.getString("PRODUCER");
+					publisher = resultSet.getString("PUBLISHER");
+					released = resultSet.getString("RELEASED");
+					platform = resultSet.getString("SNAME_PLATFORM");
+					tableViewOrders.getItems().add(new Orders(gameName, producer, publisher, released, platform));
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Zero products here", "History",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
 
 	@FXML
-	void zawowAction() throws SQLException {
+	void zawowAction(Event event) throws SQLException {
 		if (tableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
 			Orders game = tableViewOrders.getSelectionModel().getSelectedItem();
 			Connection connection = getConnection();
@@ -62,6 +73,8 @@ public class OrderController extends Data implements Initializable {
 				prestatement.setString(2, formatter.format(date));
 				prestatement.setInt(3, loggedId);
 				prestatement.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Ordered successfully", "Order",JOptionPane.INFORMATION_MESSAGE);
+				((Node) (event.getSource())).getScene().getWindow().hide();
 			}
 			catch (SQLException sq)
 			{
@@ -88,41 +101,4 @@ public class OrderController extends Data implements Initializable {
 		setColumn(tableViewOrders, "PLATFORM");
 
 	}
-
-	@FXML
-	void zapiszAction(){
-		String firstName;
-		String lastName;
-		if (tableViewOrders.getSelectionModel().getSelectedIndex() > -1) {
-			FileChooser fileChooser = new FileChooser();
-			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            fileChooser.getExtensionFilters().add(extFilter);
-			fileChooser.setTitle("Open Resource File");
-		    File file = fileChooser.showSaveDialog(null);
-			try (FileWriter myWriter = new FileWriter(file)) {
-				Orders game = tableViewOrders.getSelectionModel().getSelectedItem();
-				Connection connection = getConnection();
-				String sql = "Select FIRST_NAME, LAST_NAME " + "  from Users u "
-						+ "inner join Orders o ON ID_USER = o.CUSTOMER_ID "
-						+ "inner join Games g on g.GAME_NAME = o.ORDER_NAME " + " where o.ORDER_NAME = ?";
-				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
-					prestatement.setString(1, game.getGAME_NAME());
-					ResultSet resultSet = prestatement.executeQuery();
-					myWriter.write("Uzytkownicy ktorze posiadaja gre:" + game.getGAME_NAME() + "\n");
-					while (resultSet.next()) {
-						firstName = resultSet.getString("FIRST_NAME");
-						lastName = resultSet.getString("LAST_NAME");
-						myWriter.write(firstName+ " " +lastName + "\n");
-					}
-				}
-			} catch (SQLException sq) {
-				JOptionPane.showMessageDialog(null,sq.getMessage(), "SQL Exception", JOptionPane.ERROR_MESSAGE);
-			}
-			catch (IOException io)
-			{
-				JOptionPane.showMessageDialog(null,io.getMessage(), "IO Exception", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
-
 }

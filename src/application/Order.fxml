@@ -10,7 +10,6 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button layoutX="302.0" layoutY="344.0" mnemonicParsing="false" onAction="#zawowAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zamów" />
          <TableView fx:id="tableViewOrders" layoutX="8.0" layoutY="14.0" prefHeight="300.0" prefWidth="682.0" />
-         <Button layoutX="563.0" layoutY="344.0" mnemonicParsing="false" onAction="#zapiszAction" prefHeight="42.0" prefWidth="123.0" style="-fx-background-color: green;" text="Zapsiz do pliku" />
       </AnchorPane>
    </center>
 </BorderPane>
