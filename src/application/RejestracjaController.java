@@ -134,6 +134,8 @@ public class RejestracjaController extends Data implements Initializable {
 				connection = getConnection();
 				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME, ADDRESS, POSTAL_CODE, CITY, Number)"
 						+ " VALUES (?,?,HASHBYTES(?,?),2,?,?,?,?,?,?);";
+				//String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE)"
+				//		+ " VALUES (?,?,HASHBYTES(?,?),2);";
 				try (PreparedStatement prestatement = connection.prepareStatement(sql)) {
 					prestatement.setString(1, mail);
 					prestatement.setString(2, nick);
@@ -160,8 +162,14 @@ public class RejestracjaController extends Data implements Initializable {
 						powrot();
 					}
 				}
-			} catch(emailException | SQLException em) {
-				JOptionPane.showMessageDialog(null, em.getMessage(), "Registration Exception", JOptionPane.ERROR_MESSAGE);
+				catch (SQLException sq)
+				{
+					JOptionPane.showMessageDialog(null, "Nick or E_mail already exists in database", "UNIQUE WARNING", JOptionPane.WARNING_MESSAGE);
+				}
+			} catch(emailException em) {
+				JOptionPane.showMessageDialog(null, em.getMessage(), "Register Exception", JOptionPane.ERROR_MESSAGE);
+			} catch(SQLException sq) {
+				JOptionPane.showMessageDialog(null, "Cannot connect to database", "Connect Exception", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (connection!= null) {
 					connection.close();

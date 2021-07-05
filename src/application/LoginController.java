@@ -123,7 +123,7 @@ public class LoginController extends Data implements Initializable {
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

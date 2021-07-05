@@ -57,6 +57,10 @@ public class OrderController extends Data implements Initializable {
 				JOptionPane.showMessageDialog(null, "Zero products here", "History",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
+		catch (SQLException sq)
+		{
+			JOptionPane.showMessageDialog(null, "Cannot connect to database", "Order Exception",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	@FXML
@@ -99,6 +103,5 @@ public class OrderController extends Data implements Initializable {
 		setColumn(tableViewOrders, "PUBLISHER");
 		setColumn(tableViewOrders, "RELEASED");
 		setColumn(tableViewOrders, "PLATFORM");
-
 	}
 }

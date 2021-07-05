@@ -50,7 +50,7 @@ public class HistoryOrdersController extends Data implements Initializable {
 				}
 			}
 		} catch (SQLException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Load Problem", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Cannot connect to database", "Load Problem", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
