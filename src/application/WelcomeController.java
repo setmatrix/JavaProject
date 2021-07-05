@@ -23,7 +23,7 @@ public class WelcomeController implements Initializable {
 		try {
 			input = new FileInputStream(pic);
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Nie znaleziono zdjęcia", "Pic", JOptionPane.WARNING_MESSAGE);
 		}
 		assert input != null;
 		Image image = new Image(input);
@@ -39,7 +39,7 @@ public class WelcomeController implements Initializable {
     	}
     	catch (Exception e)
     	{
-    		JOptionPane.showMessageDialog(null, e.getMessage(), "Login Window Exception", JOptionPane.ERROR_MESSAGE);
+    		JOptionPane.showMessageDialog(null, "Nie znaleziono okienka z logowaniem", "Login", JOptionPane.ERROR_MESSAGE);
     	}
     }
     @FXML
@@ -52,7 +52,7 @@ public class WelcomeController implements Initializable {
     	}
     	catch (Exception e)
     	{
-    		JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.WARNING_MESSAGE);
+    		JOptionPane.showMessageDialog(null, "Nie znaleziono okienka z rejestracją", "Rejestracja", JOptionPane.WARNING_MESSAGE);
     	}
     }
 }

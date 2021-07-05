@@ -47,7 +47,7 @@ public class ModifyController extends Data implements Initializable {
 				}
 			}
 		} catch (SQLException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Read Problem", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Problem z wczytaniem baz danych", "Wczytywanie typów", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	@FXML
@@ -89,12 +89,16 @@ public class ModifyController extends Data implements Initializable {
 				prestatement.setInt(2, Integer.parseInt(txtId.getText()));
 				prestatement.execute();
 
-				JOptionPane.showMessageDialog(null, "Enail change - success", "Email information", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Zmiana e-mailu przebiegła pomyślnie", "E-mail", JOptionPane.INFORMATION_MESSAGE);
 			}
-		} catch (SQLException | emailException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Database Problem", JOptionPane.ERROR_MESSAGE);
-		}
-		finally {
+			catch (SQLException sq) {
+				JOptionPane.showMessageDialog(null, "Problem ze zmianą e-maila", "E-mail", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (SQLException sq) {
+			JOptionPane.showMessageDialog(null, "Problem z bazą danych", "Baza danych", JOptionPane.ERROR_MESSAGE);
+		} catch (emailException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Weryfikacja", JOptionPane.ERROR_MESSAGE);
+		} finally {
 			if (connection != null) {
 				connection.close();
 			}
@@ -113,11 +117,13 @@ public class ModifyController extends Data implements Initializable {
 				prestatement.setInt(2, Integer.parseInt(txtId.getText()));
 				prestatement.execute();
 
-				JOptionPane.showMessageDialog(null, "Login change - success", "Login information", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Pomyślnie zmieniono hasło.", "Login", JOptionPane.INFORMATION_MESSAGE);
 
+			} catch (SQLException sq) {
+				JOptionPane.showMessageDialog(null, "Użytkownik z loginem: " + login + " już istnieje", "Login", JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (SQLException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Database Problem", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Problem z bazą danych", "Database Problem", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -132,7 +138,7 @@ public class ModifyController extends Data implements Initializable {
 		}
 		catch (IOException sq)
 		{
-			JOptionPane.showMessageDialog(null,"Error with File","ChangePasswordFile",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Nie znaleziono pliku ze zmianą hasła","Zmiana hasła",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -159,11 +165,14 @@ public class ModifyController extends Data implements Initializable {
 					prestatement.setInt(2, Integer.parseInt(txtId.getText()));
 					prestatement.execute();
 
-					JOptionPane.showMessageDialog(null, "Type changed succesfully", "Type change", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Zmieniono typ konta", "Typ", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch (SQLException sq) {
+					JOptionPane.showMessageDialog(null, "Problem ze zmianą typu konta", "Typ", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} catch (SQLException sq) {
-			JOptionPane.showMessageDialog(null, sq.getMessage(), "Type change", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Problem z łącznością z bazą danych", "Type change", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

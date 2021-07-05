@@ -10,9 +10,9 @@
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
             <VBox maxHeight="400.0" maxWidth="150.0" minHeight="400.0" minWidth="150.0" prefHeight="400.0" prefWidth="150.0" style="-fx-spacing: 5;">
-                  <Button mnemonicParsing="false" onAction="#homeAction" prefHeight="128.0" prefWidth="171.0" style="-fx-background-color: yellow;" text="HOME" />
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#orderAction" prefHeight="135.0" prefWidth="170.0" style="-fx-background-color: yellow;" text="ORDER" />
-                  <Button layoutX="10.0" layoutY="135.0" mnemonicParsing="false" onAction="#settingsAction" prefHeight="134.0" prefWidth="170.0" style="-fx-background-color: yellow;" text="SETTINGS" />
+                  <Button mnemonicParsing="false" onAction="#homeAction" prefHeight="128.0" prefWidth="171.0" style="-fx-background-color: yellow;" text="Strona główna" />
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#orderAction" prefHeight="135.0" prefWidth="170.0" style="-fx-background-color: yellow;" text="Zamówienia" />
+                  <Button layoutX="10.0" layoutY="135.0" mnemonicParsing="false" onAction="#settingsAction" prefHeight="134.0" prefWidth="170.0" style="-fx-background-color: yellow;" text="Ustawienia konta" />
             </VBox>
       </AnchorPane>
    </left>

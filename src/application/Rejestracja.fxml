@@ -13,8 +13,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <TextField fx:id="loginText" alignment="TOP_LEFT" layoutX="77.0" layoutY="150.0" prefHeight="45.0" prefWidth="149.0" promptText="login" style="-fx-background-color: lightyellow;" />
-            <PasswordField fx:id="hasloText" alignment="TOP_LEFT" layoutX="77.0" layoutY="206.0" prefHeight="45.0" prefWidth="149.0" promptText="password" style="-fx-background-color: lightyellow;" />
-            <Button layoutX="203.0" layoutY="421.0" mnemonicParsing="false" onAction="#zatwierdzAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zatwierdź" />
+            <PasswordField fx:id="hasloText" alignment="TOP_LEFT" layoutX="77.0" layoutY="206.0" prefHeight="45.0" prefWidth="149.0" promptText="hasło" style="-fx-background-color: lightyellow;" />
             <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#powrotAction" prefHeight="37.0" prefWidth="52.0" style="-fx-background-color: #2e2e2e;" text="&lt;-" textFill="#c3c3c3">
                <font>
                   <Font name="System Bold" size="21.0" />
@@ -23,64 +22,61 @@
             <Label fx:id="warnMail" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="123.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
             <Label fx:id="warnNick" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="178.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
             <Label fx:id="warnPass" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="234.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
-         <TextField fx:id="firstNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="262.0" prefHeight="45.0" prefWidth="149.0" promptText="firstname" style="-fx-background-color: lightyellow;" />
-         <TextField fx:id="lastNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="319.0" prefHeight="45.0" prefWidth="149.0" promptText="lastname" style="-fx-background-color: lightyellow;" />
-         <TextField fx:id="txtAddress" alignment="TOP_LEFT" layoutX="337.0" layoutY="95.0" prefHeight="45.0" prefWidth="149.0" promptText="Address" style="-fx-background-color: lightyellow;" />
-         <TextField fx:id="txtCode" alignment="TOP_LEFT" layoutX="337.0" layoutY="150.0" prefHeight="45.0" prefWidth="149.0" promptText="Postal Code" style="-fx-background-color: lightyellow;" />
-         <TextField fx:id="txtCity" alignment="TOP_LEFT" layoutX="337.0" layoutY="206.0" prefHeight="45.0" prefWidth="149.0" promptText="City" style="-fx-background-color: lightyellow;" />
-         <TextField fx:id="txtNumber" alignment="TOP_LEFT" layoutX="337.0" layoutY="263.0" prefHeight="45.0" prefWidth="149.0" promptText="Number" style="-fx-background-color: lightyellow;" />
-         <VBox alignment="CENTER_RIGHT" layoutX="250.0" layoutY="93.0" prefHeight="214.0" prefWidth="81.0" style="-fx-spacing: 39;">
-            <children>
-               <Label fx:id="labelAddress" text="Address">
+         <TextField fx:id="firstNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="262.0" prefHeight="45.0" prefWidth="149.0" promptText="Imię" style="-fx-background-color: lightyellow;" />
+         <TextField fx:id="lastNameText" alignment="TOP_LEFT" layoutX="77.0" layoutY="319.0" prefHeight="45.0" prefWidth="149.0" promptText="Nazwisko" style="-fx-background-color: lightyellow;" />
+         <TextField fx:id="txtAddress" alignment="TOP_LEFT" layoutX="337.0" layoutY="95.0" prefHeight="45.0" prefWidth="149.0" promptText="Adres" style="-fx-background-color: lightyellow;" />
+         <TextField fx:id="txtCode" alignment="TOP_LEFT" layoutX="337.0" layoutY="150.0" prefHeight="45.0" prefWidth="149.0" promptText="Kod Pocztowy" style="-fx-background-color: lightyellow;" />
+         <TextField fx:id="txtCity" alignment="TOP_LEFT" layoutX="337.0" layoutY="206.0" prefHeight="45.0" prefWidth="149.0" promptText="Miastp" style="-fx-background-color: lightyellow;" />
+         <TextField fx:id="txtNumber" alignment="TOP_LEFT" layoutX="337.0" layoutY="263.0" prefHeight="45.0" prefWidth="149.0" promptText="Numer telefonu" style="-fx-background-color: lightyellow;" />
+         <VBox alignment="CENTER_RIGHT" layoutX="242.0" layoutY="93.0" prefHeight="214.0" prefWidth="89.0" style="-fx-spacing: 39;">
+               <Label fx:id="labelAddress" text="Adres">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label fx:id="labelPostalCode" text="Postal Code">
+               <Label fx:id="labelPostalCode" text="Kod Pocztowy">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label fx:id="labelCity" layoutX="70.0" layoutY="109.0" text="City">
+               <Label fx:id="labelCity" layoutX="70.0" layoutY="109.0" text="Miasto">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label fx:id="labelNumber" text="Number">
+               <Label fx:id="labelNumber" text="Numer telefonu">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-            </children>
          </VBox>
          <VBox alignment="CENTER_RIGHT" layoutX="9.0" layoutY="89.0" prefHeight="278.0" prefWidth="62.0" style="-fx-spacing: 39;">
-            <children>
+
                   <Label fx:id="labelMail" text="E-mail">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="loginLabel" text="Log in">
+                  <Label fx:id="loginLabel" text="Login">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labelPassword" alignment="CENTER_RIGHT" text="Password">
+                  <Label fx:id="labelPassword" alignment="CENTER_RIGHT" text="Hasło">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-               <Label fx:id="labelFirstName" text="FirstName">
+               <Label fx:id="labelFirstName" text="Imię">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-               <Label fx:id="labelLastName" text="LastName">
+               <Label fx:id="labelLastName" text="Nazwisko">
                   <font>
                      <Font name="System Italic" size="12.0" />
                   </font>
                </Label>
-            </children>
          </VBox>
          <Label fx:id="warnFirstName" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="291.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
          <Label fx:id="warnLastName" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="350.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
@@ -88,6 +84,11 @@
          <Label fx:id="warnAddress" alignment="CENTER_RIGHT" layoutX="344.0" layoutY="123.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
          <Label fx:id="warnCity" alignment="CENTER_RIGHT" layoutX="344.0" layoutY="234.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
          <Label fx:id="warnNumber" alignment="CENTER_RIGHT" layoutX="344.0" layoutY="291.0" prefHeight="14.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED" />
+         <Button layoutX="203.0" layoutY="413.0" mnemonicParsing="false" onAction="#zatwierdzAction" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: green;" text="Zatwierdź">
+            <font>
+               <Font name="System Bold" size="15.0" />
+            </font>
+         </Button>
       </AnchorPane>
    </center>
 </BorderPane>

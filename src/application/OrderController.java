@@ -9,7 +9,9 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.swing.*;
 
@@ -54,12 +56,12 @@ public class OrderController extends Data implements Initializable {
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "Zero products here", "History",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "W tej chwili nie ma produktów", "Historia",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		catch (SQLException sq)
 		{
-			JOptionPane.showMessageDialog(null, "Cannot connect to database", "Order Exception",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Nie można połączyć z bazą danych", "Problem",JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -77,12 +79,12 @@ public class OrderController extends Data implements Initializable {
 				prestatement.setString(2, formatter.format(date));
 				prestatement.setInt(3, loggedId);
 				prestatement.executeUpdate();
-				JOptionPane.showMessageDialog(null, "Ordered successfully", "Order",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Zamówiono pomyślnie", "Zamówienia",JOptionPane.INFORMATION_MESSAGE);
 				((Node) (event.getSource())).getScene().getWindow().hide();
 			}
 			catch (SQLException sq)
 			{
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Order", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Problem z bazą danych", "Zamówienia", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -98,10 +100,25 @@ public class OrderController extends Data implements Initializable {
 	}
 
 	private void setTable() {
-		setColumn(tableViewOrders, "GAME_NAME");
-		setColumn(tableViewOrders, "PRODUCER");
-		setColumn(tableViewOrders, "PUBLISHER");
-		setColumn(tableViewOrders, "RELEASED");
-		setColumn(tableViewOrders, "PLATFORM");
+		//setColumn(tableViewOrders, "GAME_NAME");
+		TableColumn<Orders, String> column = new TableColumn<>("Nazwa gry");
+		column.setCellValueFactory(new PropertyValueFactory<>("GAME_NAME"));
+		tableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("Producent");
+		column.setCellValueFactory(new PropertyValueFactory<>("PRODUCER"));
+		tableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("Wydawca");
+		column.setCellValueFactory(new PropertyValueFactory<>("PUBLISHER"));
+		tableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("Premiera");
+		column.setCellValueFactory(new PropertyValueFactory<>("RELEASED"));
+		tableViewOrders.getColumns().add(column);
+		column = new TableColumn<>("Platforma");
+		column.setCellValueFactory(new PropertyValueFactory<>("PLATFORM"));
+		tableViewOrders.getColumns().add(column);
+		//setColumn(tableViewOrders, "PRODUCER");
+		//setColumn(tableViewOrders, "PUBLISHER");
+		//setColumn(tableViewOrders, "RELEASED");
+		//setColumn(tableViewOrders, "PLATFORM");
 	}
 }

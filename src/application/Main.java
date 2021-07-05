@@ -14,10 +14,10 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("application.css")).toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Own Application");
+			primaryStage.setTitle("Witamy na stronie głównej");
 			primaryStage.show();
 		} catch(Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Problem z załadowaniem programu", "Problem z uruchomieniem okienka", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	public static void main(String[] args) {

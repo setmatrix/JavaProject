@@ -35,12 +35,12 @@ public class LoginController extends Data implements Initializable {
 		boolean passCheck = true;
 		if(txtLogin.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "email is empty", "Login Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Pole E-mail jest pusty", "E-mail", JOptionPane.WARNING_MESSAGE);
 			emailCheck = false;
 		}
 		if(passwordBox.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "password is empty", "Password Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Pole hasła jest puste", "Hasło", JOptionPane.WARNING_MESSAGE);
 			passCheck = false;
 		}
 		if(emailCheck && passCheck)
@@ -67,7 +67,7 @@ public class LoginController extends Data implements Initializable {
 					prestatement.setString(3, pass);
 					ResultSet resultSet = prestatement.executeQuery();
 					if (resultSet.next()) {
-						JOptionPane.showMessageDialog(null, "Login successful\nWelcome " + login + " ", "Success", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Logowanie przebiegło pomyślnie,\nWitamy cię " + login + " w naszym gronie", "Sukces", JOptionPane.INFORMATION_MESSAGE);
 						sqlId = resultSet.getInt("ID_USER");
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
@@ -79,16 +79,20 @@ public class LoginController extends Data implements Initializable {
 						controller.initData(new Student(sqlId, sqlLogin, sqlMail, sqlNameType));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
-						stage.setTitle("Welcome " + sqlLogin.toUpperCase(Locale.ROOT));
+						stage.setTitle("Witamy " + sqlLogin.toUpperCase(Locale.ROOT));
 						((Node) (event.getSource())).getScene().getWindow().hide();
 						stage.show();
 					} else {
-						JOptionPane.showMessageDialog(null, "Incorrect login or password", "Login", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nieprawidłowy login lub hasło", "Logowanie", JOptionPane.WARNING_MESSAGE);
 					}
+				}
+				catch (SQLException sq)
+				{
+					JOptionPane.showMessageDialog(null, "Problem z logowaniem z bazą danych", "Logowanie", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (SQLException | IOException sq)
 			{
-				JOptionPane.showMessageDialog(null, sq.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Problem z łącznością z bazą danych", "Logowanie", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if(connection != null)
 				{
@@ -100,17 +104,17 @@ public class LoginController extends Data implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		setListener(txtLogin,warnMail,"Login");
-		setListener(passwordBox,warnPass,"Password");
+		setListener(passwordBox,warnPass,"Hasło");
 		Tooltip tool = new Tooltip();
-		tool.setText("Put your login here");
+		tool.setText("Wpisz login");
 		txtLogin.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText(
 				"""
-						Your password must have:
-						at least 6 characters,
-						at least one Big and small letter,
-						at least one number"""
+						Twoje hasło musi zawierać:
+						co najmniej powinna mieć 6 znaków,
+						co najmniej z dużej i małej litery,
+						co najmniej 1 cyfra."""
 		);
 		passwordBox.setTooltip(tool);
 	}
@@ -123,7 +127,7 @@ public class LoginController extends Data implements Initializable {
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Login Exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Problem z powrotem", "Powrót", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

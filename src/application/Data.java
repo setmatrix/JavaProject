@@ -49,7 +49,7 @@ public class Data {
         else if(mail.contains(".pl"))
         {
             domainLength = 3;
-        } else throw new emailException(text,label,".pl or .com only");
+        } else throw new emailException(text,label," Wyłącznie .pl lub .com");
         for(int i=0;i<mail.length(); i++)
         {
             if(mail.charAt(i) == '@')
@@ -60,19 +60,19 @@ public class Data {
         }
         if(moncount == 0)
         {
-            throw new emailException(text,label,"Missing @");
+            throw new emailException(text,label," Brakuje @.");
         }
         if(moncount > 1)
         {
-            throw new emailException(text,label,"Too much @");
+            throw new emailException(text,label," Za dużo @.");
         }
         if((mail.substring(monkey).length() < domainLength +3))
         {
-            throw new emailException(text,label,"Domain is not correct");
+            throw new emailException(text,label," Domena wpisana nieprawidłowo.");
         }
         if(mail.substring(0,monkey).length() < 4)
         {
-            throw new emailException(text,label,"Length before @ is short");
+            throw new emailException(text,label," Długość e-maila do @ jest za krótka.");
         }
     }
     protected void check_password(TextField text, Label label ,String pass) throws emailException {
@@ -80,7 +80,7 @@ public class Data {
         boolean bigLetter = false;
         boolean isNumber = false;
         if(pass.length() < 6) {
-            throw new emailException(text,label,"Password is too short");
+            throw new emailException(text,label," Hasło jest za krótkie");
         }
         for(int i=0;i<pass.length();i++)
         {
@@ -102,32 +102,32 @@ public class Data {
         }
         if(!smallLetter || !bigLetter || !isNumber)
         {
-            throw new emailException(text,label,"Password isn't correct");
+            throw new emailException(text,label," Hasło nie przeszło weryfikacji.");
         }
     }
     protected void word_check(TextField text, Label label, String word, String com) throws emailException
     {
         if(Character.isLowerCase(word.charAt(0)))
         {
-            throw new emailException(text,label,com + " must start with a capital letter ");
+            throw new emailException(text,label,com + " Musi zacząc się z dużej litery ");
         }
         if(word.length() < 3)
         {
-            throw new emailException(text, label, com + " is too short");
+            throw new emailException(text, label, com + " jest za krótkie");
         }
     }
     protected void login_check(TextField text, Label label, String login) throws emailException
     {
         if(login.length() < 3)
         {
-            throw new emailException(text,label,"Login is too short");
+            throw new emailException(text,label," Login jest za krótki");
         }
     }
     protected void address_check(TextField text, Label label, String address) throws emailException
     {
         if(address.length() < 3)
         {
-            throw new emailException(text,label,"Address is too short");
+            throw new emailException(text,label," Adres jest za krótki.");
         }
     }
     protected void postalCode_check(TextField text, Label label, String postalCode) throws emailException
@@ -135,17 +135,17 @@ public class Data {
         int count = 0;
         if(postalCode.length() < 5)
         {
-            throw new emailException(text, label, "Postal Code is too short");
+            throw new emailException(text, label, " Kod pocztowy jest za krótki");
         }
         for(int i=0; i<postalCode.length(); i++) {
             if (postalCode.charAt(i) == '-') {
                 count += 1;
                 if (count > 1) {
-                    throw new emailException(text, label, "Format for PostalCode is wrong");
+                    throw new emailException(text, label, " Kod pocztowy wpisano nieprawidłowo");
                 }
             }
             if (Character.isLetter(postalCode.charAt(i))) {
-                throw new emailException(text, label, "postalCode must have digits or one - only");
+                throw new emailException(text, label, " Kod pocztowy ma wyłącznie cyfry oraz jeden minus");
             }
         }
     }
@@ -154,7 +154,7 @@ public class Data {
         int i=0;
         if(number.length() < 8)
         {
-            throw new emailException(text,label,"Number is too short");
+            throw new emailException(text,label," Numer telefonu jest za krótki.");
         }
         if(number.charAt(0)=='+')
         {
@@ -163,7 +163,7 @@ public class Data {
         for(int j = i; j<number.length(); j++)
         {
             if(!Character.isDigit(number.charAt(j))) {
-                throw new emailException(text,label,"Numbers must have digits only");
+                throw new emailException(text,label," Numer jest zbudowany wyłącznie z liczb");
             }
         }
     }
@@ -183,11 +183,11 @@ public class Data {
             {
                 if(field.getText().isEmpty())
                 {
-                    warnLabel.setText(text + " Field is empty");
+                    warnLabel.setText(text + " Pole jest puste");
                 }
                 else if(field.getText().length() < 3)
                 {
-                    warnLabel.setText(text + " is too short");
+                    warnLabel.setText(text + " jest za krótkie");
                 }
             }
         });

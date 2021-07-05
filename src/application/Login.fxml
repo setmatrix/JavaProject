@@ -12,7 +12,7 @@
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="500" minHeight="500" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: LightBlue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="444.0" style="-fx-background-color: LightBlue;" BorderPane.alignment="CENTER">
-            <Button layoutX="219.0" layoutY="262.0" mnemonicParsing="false" onAction="#logClick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: Green;" text="Log in">
+            <Button layoutX="219.0" layoutY="262.0" mnemonicParsing="false" onAction="#logClick" prefHeight="31.0" prefWidth="62.0" style="-fx-background-color: Green;" text="Zaloguj">
                 <font>
                     <Font name="System Bold" size="12.0" />
                 </font>
@@ -26,12 +26,12 @@
                     <Font name="System Italic" size="12.0" />
                 </font>
             </Label>
-            <Label layoutX="176.0" layoutY="185.0" text="Password: ">
+            <Label layoutX="176.0" layoutY="185.0" text="Hasło:">
                 <font>
                     <Font name="System Italic" size="12.0" />
                 </font>
             </Label>
-            <PasswordField fx:id="passwordBox" alignment="TOP_LEFT" layoutX="175.0" layoutY="202.0" onAction="#logClick" prefHeight="45.0" prefWidth="149.0" promptText="pass" style="-fx-background-color: lightYellow;" />
+            <PasswordField fx:id="passwordBox" alignment="TOP_LEFT" layoutX="175.0" layoutY="202.0" onAction="#logClick" prefHeight="45.0" prefWidth="149.0" promptText="hasło" style="-fx-background-color: lightYellow;" />
             <Label fx:id="warnMail" alignment="BOTTOM_RIGHT" layoutX="182.0" layoutY="151.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="19.0" prefWidth="136.0" textAlignment="RIGHT" textFill="RED">
                 <cursor>
                     <Cursor fx:constant="DEFAULT" />

@@ -41,7 +41,7 @@ public class MainSite extends Data implements Initializable {
             Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Aplikacja.fxml")));
             pane.getChildren().setAll(root);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null,e.getMessage(), "Initialize Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Problem z załadowaniem strony", "Inicjalizacja", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

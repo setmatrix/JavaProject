@@ -51,21 +51,24 @@ public class changePasswordController extends Data implements Initializable {
                             state.setString(2, newPass);
                             state.setInt(3, id);
                             state.executeUpdate();
-
-                            JOptionPane.showMessageDialog(null, "Password Changed", "Change", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Zmiana hasła przebiegła pomyślnie", "Zmiana hasła", JOptionPane.INFORMATION_MESSAGE);
                             newConnection.close();
                         }
+                        catch(SQLException sq)
+                        {
+                            JOptionPane.showMessageDialog(null, "Problem ze zmianą hasła.", "Zmiana hasła", JOptionPane.WARNING_MESSAGE);
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Your new Password must be equal to Confirm", "Confirm Exception", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Potwierdzenie hasła musi być identyczne co nowe", "Problem z nowym hasłem", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Your Password isn't correct", "Old Password Exception", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Hasło nie przeszedł weryfikacji", "Weryfikacja hasła", JOptionPane.WARNING_MESSAGE);
                 }
             } catch (emailException e) {
-                JOptionPane.showMessageDialog(null, "Password incorrect", "Pass Exception", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage() , "Zle wprowadzone hasło", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException thr) {
-            JOptionPane.showMessageDialog(null, "Password incorrect", "Pass Exception", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Problem z bazą danych", "Baza danych", JOptionPane.ERROR_MESSAGE);
         }
     }
 

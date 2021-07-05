@@ -104,7 +104,7 @@ public class RejestracjaController extends Data implements Initializable {
 	 void zatwierdzAction() throws SQLException{
 		if(txtMail.getText().isEmpty() || loginText.getText().isEmpty() || hasloText.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(null, "Fill requires Fields", "Register email Field", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Pola są puste", "Puste pola", JOptionPane.WARNING_MESSAGE);
 		}
 		else
 		{
@@ -125,11 +125,11 @@ public class RejestracjaController extends Data implements Initializable {
 				check_email(txtMail,labelMail,mail);
 				check_password(hasloText,labelPassword,pass);
 				login_check(loginText,loginLabel,nick);
-				word_check(firstNameText,labelFirstName,firstname, "First Name");
-				word_check(lastNameText,labelLastName,lastname, "Last Name");
+				word_check(firstNameText,labelFirstName,firstname, "Imię");
+				word_check(lastNameText,labelLastName,lastname, "Nazwisko");
 				address_check(txtAddress,labelAddress,address);
 				postalCode_check(txtCode,labelPostalCode,postalCode);
-				word_check(txtCity,labelCity,city, "City");
+				word_check(txtCity,labelCity,city, "Miasto");
 				number_check(txtNumber,labelNumber,number);
 				connection = getConnection();
 				String sql = "INSERT INTO Users (E_MAIL, NICK, PASSWORD, ID_TYPE, FIRST_NAME, LAST_NAME, ADDRESS, POSTAL_CODE, CITY, Number)"
@@ -149,7 +149,7 @@ public class RejestracjaController extends Data implements Initializable {
 					prestatement.setString(10,number);
 					int rows = prestatement.executeUpdate();
 					if (rows > 0) {
-						JOptionPane.showMessageDialog(null, "Account was created. Enjoy!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Konto utworzono pomyślnie!", "Register Information", JOptionPane.INFORMATION_MESSAGE);
 						txtMail.setText("");
 						hasloText.setText("");
 						loginText.setText("");
@@ -164,12 +164,12 @@ public class RejestracjaController extends Data implements Initializable {
 				}
 				catch (SQLException sq)
 				{
-					JOptionPane.showMessageDialog(null, "Nick or E_mail already exists in database", "UNIQUE WARNING", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Login lub E_mail already zostaly użyte.", "Informacja", JOptionPane.WARNING_MESSAGE);
 				}
 			} catch(emailException em) {
 				JOptionPane.showMessageDialog(null, em.getMessage(), "Register Exception", JOptionPane.ERROR_MESSAGE);
 			} catch(SQLException sq) {
-				JOptionPane.showMessageDialog(null, "Cannot connect to database", "Connect Exception", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Nie można się połączyć z bazą danych", "Problem z łącznością", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (connection!= null) {
 					connection.close();
@@ -181,32 +181,32 @@ public class RejestracjaController extends Data implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
     	setListener(txtMail,warnMail,"E-mail");
     	setListener(loginText,warnNick,"Login");
-    	setListener(hasloText, warnPass, "Password");
-    	setListener(firstNameText,warnFirstName, "First Name");
-    	setListener(lastNameText,warnLastName, "Last Name");
-    	setListener(txtAddress,warnAddress,"Address");
-    	setListener(txtCity,warnCity,"City");
-    	setListener(txtCode,warnCode,"Code");
-    	setListener(txtNumber,warnNumber,"Number");
+    	setListener(hasloText, warnPass, "Hasło");
+    	setListener(firstNameText,warnFirstName, "Imię");
+    	setListener(lastNameText,warnLastName, "Nazwisko");
+    	setListener(txtAddress,warnAddress,"Adres");
+    	setListener(txtCity,warnCity,"Miasto");
+    	setListener(txtCode,warnCode,"Kod Pocztowy");
+    	setListener(txtNumber,warnNumber,"Numer telefonu");
 		Tooltip tool = new Tooltip();
 		tool.setText(
 				"""
-						Your email must have:
-						at least 8 characters in length
-						 .pl or com
-						 one @"""
+						Twój E-mail musi mieć:
+						co najmniej 8 znaków,
+						 .pl lub .com
+						 jedną @"""
 		);
 		txtMail.setTooltip(tool);
 		tool = new Tooltip();
-		tool.setText("Your nick must be at least 4 characters");
+		tool.setText("Your nick musi mieć co najmniej 4 znaki");
 		loginText.setTooltip(tool);
 		tool = new Tooltip();
 		tool.setText(
 				"""
-						Your password must have:
-						at least 6 characters,
-						at least one Big and small letter,
-						at least one number"""
+						Twoje hasło musi mieć:
+						co najmniej 6 znaków,
+						co najmniej jedną dużą i małą literę,
+						co najmniej jedną cyfrę"""
 		);
 		hasloText.setTooltip(tool);
 	}
@@ -221,7 +221,7 @@ public class RejestracjaController extends Data implements Initializable {
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Welcome Window Exception", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Nie odnaleziono pliku", "Problem okienkowy", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

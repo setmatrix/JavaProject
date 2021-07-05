@@ -50,7 +50,7 @@ public class HistoryOrdersController extends Data implements Initializable {
 				}
 			}
 		} catch (SQLException sq) {
-			JOptionPane.showMessageDialog(null, "Cannot connect to database", "Load Problem", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Nie można się połączyć z bazą danych", "Problem z ładowaniem", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -84,13 +84,13 @@ public class HistoryOrdersController extends Data implements Initializable {
 		column = new TableColumn<>("ID");
 		column.setCellValueFactory(new PropertyValueFactory<>("orderId"));
 		tableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("ORDER_NAME");
+		column = new TableColumn<>("Nazwa gry");
 		column.setCellValueFactory(new PropertyValueFactory<>("orderName"));
 		tableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("ORDER_DATE");
+		column = new TableColumn<>("Nazwa zamówienia");
 		column.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
 		tableViewOrders.getColumns().add(column);
-		column = new TableColumn<>("IS_DELIVERED");
+		column = new TableColumn<>("Czy dostarczono");
 		column.setCellValueFactory(new PropertyValueFactory<>("isDelivered"));
 		tableViewOrders.getColumns().add(column);
 
