@@ -15,8 +15,8 @@ public class MainSite extends Data implements Initializable {
     @FXML
     private Pane pane;
 
-    protected Student localS;
-    public void initData(Student s) {
+    protected User localS;
+    public void initData(User s) {
         localS = s;
     }
     @FXML

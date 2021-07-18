@@ -48,7 +48,7 @@ public class AplikacjaController extends Data implements Initializable {
     @FXML
     private Button loadbutton;
 
-    public void initData(Student s) {
+    public void initData(User s) {
         this.loggedLogin = s.getLogin();
         this.loggedId = s.getId();
         this.loggedEmail = s.getEmail();
@@ -66,12 +66,12 @@ public class AplikacjaController extends Data implements Initializable {
     }
 
     @FXML
-    private TableView<Student> userList;
+    private TableView<User> userList;
 
     @FXML
     void actionModyfikacja() throws IOException {
         if (userList.getSelectionModel().getSelectedIndex() > -1) {
-            Student user = userList.getSelectionModel().getSelectedItem();
+            User user = userList.getSelectionModel().getSelectedItem();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Modify.fxml"));
             Parent root = loader.load();
             ModifyController controller = loader.getController();
@@ -139,7 +139,7 @@ public class AplikacjaController extends Data implements Initializable {
                         login = resultSet.getString("NICK");
                         email = resultSet.getString("E_MAIL");
                         nameType = resultSet.getString("NAME_TYPE");
-                        userList.getItems().add(new Student(id, login, email, nameType));
+                        userList.getItems().add(new User(id, login, email, nameType));
                     }
                     del.setVisible(true);
                     mody.setVisible(true);
@@ -196,7 +196,7 @@ public class AplikacjaController extends Data implements Initializable {
     }
 
     private void setTable() {
-        TableColumn<Student, String> column;
+        TableColumn<User, String> column;
         column = new TableColumn<>("Id");
         column.setCellValueFactory(new PropertyValueFactory<>("id"));
         userList.getColumns().add(column);

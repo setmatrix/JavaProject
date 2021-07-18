@@ -72,11 +72,11 @@ public class LoginController extends Data implements Initializable {
 						sqlLogin = resultSet.getString("NICK");
 						sqlMail = resultSet.getString("E_MAIL");
 						sqlNameType = resultSet.getString("NAME_TYPE");
-						st = new Student(sqlId, sqlLogin, sqlMail, sqlNameType);
+						st = new User(sqlId, sqlLogin, sqlMail, sqlNameType);
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("MainSite.fxml"));
 						Parent root = loader.load();
 						MainSite controller = loader.getController();
-						controller.initData(new Student(sqlId, sqlLogin, sqlMail, sqlNameType));
+						controller.initData(new User(sqlId, sqlLogin, sqlMail, sqlNameType));
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
 						stage.setTitle("Witamy " + sqlLogin.toUpperCase(Locale.ROOT));

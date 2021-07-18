@@ -13,7 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Data {
-    protected static Student st;
+    protected static User st;
 
     protected static Connection getConnection() throws SQLException {
         try {
